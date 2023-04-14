@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_qinglan/pages/chart/chart.dart';
 import 'package:flutter_qinglan/pages/home/home.dart';
 import 'package:flutter_qinglan/pages/set/set.dart';
+import 'package:get/get_utils/get_utils.dart';
 
 class Tabs extends StatefulWidget {
   const Tabs({super.key});
@@ -24,10 +25,11 @@ class _TabsState extends State<Tabs> {
             _currentIndex = index;
           })
         },
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "首页"),
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "曲线图"),
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "设置"),
+        items: [
+          BottomNavigationBarItem(icon: const Icon(Icons.home), label: "首页".tr),
+          BottomNavigationBarItem(
+              icon: const Icon(Icons.home), label: "曲线图".tr),
+          BottomNavigationBarItem(icon: const Icon(Icons.home), label: "设置".tr),
         ],
       ),
     );

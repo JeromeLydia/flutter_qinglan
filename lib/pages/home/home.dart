@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_qinglan/pages/home/ring_progress_bar.dart';
+import 'package:get/get_utils/get_utils.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -13,15 +13,15 @@ class Home extends StatelessWidget {
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: const [
+            children: [
               Expanded(
                 child: IconItem(
-                  title: "电压",
+                  title: "电压".tr,
                   value: "12.23V",
                 ),
               ),
-              SizedBox(width: 10),
-              Expanded(
+              const SizedBox(width: 10),
+              const Expanded(
                 child: IconItem(
                   title: "电流",
                   value: "2.92A",
