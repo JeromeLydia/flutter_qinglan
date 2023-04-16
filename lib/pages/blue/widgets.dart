@@ -4,6 +4,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+import 'package:flutter_qinglan/global.dart';
 
 class ScanResultTile extends StatelessWidget {
   const ScanResultTile({Key? key, required this.result, this.onTap})
@@ -90,14 +91,43 @@ class ScanResultTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ExpansionTile(
       title: _buildTitle(context),
-      leading: Text(result.rssi.toString()),
-      trailing: ElevatedButton(
-        child: const Text('CONNECT'),
-        style: ElevatedButton.styleFrom(
-          primary: Colors.black,
-          onPrimary: Colors.white,
-        ),
-        onPressed: (result.advertisementData.connectable) ? onTap : null,
+      trailing: StreamBuilder<BluetoothDeviceState>(
+        stream: result.device.state,
+        initialData: BluetoothDeviceState.connecting,
+        builder: (c, snapshot) {
+          VoidCallback? onPressed;
+          String text;
+          switch (snapshot.data) {
+            case BluetoothDeviceState.connected:
+              onPressed = () => {
+                    result.device.disconnect(),
+                    Global.currentDevice = null,
+                    Global.streamController
+                        .add(BluetoothDeviceState.disconnected),
+                  };
+              text = '断开';
+              Global.currentDevice = result.device;
+              Global.streamController.add(BluetoothDeviceState.connected);
+              break;
+            case BluetoothDeviceState.disconnected:
+              onPressed = () => result.device.connect();
+              text = '连接';
+              break;
+            default:
+              onPressed = null;
+              text = snapshot.data.toString().substring(21).toUpperCase();
+              break;
+          }
+          return TextButton(
+              onPressed: onPressed,
+              child: Text(
+                text,
+                style: Theme.of(context)
+                    .primaryTextTheme
+                    .button
+                    ?.copyWith(color: Colors.blue),
+              ));
+        },
       ),
       children: <Widget>[
         _buildAdvRow(

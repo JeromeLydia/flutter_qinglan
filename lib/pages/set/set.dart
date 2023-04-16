@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_qinglan/pages/set/setData.dart';
+import 'package:get/get.dart';
 
 class Setting extends StatefulWidget {
   const Setting({super.key});
@@ -9,16 +10,12 @@ class Setting extends StatefulWidget {
 }
 
 class _SettingState extends State<Setting> {
-  void _showDialog1() {
-    showDialog(context: context, builder: _customDialog);
-  }
-
   Widget _initGridVideData(context, index) {
     return Container(
       color: Colors.grey,
       child: InkWell(
         onTap: () {
-          _showDialog1();
+          onItemClick(index);
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -31,7 +28,7 @@ class _SettingState extends State<Setting> {
               ),
             ),
             Text(
-              "${setListData[index]["desc"]}",
+              setListData[index]["desc"].toString().tr,
               style: const TextStyle(
                 color: Colors.blue,
               ),
@@ -79,39 +76,121 @@ class _SettingState extends State<Setting> {
   }
 }
 
-Dialog _customDialog(context) {
-  return Dialog(
-    backgroundColor: Colors.yellow.shade100, // 背景色
-    elevation: 4.0, // 阴影高度
-    insetAnimationDuration: const Duration(milliseconds: 300), // 动画时间
-    insetAnimationCurve: Curves.decelerate, // 动画效果
-    insetPadding: const EdgeInsets.all(30), // 弹框距离屏幕边缘距离
-    clipBehavior: Clip.none, // 剪切方式
-    child: Container(
-      width: 300,
-      height: 300,
-      color: Colors.white,
-      alignment: Alignment.center,
-      child: Column(
-        children: [
-          const Text(
-            "Custom Dialog",
-            style: TextStyle(color: Colors.blue, fontSize: 25),
+void onItemClick(int index) {
+  switch (index) {
+    case 0:
+      showDialog01();
+      break;
+    case 1:
+      break;
+    case 2:
+      break;
+    case 3:
+      break;
+    case 4:
+      break;
+    case 5:
+      break;
+    case 6:
+      break;
+    case 7:
+      break;
+    case 8:
+      break;
+    case 9:
+      break;
+    case 10:
+      break;
+    case 11:
+      showLanguageDialog();
+      break;
+    case 12:
+      break;
+    case 13:
+      break;
+    case 14:
+      break;
+    case 15:
+      break;
+    case 16:
+      break;
+    case 17:
+      break;
+    case 18:
+      break;
+  }
+}
+
+void showDialog01() {
+  Get.defaultDialog(
+    title: '请输入充电过压值'.tr,
+    content: Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        TextField(
+          decoration: InputDecoration(
+            hintText: '请输入充电过压值'.tr,
           ),
-          const Padding(padding: EdgeInsets.all(15)),
-          const Text("这是一个最简单的自定义 Custom Dialog"),
-          const Padding(
-            padding: EdgeInsets.all(15),
-          ),
-          TextButton(
-            onPressed: () {
-              // 隐藏弹框
-              Navigator.pop(context, 'SimpleDialog - Normal, 我知道了');
-            },
-            child: const Text("我知道了"),
-          ),
-        ],
-      ),
+        ),
+        const Padding(padding: EdgeInsets.only(top: 10)),
+        Text("数值范围:0.0-500.0".tr),
+        Text("单位:V".tr)
+      ],
     ),
+    textConfirm: '确定',
+    textCancel: '取消',
+    confirmTextColor: Colors.white,
+    cancelTextColor: Colors.blue,
+    buttonColor: Colors.blue,
+    onConfirm: () {
+      Get.back();
+    },
+    onCancel: () {
+      Get.back();
+    },
+  );
+}
+
+void showLanguageDialog() {
+  RxInt select = RxInt(0);
+  Get.defaultDialog(
+    title: '选择语言',
+    content: Obx(() => Column(
+          children: [
+            RadioListTile(
+              value: 0,
+              groupValue: select.value,
+              onChanged: (value) {
+                select.value = 0;
+              },
+              title: const Text('中文'),
+            ),
+            RadioListTile(
+              value: 1,
+              groupValue: select.value,
+              onChanged: (value) {
+                select.value = 1;
+              },
+              title: const Text('英文'),
+            ),
+          ],
+        )),
+    textConfirm: '确定',
+    textCancel: '取消',
+    confirmTextColor: Colors.white,
+    cancelTextColor: Colors.blue,
+    buttonColor: Colors.blue,
+    onConfirm: () {
+      if (select.value == 0) {
+        Get.updateLocale(const Locale('zh', 'CN'));
+      } else {
+        Get.updateLocale(const Locale('en', 'US'));
+      }
+      Get.back();
+    },
+    onCancel: () {
+      Get.back();
+    },
   );
 }

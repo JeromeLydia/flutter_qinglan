@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_utils/get_utils.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+import 'package:flutter_qinglan/dialogs.dart';
+import 'package:flutter_qinglan/global.dart';
+import 'package:get/get.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -9,8 +12,62 @@ class Home extends StatelessWidget {
     return Container(
       color: Colors.black,
       child: ListView(
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
         children: [
+          StreamBuilder<BluetoothDeviceState>(
+            stream: Global.streamController.stream,
+            initialData: BluetoothDeviceState.disconnected,
+            builder: (c, snapshot) {
+              switch (snapshot.data) {
+                case BluetoothDeviceState.connected:
+                  return SizedBox(
+                    height: 50.0,
+                    child: Stack(
+                      children: [
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            "型号:${Global.currentDevice?.name}",
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: TextButton(
+                            onPressed: () {
+                              CustomDialogs().showDialog01(context);
+                            },
+                            child: const Text(
+                              "已连接",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  );
+                case BluetoothDeviceState.disconnected:
+                  return Stack(
+                    children: [
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: TextButton(
+                          onPressed: () {
+                            CustomDialogs().showDialog01(context);
+                          },
+                          child: const Text(
+                            "未连接",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                default:
+                  return const Text("---");
+              }
+            },
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
