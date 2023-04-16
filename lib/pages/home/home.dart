@@ -7,6 +7,16 @@ import 'package:get/get.dart';
 class Home extends StatelessWidget {
   const Home({super.key});
 
+  void bluetoothWrite(List<int> data) async {
+    if (Global.currentDevice != null) {
+      await Global.currentDevice!.writeCharacteristic(
+        Global.currentDevice!.services[0].characteristics[0],
+        data,
+        type: CharacteristicWriteType.withResponse,
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(

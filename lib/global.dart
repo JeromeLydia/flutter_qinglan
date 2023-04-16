@@ -7,4 +7,6 @@ class Global {
 
   static StreamController<BluetoothDeviceState> streamController =
       StreamController<BluetoothDeviceState>();
+
+  List<int> a01 = [0xFE, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00];
 }
