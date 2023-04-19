@@ -28,19 +28,20 @@ class _HomeState extends State<Home> {
     final bluetoothConnect = await Permission.bluetoothConnect.status;
     final bluetoothAdvertise = await Permission.bluetoothAdvertise.status;
     if (Platform.isIOS) {
-      return bluetooth == PermissionStatus.granted;
+      _bluetoothStatus = bluetooth == PermissionStatus.granted;
     } else {
       final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
       AndroidDeviceInfo androidDeviceInfo = await deviceInfoPlugin.androidInfo;
       if (androidDeviceInfo.version.sdkInt < 23) {
-        return locationWhenInUse == PermissionStatus.granted &&
+        _bluetoothStatus = locationWhenInUse == PermissionStatus.granted &&
             bluetooth == PermissionStatus.granted;
       }
-      return locationWhenInUse == PermissionStatus.granted &&
+      _bluetoothStatus = locationWhenInUse == PermissionStatus.granted &&
           bluetoothScan == PermissionStatus.granted &&
           bluetoothConnect == PermissionStatus.granted &&
           bluetoothAdvertise == PermissionStatus.granted;
     }
+    return _bluetoothStatus;
   }
 
   Future<bool> requestBlePermissions() async {
@@ -79,7 +80,7 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    _bluetoothStatus = await _checkBluetoothPermission();
+    _checkBluetoothPermission();
   }
 
   void bluetoothWrite(List<int> data) async {
@@ -143,9 +144,17 @@ class _HomeState extends State<Home> {
                         alignment: Alignment.centerRight,
                         child: TextButton(
                           onPressed: () {
-                            _bluetoothStatus.isDenied
-                                ? requestBlePermissions()
-                                : CustomDialogs().showDialog01(context);
+                            if (FlutterBluePlus.instance.state ==
+                                BluetoothState.on) {
+                              !_bluetoothStatus
+                                  ? requestBlePermissions()
+                                  : CustomDialogs().showDialog01(context);
+                            } else {
+                              Get.showSnackbar(const GetSnackBar(
+                                message: "请打开蓝牙",
+                                duration: Duration(seconds: 2),
+                              ));
+                            }
                           },
                           child: const Text(
                             "未连接",
