@@ -3,11 +3,39 @@ import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:flutter_qinglan/dialogs.dart';
 import 'package:flutter_qinglan/global.dart';
 import 'package:get/get.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../../cmd.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   const Home({super.key});
+
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  PermissionStatus _bluetoothStatus = PermissionStatus.denied;
+
+  Future<void> _checkBluetoothPermission() async {
+    final status = await Permission.bluetooth.status;
+    setState(() {
+      _bluetoothStatus = status;
+    });
+  }
+
+  Future<void> _requestBluetoothPermission() async {
+    final status = await Permission.bluetooth.request();
+    setState(() {
+      _bluetoothStatus = status;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _checkBluetoothPermission();
+  }
 
   void bluetoothWrite(List<int> data) async {
     final currentDevice = Global.currentDevice;
@@ -92,6 +120,7 @@ class Home extends StatelessWidget {
                 child: IconItem(
                   title: "电压".tr,
                   value: "12.23V",
+                  assetName: "assets/images/ic_voltage.png",
                 ),
               ),
               const SizedBox(width: 10),
@@ -99,6 +128,7 @@ class Home extends StatelessWidget {
                 child: IconItem(
                   title: "电流",
                   value: "2.92A",
+                  assetName: "assets/images/ic_current.png",
                 ),
               ),
             ],
@@ -111,6 +141,7 @@ class Home extends StatelessWidget {
                 child: IconItem(
                   title: "功率",
                   value: "12.23V",
+                  assetName: "assets/images/ic_power.png",
                 ),
               ),
               SizedBox(width: 10),
@@ -118,6 +149,7 @@ class Home extends StatelessWidget {
                 child: IconItem(
                   title: "温度",
                   value: "2.92A",
+                  assetName: "assets/images/ic_temperature.png",
                 ),
               ),
             ],
@@ -175,7 +207,7 @@ class Home extends StatelessWidget {
                 child: Column(
                   children: [
                     Container(
-                      margin: const EdgeInsets.all(10),
+                      margin: const EdgeInsets.only(top: 10),
                       child: MaterialButton(
                         color: Colors.blue,
                         minWidth: double.infinity,
@@ -188,7 +220,7 @@ class Home extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      margin: const EdgeInsets.all(10),
+                      margin: const EdgeInsets.only(top: 10),
                       child: MaterialButton(
                         color: Colors.blue,
                         minWidth: double.infinity,
@@ -199,7 +231,7 @@ class Home extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      margin: const EdgeInsets.all(10),
+                      margin: const EdgeInsets.only(top: 10),
                       child: MaterialButton(
                         color: Colors.blue,
                         minWidth: double.infinity,
@@ -210,7 +242,7 @@ class Home extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      margin: const EdgeInsets.all(10),
+                      margin: const EdgeInsets.only(top: 10),
                       child: MaterialButton(
                         color: Colors.blue,
                         minWidth: double.infinity,
@@ -276,10 +308,13 @@ class Home extends StatelessWidget {
 class IconItem extends StatefulWidget {
   final String title;
   final String value;
+  final String assetName;
+
   const IconItem({
     super.key,
     this.title = "",
     this.value = "",
+    this.assetName = "",
   });
 
   @override
@@ -296,8 +331,13 @@ class _IconItemState extends State<IconItem> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(Icons.home),
-          const SizedBox(width: 10),
+          if (widget.assetName.isNotEmpty)
+            Image(
+              image: AssetImage(widget.assetName),
+              height: 25,
+              width: 25,
+            ),
+          const SizedBox(width: 5),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -308,6 +348,7 @@ class _IconItemState extends State<IconItem> {
                   color: Colors.white,
                 ),
               ),
+              const SizedBox(height: 3),
               Text(
                 widget.value,
                 style: const TextStyle(

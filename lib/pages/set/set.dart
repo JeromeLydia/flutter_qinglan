@@ -13,6 +13,7 @@ class _SettingState extends State<Setting> {
   Widget _initGridVideData(context, index) {
     return Container(
       color: Colors.grey,
+      height: 200.0,
       child: InkWell(
         onTap: () {
           onItemClick(index);
@@ -25,12 +26,15 @@ class _SettingState extends State<Setting> {
               "${setListData[index]["title"]}",
               style: const TextStyle(
                 color: Colors.white,
+                fontSize: 12,
               ),
             ),
+            const Padding(padding: EdgeInsets.only(top: 5)),
             Text(
               setListData[index]["desc"].toString().tr,
               style: const TextStyle(
                 color: Colors.blue,
+                fontSize: 12,
               ),
             ),
           ],
@@ -51,10 +55,10 @@ class _SettingState extends State<Setting> {
                 itemCount: setListData.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3,
-                    crossAxisSpacing: 20.0,
-                    mainAxisSpacing: 20.0,
+                    crossAxisSpacing: 10.0,
+                    mainAxisSpacing: 10.0,
                     childAspectRatio: 2),
-                padding: const EdgeInsets.all(20),
+                padding: const EdgeInsets.all(10),
                 itemBuilder: _initGridVideData),
           ),
           Expanded(
