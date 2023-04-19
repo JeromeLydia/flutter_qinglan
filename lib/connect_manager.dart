@@ -30,40 +30,29 @@ class ConnectManager {
   bool isConnecting = false;
   ConnectManager(this._gattCallback);
   //1.扫描
-  Future<void> start(String deviceName,
-      {int timeout = ScanDevice.SCAN_TIMEOUT}) async {
-    if (_scanDevice == null) {
-      _scanDevice = ScanDevice(ScanCallback(onFind: (DeviceBean device) {
-        //扫描到设备
-        if (isConnecting) {
-          _scanDevice?.stopScan(); //停止扫描
-          return;
-        }
-        if (device.device.name == deviceName) {
-          _device = device;
-          _scanDevice?.stopScan(); //停止扫描
-          connect(device.device); //转 - 2.连接
-        }
-      }, onStop: () {
-        //停止扫描
-        if (_device == null) {
-          log("没找到设备 >>>>>>");
-          _gattCallback.onDeviceNotFind(); //没扫描到设备时, 回调外部
-        }
-      }));
-    }
+  Future<void> startScan({int timeout = ScanDevice.SCAN_TIMEOUT}) async {
+    _scanDevice ??= ScanDevice(ScanCallback(onFind: (DeviceBean device) {
+      //扫描到设备 回调通知外部
+      _gattCallback.onDeviceFind(device);
+    }, onStop: () {
+      //停止扫描 回调通知外部
+      _gattCallback.onDeviceScanStop();
+    }));
     _scanDevice?.startScan(timeout: timeout);
     isConnecting = false;
   }
 
   //2.连接
-  Future<void> connect(BluetoothDevice device) async {
+  Future<void> connect(DeviceBean device) async {
     isConnecting = true;
-    log("2.开始连接 >>>>>>name: ${device.name}");
-    await device.connect(
+    _scanDevice?.stopScan(); //停止扫描
+    log("2.开始连接 >>>>>>name: ${device.device.name}");
+    await device.device.connect(
         timeout: const Duration(milliseconds: CON_TIMEOUT), autoConnect: false);
-    log("连接成功 >>>>>>name: ${device.name}");
-    _discoverServices(device);
+    _device = device;
+
+    log("连接成功 >>>>>>name: ${device.device.name}");
+    _discoverServices(device.device);
   }
 
   //3.发现服务

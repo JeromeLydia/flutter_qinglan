@@ -25,7 +25,7 @@ class ScanDevice {
         _handlerScanResult(item);
       }
     });
-    _flutterBlue?.startScan(timeout: Duration(seconds: timeout));
+    _flutterBlue.startScan(timeout: Duration(seconds: timeout));
     startTimer();
   }
 
