@@ -4,15 +4,22 @@ import 'package:flutter_qinglan/dialogs.dart';
 import 'package:flutter_qinglan/global.dart';
 import 'package:get/get.dart';
 
+import '../../cmd.dart';
+
 class Home extends StatelessWidget {
   const Home({super.key});
 
   void bluetoothWrite(List<int> data) async {
-    if (Global.currentDevice != null) {
-      await Global.currentDevice!.writeCharacteristic(
-        Global.currentDevice!.services[0].characteristics[0],
-        data,
-        type: CharacteristicWriteType.withResponse,
+    final currentDevice = Global.currentDevice;
+    if (currentDevice != null) {
+      //获取服务
+      List<BluetoothService> services = await currentDevice.discoverServices();
+      //获取特征
+      List<BluetoothCharacteristic> characteristics =
+          services.first.characteristics;
+      await characteristics.first.write(
+        data, //写入的数据
+        withoutResponse: true, //是否需要响应
       );
     }
   }
@@ -175,7 +182,9 @@ class Home extends StatelessWidget {
                         height: 50.0,
                         textColor: Colors.white,
                         child: const Text('电流清零'),
-                        onPressed: () {},
+                        onPressed: () {
+                          bluetoothWrite(CLEAR_CURRENT);
+                        },
                       ),
                     ),
                     Container(
