@@ -1,9 +1,13 @@
+import 'dart:io';
+
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:flutter_qinglan/dialogs.dart';
 import 'package:flutter_qinglan/global.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:location/location.dart' hide PermissionStatus;
 
 import '../../cmd.dart';
 
@@ -15,26 +19,67 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  PermissionStatus _bluetoothStatus = PermissionStatus.denied;
+  bool _bluetoothStatus = false;
 
-  Future<void> _checkBluetoothPermission() async {
-    final status = await Permission.bluetooth.status;
-    setState(() {
-      _bluetoothStatus = status;
-    });
+  Future<bool> _checkBluetoothPermission() async {
+    final locationWhenInUse = await Permission.locationWhenInUse.status;
+    final bluetooth = await Permission.bluetooth.status;
+    final bluetoothScan = await Permission.bluetoothScan.status;
+    final bluetoothConnect = await Permission.bluetoothConnect.status;
+    final bluetoothAdvertise = await Permission.bluetoothAdvertise.status;
+    if (Platform.isIOS) {
+      return bluetooth == PermissionStatus.granted;
+    } else {
+      final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
+      AndroidDeviceInfo androidDeviceInfo = await deviceInfoPlugin.androidInfo;
+      if (androidDeviceInfo.version.sdkInt < 23) {
+        return locationWhenInUse == PermissionStatus.granted &&
+            bluetooth == PermissionStatus.granted;
+      }
+      return locationWhenInUse == PermissionStatus.granted &&
+          bluetoothScan == PermissionStatus.granted &&
+          bluetoothConnect == PermissionStatus.granted &&
+          bluetoothAdvertise == PermissionStatus.granted;
+    }
   }
 
-  Future<void> _requestBluetoothPermission() async {
-    final status = await Permission.bluetooth.request();
-    setState(() {
-      _bluetoothStatus = status;
-    });
+  Future<bool> requestBlePermissions() async {
+    Location loca = Location();
+    bool serviceEnabled;
+
+    serviceEnabled = await loca.serviceEnabled();
+    if (!serviceEnabled) {
+      serviceEnabled = await loca.requestService();
+      if (!serviceEnabled) {
+        return false;
+      }
+    }
+    var isLocationGranted = await Permission.locationWhenInUse.request();
+    var isBleGranted = await Permission.bluetooth.request();
+    var isBleScanGranted = await Permission.bluetoothScan.request();
+    var isBleConnectGranted = await Permission.bluetoothConnect.request();
+    var isBleAdvertiseGranted = await Permission.bluetoothAdvertise.request();
+
+    if (Platform.isIOS) {
+      return isBleGranted == PermissionStatus.granted;
+    } else {
+      final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
+      AndroidDeviceInfo androidDeviceInfo = await deviceInfoPlugin.androidInfo;
+      if (androidDeviceInfo.version.sdkInt < 23) {
+        return isLocationGranted == PermissionStatus.granted &&
+            isBleGranted == PermissionStatus.granted;
+      }
+      return isLocationGranted == PermissionStatus.granted &&
+          isBleScanGranted == PermissionStatus.granted &&
+          isBleConnectGranted == PermissionStatus.granted &&
+          isBleAdvertiseGranted == PermissionStatus.granted;
+    }
   }
 
   @override
   void initState() {
     super.initState();
-    _checkBluetoothPermission();
+    _bluetoothStatus = await _checkBluetoothPermission();
   }
 
   void bluetoothWrite(List<int> data) async {
@@ -98,7 +143,9 @@ class _HomeState extends State<Home> {
                         alignment: Alignment.centerRight,
                         child: TextButton(
                           onPressed: () {
-                            CustomDialogs().showDialog01(context);
+                            _bluetoothStatus.isDenied
+                                ? requestBlePermissions()
+                                : CustomDialogs().showDialog01(context);
                           },
                           child: const Text(
                             "未连接",

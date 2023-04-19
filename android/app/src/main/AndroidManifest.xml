@@ -1,9 +1,20 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.qinglan.kulunji.flutter_qinglan">
 
-     <uses-permission android:name="android.permission.BLUETOOTH" />  
-	 <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />  
-	 <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>  
+     <!-- android6之前使用该权限即可 -->
+     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+     <!-- android6~12 之间使用该权限-->
+     <uses-permission android:name="android.permission.BLUETOOTH"/>
+     <!-- android6之后需要使用蓝牙也要声明定位权限，且用户还要打开 -->
+     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+     <!-- android12 之后权限分开-->
+     <!-- android12 扫描周边设备需要该权限-->
+     <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
+     <!-- android12 连接交互使用的权限-->
+     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+     <!-- android12 广播功能，让别人也能连接搞设备，一般和connect一起使用-->
+     <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE" />
 
    <application
         android:label="flutter_qinglan"
@@ -17,10 +28,6 @@
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
             android:hardwareAccelerated="true"
             android:windowSoftInputMode="adjustResize">
-            <!-- Specifies an Android theme to apply to this Activity as soon as
-                 the Android process has started. This theme is visible to the user
-                 while the Flutter UI initializes. After that, this theme continues
-                 to determine the Window background behind the Flutter UI. -->
             <meta-data
               android:name="io.flutter.embedding.android.NormalTheme"
               android:resource="@style/NormalTheme"
@@ -30,8 +37,6 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <!-- Don't delete the meta-data below.
-             This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
