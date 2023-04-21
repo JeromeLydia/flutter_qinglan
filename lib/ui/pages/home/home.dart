@@ -51,7 +51,7 @@ class _HomeState extends State<Home> {
                               homeController
                                   .checkBluetoothPermission()
                                   .then((value) => {
-                                        value
+                                        !value
                                             ? homeController
                                                 .requestBlePermissions()
                                             : CustomDialogs().showDialog01(
