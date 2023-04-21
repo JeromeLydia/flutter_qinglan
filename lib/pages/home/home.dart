@@ -20,85 +20,12 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  bool _bluetoothStatus = false;
-
   HomeController homeController = Get.put(HomeController());
-
-  Future<bool> _checkBluetoothPermission() async {
-    final locationWhenInUse = await Permission.locationWhenInUse.status;
-    final bluetooth = await Permission.bluetooth.status;
-    final bluetoothScan = await Permission.bluetoothScan.status;
-    final bluetoothConnect = await Permission.bluetoothConnect.status;
-    final bluetoothAdvertise = await Permission.bluetoothAdvertise.status;
-    if (Platform.isIOS) {
-      _bluetoothStatus = bluetooth == PermissionStatus.granted;
-    } else {
-      final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
-      AndroidDeviceInfo androidDeviceInfo = await deviceInfoPlugin.androidInfo;
-      if (androidDeviceInfo.version.sdkInt < 23) {
-        _bluetoothStatus = locationWhenInUse == PermissionStatus.granted &&
-            bluetooth == PermissionStatus.granted;
-      }
-      _bluetoothStatus = locationWhenInUse == PermissionStatus.granted &&
-          bluetoothScan == PermissionStatus.granted &&
-          bluetoothConnect == PermissionStatus.granted &&
-          bluetoothAdvertise == PermissionStatus.granted;
-    }
-    return _bluetoothStatus;
-  }
-
-  Future<bool> requestBlePermissions() async {
-    Location loca = Location();
-    bool serviceEnabled;
-
-    serviceEnabled = await loca.serviceEnabled();
-    if (!serviceEnabled) {
-      serviceEnabled = await loca.requestService();
-      if (!serviceEnabled) {
-        return false;
-      }
-    }
-    var isLocationGranted = await Permission.locationWhenInUse.request();
-    var isBleGranted = await Permission.bluetooth.request();
-    var isBleScanGranted = await Permission.bluetoothScan.request();
-    var isBleConnectGranted = await Permission.bluetoothConnect.request();
-    var isBleAdvertiseGranted = await Permission.bluetoothAdvertise.request();
-
-    if (Platform.isIOS) {
-      return isBleGranted == PermissionStatus.granted;
-    } else {
-      final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
-      AndroidDeviceInfo androidDeviceInfo = await deviceInfoPlugin.androidInfo;
-      if (androidDeviceInfo.version.sdkInt < 23) {
-        return isLocationGranted == PermissionStatus.granted &&
-            isBleGranted == PermissionStatus.granted;
-      }
-      return isLocationGranted == PermissionStatus.granted &&
-          isBleScanGranted == PermissionStatus.granted &&
-          isBleConnectGranted == PermissionStatus.granted &&
-          isBleAdvertiseGranted == PermissionStatus.granted;
-    }
-  }
 
   @override
   void initState() {
     super.initState();
-    _checkBluetoothPermission();
-  }
-
-  void bluetoothWrite(List<int> data) async {
-    final currentDevice = Global.currentDevice;
-    if (currentDevice != null) {
-      //获取服务
-      List<BluetoothService> services = await currentDevice.discoverServices();
-      //获取特征
-      List<BluetoothCharacteristic> characteristics =
-          services.first.characteristics;
-      await characteristics.first.write(
-        data, //写入的数据
-        withoutResponse: true, //是否需要响应
-      );
-    }
+    homeController.checkBluetoothPermission();
   }
 
   @override
@@ -121,10 +48,15 @@ class _HomeState extends State<Home> {
                           onPressed: () {
                             if (homeController.bluetoothState.value ==
                                 BluetoothState.on) {
-                              !_bluetoothStatus
-                                  ? requestBlePermissions()
-                                  : CustomDialogs()
-                                      .showDialog01(context, homeController);
+                              homeController
+                                  .checkBluetoothPermission()
+                                  .then((value) => {
+                                        value
+                                            ? homeController
+                                                .requestBlePermissions()
+                                            : CustomDialogs().showDialog01(
+                                                context, homeController)
+                                      });
                             } else {
                               Get.showSnackbar(const GetSnackBar(
                                 message: "请打开蓝牙",
@@ -275,7 +207,7 @@ class _HomeState extends State<Home> {
                         textColor: Colors.white,
                         child: const Text('电流清零'),
                         onPressed: () {
-                          bluetoothWrite(CLEAR_CURRENT);
+                          homeController.sendData(CLEAR_CURRENT);
                         },
                       ),
                     ),
@@ -288,7 +220,7 @@ class _HomeState extends State<Home> {
                         textColor: Colors.white,
                         child: const Text('数据清零'),
                         onPressed: () {
-                          bluetoothWrite(READ);
+                          homeController.sendData(CLEAR_DATE);
                         },
                       ),
                     ),

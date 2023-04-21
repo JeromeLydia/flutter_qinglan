@@ -6,8 +6,7 @@ import 'package:flutter_qinglan/pages/blue/scan_callback.dart';
 
 class ScanDevice {
   static const int SCAN_TIMEOUT = 10000;
-  final String NAME_PREFIX = "T";
-  final String NAME_PREFIX_2 = "HLW";
+  final String NAME_PREFIX = "QinLan";
   final FlutterBluePlus _flutterBlue = FlutterBluePlus.instance; //蓝牙API
   final ScanCallback _callback; //回调接口
   var _isScanning = false;
@@ -57,13 +56,8 @@ class ScanDevice {
 
   //处理扫描结果
   void _handlerScanResult(ScanResult result) {
-    // if (!result.device.name.startsWith(NAME_PREFIX) &&
-    //     !result.device.name.startsWith(NAME_PREFIX_2)) return; //过滤掉非本公司的蓝牙设备
-    // log('扫到设备, name: ${result.device.name}');
-    // if (result.device.name.startsWith(NAME_PREFIX_2)) {
-    //   _callback.onFind(result); //回调到外部
-    //   return;
-    // }
+    if (!result.device.name.contains(NAME_PREFIX)) return; //过滤掉非本公司的蓝牙设备
+    log('扫到设备, name: ${result.device.name}');
     _callback.onFind(result); //回调到外部
   }
 }

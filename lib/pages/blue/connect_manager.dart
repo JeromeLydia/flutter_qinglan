@@ -9,23 +9,21 @@ import 'message_data.dart';
 
 class ConnectManager {
   final Guid SET_MODE_SERVICE_UUID =
-      Guid("0000180f-0000-1000-8000-00805f9b34fb"); //设置模式-服务UUID
+      Guid("0000180f-0000-1000-8000-00805f9b34fb"); //模式-服务UUID
   final Guid SET_MODE_CHARACTERISTIC_UUID =
-      Guid("00002a19-0000-1000-8000-00805f9b34fb"); //设置模式-特征值UUID
+      Guid("00002a19-0000-1000-8000-00805f9b34fb"); //模式-特征值UUID
   final Guid SET_MODE_DESCRIPTOR_UUID =
-      Guid("00002902-0000-1000-8000-00805f9b34fb"); //设置模式-特征值描述UUID(固定不变)
-  final Guid WRITE_DATA_SERVICE_UUID =
-      Guid("01ff0100-ba5e-f4ee-5ca1-eb1e5e4b1ce1"); //写数据-服务UUID
-  final Guid WRITE_DATA_CHARACTERISTIC_UUID =
-      Guid("01ff0101-ba5e-f4ee-5ca1-eb1e5e4b1ce1"); //写数据-特征值UUID
+      Guid("00002902-0000-1000-8000-00805f9b34fb"); //模式-特征值描述UUID(固定不变)
+
   final List<int> ENABLE_NOTIFICATION_VALUE = [0x01, 0x00]; //启用Notification模式
   final List<int> DISABLE_NOTIFICATION_VALUE = [0x00, 0x00]; //停用Notification模式
   final List<int> ENABLE_INDICATION_VALUE = [0x02, 0x00]; //启用Indication模式
+
   static const int CON_TIMEOUT = 10000;
   final GattCallback _gattCallback;
-  late BluetoothCharacteristic? _writeCharacteristic = null;
-  late ScanDevice? _scanDevice = null;
-  late BluetoothDevice? _device = null;
+  late BluetoothCharacteristic? _writeCharacteristic;
+  late ScanDevice? _scanDevice;
+  late BluetoothDevice? _device;
   bool isConnecting = false;
   ConnectManager(this._gattCallback);
   //1.扫描
@@ -49,12 +47,9 @@ class ConnectManager {
     await device.connect(
         timeout: const Duration(milliseconds: CON_TIMEOUT), autoConnect: false);
     _device = device;
-
     log("连接成功 >>>>>>name: ${device.name}");
-
     _gattCallback.onConnected(device); //连接成功 回调通知外部
-
-    discoverServices(device);
+    discoverServices(device); //发现服务
   }
 
   //3.发现服务
@@ -75,10 +70,6 @@ class ConnectManager {
         //找到设置模式的服务
         log("4.找到设置模式的服务 >>>>>>name: ${device.name}  serviceGuid: ${SET_MODE_SERVICE_UUID.toString()}");
         _readCharacteristics(device, sItem); //读取特征值
-      } else if (sUuid == WRITE_DATA_SERVICE_UUID.toString()) {
-        //找到写数据的服务
-        log("4.找到写数据的服务 >>>>>>name: ${device.name}  serviceGuid: ${WRITE_DATA_SERVICE_UUID.toString()}");
-        _readCharacteristics(device, sItem); //读取特征值
       }
     }
   }
@@ -94,9 +85,6 @@ class ConnectManager {
         log("4.0.找到设置模式的特征值 >>>>>>name: ${device.name}  characteristicUUID: ${SET_MODE_CHARACTERISTIC_UUID.toString()}");
         _requestMtu(device); //设置MTU
         _setNotificationMode(device, cItem); //设置为Notification模式(设备主动给手机发数据)
-      } else if (cUuid == WRITE_DATA_CHARACTERISTIC_UUID.toString()) {
-        //找到写数据的特征值
-        log("4.0.找到写数据的特征值 >>>>>>name: ${device.name}  characteristicUUID: ${WRITE_DATA_CHARACTERISTIC_UUID.toString()}");
         _writeCharacteristic = cItem; //保存写数据的征值
       }
     }
