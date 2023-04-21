@@ -1,9 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:get/get.dart';
 
-import '../../connect_manager.dart';
-import '../../gatt_callback.dart';
-import '../../message_data.dart';
+import '../blue/connect_manager.dart';
+import '../blue/gatt_callback.dart';
+import '../blue/message_data.dart';
 
 class HomeController extends GetxController {
   //蓝牙状态
@@ -45,6 +47,7 @@ class HomeController extends GetxController {
       bluetoothDeviceState = BluetoothDeviceState.disconnected.obs;
     }, onRead: (MessageData data) {
       //设备发过来的数据
+      log("收到数据：${data.toString()}");
     }));
 
     //监听蓝牙状态

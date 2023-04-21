@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
-import 'package:flutter_qinglan/scan_callback.dart';
+import 'package:flutter_qinglan/pages/blue/scan_callback.dart';
 
 class ScanDevice {
   static const int SCAN_TIMEOUT = 10000;

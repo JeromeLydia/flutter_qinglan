@@ -10,7 +10,7 @@ import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:location/location.dart' hide PermissionStatus;
 
-import '../../cmd.dart';
+import '../blue/cmd.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});

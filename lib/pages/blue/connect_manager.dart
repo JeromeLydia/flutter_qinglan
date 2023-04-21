@@ -1,10 +1,9 @@
 import 'dart:developer';
 
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
-import 'package:flutter_qinglan/scan_callback.dart';
-import 'package:flutter_qinglan/scan_device.dart';
+import 'package:flutter_qinglan/pages/blue/scan_callback.dart';
+import 'package:flutter_qinglan/pages/blue/scan_device.dart';
 
-import 'device_bean.dart';
 import 'gatt_callback.dart';
 import 'message_data.dart';
 

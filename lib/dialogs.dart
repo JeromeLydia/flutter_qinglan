@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_blue_plus/flutter_blue_plus.dart';
-import 'package:flutter_qinglan/pages/blue/widgets.dart';
+import 'package:flutter_qinglan/pages/blue/demo/widgets.dart';
 import 'package:flutter_qinglan/pages/home/home_controller.dart';
 import 'package:get/get.dart';
 
