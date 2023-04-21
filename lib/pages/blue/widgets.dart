@@ -110,7 +110,7 @@ class ScanResultTile extends StatelessWidget {
               Global.streamController.add(BluetoothDeviceState.connected);
               break;
             case BluetoothDeviceState.disconnected:
-              onPressed = () => result.device.connect();
+              onPressed = () => onTap;
               text = '连接';
               break;
             default:

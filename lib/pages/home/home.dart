@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:flutter_qinglan/dialogs.dart';
 import 'package:flutter_qinglan/global.dart';
+import 'package:flutter_qinglan/pages/home/home_controller.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:location/location.dart' hide PermissionStatus;
@@ -20,6 +21,8 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   bool _bluetoothStatus = false;
+
+  HomeController homeController = Get.put(HomeController());
 
   Future<bool> _checkBluetoothPermission() async {
     final locationWhenInUse = await Permission.locationWhenInUse.status;
@@ -105,50 +108,23 @@ class _HomeState extends State<Home> {
       child: ListView(
         padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
         children: [
-          StreamBuilder<BluetoothDeviceState>(
-            stream: Global.streamController.stream,
-            initialData: BluetoothDeviceState.disconnected,
-            builder: (c, snapshot) {
-              switch (snapshot.data) {
-                case BluetoothDeviceState.connected:
-                  return SizedBox(
-                    height: 50.0,
-                    child: Stack(
-                      children: [
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            "型号:${Global.currentDevice?.name}",
-                            style: const TextStyle(color: Colors.white),
-                          ),
-                        ),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: TextButton(
-                            onPressed: () {
-                              CustomDialogs().showDialog01(context);
-                            },
-                            child: const Text(
-                              "已连接",
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  );
-                case BluetoothDeviceState.disconnected:
+          GetBuilder<HomeController>(
+              init: homeController,
+              builder: (controller) {
+                if (homeController.bluetoothDeviceState.value ==
+                    BluetoothDeviceState.disconnected) {
                   return Stack(
                     children: [
                       Align(
                         alignment: Alignment.centerRight,
                         child: TextButton(
                           onPressed: () {
-                            if (FlutterBluePlus.instance.state ==
+                            if (homeController.bluetoothState.value ==
                                 BluetoothState.on) {
                               !_bluetoothStatus
                                   ? requestBlePermissions()
-                                  : CustomDialogs().showDialog01(context);
+                                  : CustomDialogs()
+                                      .showDialog01(context, homeController);
                             } else {
                               Get.showSnackbar(const GetSnackBar(
                                 message: "请打开蓝牙",
@@ -164,11 +140,39 @@ class _HomeState extends State<Home> {
                       ),
                     ],
                   );
-                default:
+                } else if (homeController.bluetoothDeviceState.value ==
+                    BluetoothDeviceState.connected) {
+                  return SizedBox(
+                    height: 50.0,
+                    child: Stack(
+                      children: [
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            "型号:${homeController.currentDevice.name}",
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: TextButton(
+                            onPressed: () {
+                              CustomDialogs()
+                                  .showDialog01(context, homeController);
+                            },
+                            child: const Text(
+                              "已连接",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  );
+                } else {
                   return const Text("---");
-              }
-            },
-          ),
+                }
+              }),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -283,7 +287,9 @@ class _HomeState extends State<Home> {
                         height: 50.0,
                         textColor: Colors.white,
                         child: const Text('数据清零'),
-                        onPressed: () {},
+                        onPressed: () {
+                          bluetoothWrite(READ);
+                        },
                       ),
                     ),
                     Container(

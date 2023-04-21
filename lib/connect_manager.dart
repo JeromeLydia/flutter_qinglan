@@ -26,12 +26,12 @@ class ConnectManager {
   final GattCallback _gattCallback;
   late BluetoothCharacteristic? _writeCharacteristic = null;
   late ScanDevice? _scanDevice = null;
-  late DeviceBean? _device = null;
+  late BluetoothDevice? _device = null;
   bool isConnecting = false;
   ConnectManager(this._gattCallback);
   //1.扫描
   Future<void> startScan({int timeout = ScanDevice.SCAN_TIMEOUT}) async {
-    _scanDevice ??= ScanDevice(ScanCallback(onFind: (DeviceBean device) {
+    _scanDevice ??= ScanDevice(ScanCallback(onFind: (ScanResult device) {
       //扫描到设备 回调通知外部
       _gattCallback.onDeviceFind(device);
     }, onStop: () {
@@ -43,20 +43,23 @@ class ConnectManager {
   }
 
   //2.连接
-  Future<void> connect(DeviceBean device) async {
+  Future<void> connect(BluetoothDevice device) async {
     isConnecting = true;
     _scanDevice?.stopScan(); //停止扫描
-    log("2.开始连接 >>>>>>name: ${device.device.name}");
-    await device.device.connect(
+    log("2.开始连接 >>>>>>name: ${device.name}");
+    await device.connect(
         timeout: const Duration(milliseconds: CON_TIMEOUT), autoConnect: false);
     _device = device;
 
-    log("连接成功 >>>>>>name: ${device.device.name}");
-    _discoverServices(device.device);
+    log("连接成功 >>>>>>name: ${device.name}");
+
+    _gattCallback.onConnected(device); //连接成功 回调通知外部
+
+    discoverServices(device);
   }
 
   //3.发现服务
-  Future<void> _discoverServices(BluetoothDevice device) async {
+  Future<void> discoverServices(BluetoothDevice device) async {
     log("3.开始发现服务 >>>>>>name: ${device.name}");
     List<BluetoothService> services = await device.discoverServices();
     log("发现服务成功 >>>>>>name: ${device.name}");

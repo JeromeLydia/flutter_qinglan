@@ -1,10 +1,10 @@
-const int READ = 0x01; // 读取设备参数指令
+const List<int> READ = [0xFB, 0x01]; // 读取设备参数指令
 const int READ_DEVICE = 0x02; // 读取设备电池容量和型号
 const int CHARGE = 0x03; // 充电开
 const int DISCHARGE = 0x04; // 放电开
 const List<int> CLEAR_CURRENT = [
   0xFE,
-  0x01,
+  0x00,
   0xD1,
   0x00,
   0x00,

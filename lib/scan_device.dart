@@ -4,8 +4,6 @@ import 'dart:developer';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:flutter_qinglan/scan_callback.dart';
 
-import 'device_bean.dart';
-
 class ScanDevice {
   static const int SCAN_TIMEOUT = 10000;
   final String NAME_PREFIX = "T";
@@ -59,13 +57,13 @@ class ScanDevice {
 
   //处理扫描结果
   void _handlerScanResult(ScanResult result) {
-    if (!result.device.name.startsWith(NAME_PREFIX) &&
-        !result.device.name.startsWith(NAME_PREFIX_2)) return; //过滤掉非本公司的蓝牙设备
-    log('扫到设备, name: ${result.device.name}');
-    if (result.device.name.startsWith(NAME_PREFIX_2)) {
-      _callback.onFind(DeviceBean(result.device)); //回调到外部
-      return;
-    }
-    _callback.onFind(DeviceBean(result.device)); //回调到外部
+    // if (!result.device.name.startsWith(NAME_PREFIX) &&
+    //     !result.device.name.startsWith(NAME_PREFIX_2)) return; //过滤掉非本公司的蓝牙设备
+    // log('扫到设备, name: ${result.device.name}');
+    // if (result.device.name.startsWith(NAME_PREFIX_2)) {
+    //   _callback.onFind(result); //回调到外部
+    //   return;
+    // }
+    _callback.onFind(result); //回调到外部
   }
 }

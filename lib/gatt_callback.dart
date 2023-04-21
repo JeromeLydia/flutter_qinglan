@@ -1,10 +1,10 @@
-import 'package:flutter_qinglan/device_bean.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 
 import 'message_data.dart';
 
 typedef OnDeviceScanStop = void Function();
-typedef OnDeviceFind = void Function(DeviceBean device);
-typedef OnConnected = void Function();
+typedef OnDeviceFind = void Function(ScanResult device);
+typedef OnConnected = void Function(BluetoothDevice device);
 typedef OnDisconnect = void Function();
 typedef OnRead = void Function(MessageData data);
 
