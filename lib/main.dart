@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_qinglan/res/colors.dart';
 import 'package:flutter_qinglan/res/strings.dart';
 import 'package:flutter_qinglan/ui/pages/tabs.dart';
 import 'package:get/get.dart';
@@ -18,6 +19,7 @@ class MyApp extends StatelessWidget {
       fallbackLocale: const Locale("en", "US"), //默认语言
       title: 'Flutter Demo',
       theme: ThemeData(
+        primaryColor: AppColors.app_main,
         primarySwatch: Colors.blue,
       ),
       home: const Tabs(),
