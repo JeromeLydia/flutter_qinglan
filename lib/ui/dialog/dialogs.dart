@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_qinglan/pages/blue/demo/widgets.dart';
-import 'package:flutter_qinglan/pages/home/home_controller.dart';
+import 'package:flutter_qinglan/ui/pages/blue/demo/widgets.dart';
+import 'package:flutter_qinglan/ui/pages/home/home_controller.dart';
 import 'package:get/get.dart';
 
 class CustomDialogs {

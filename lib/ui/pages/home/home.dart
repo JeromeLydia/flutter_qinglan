@@ -3,9 +3,9 @@ import 'dart:io';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
-import 'package:flutter_qinglan/dialogs.dart';
-import 'package:flutter_qinglan/global.dart';
-import 'package:flutter_qinglan/pages/home/home_controller.dart';
+import 'package:flutter_qinglan/ui/dialog/dialogs.dart';
+import 'package:flutter_qinglan/common/global.dart';
+import 'package:flutter_qinglan/ui/pages/home/home_controller.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:location/location.dart' hide PermissionStatus;
@@ -64,9 +64,9 @@ class _HomeState extends State<Home> {
                               ));
                             }
                           },
-                          child: const Text(
-                            "未连接",
-                            style: TextStyle(color: Colors.white),
+                          child: Text(
+                            "未连接".tr,
+                            style: const TextStyle(color: Colors.white),
                           ),
                         ),
                       ),

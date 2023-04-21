@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_qinglan/messages.dart';
-import 'package:flutter_qinglan/pages/tabs.dart';
+import 'package:flutter_qinglan/res/strings.dart';
+import 'package:flutter_qinglan/ui/pages/tabs.dart';
 import 'package:get/get.dart';
 
 void main() {

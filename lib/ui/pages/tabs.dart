@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_qinglan/pages/chart/chart.dart';
-import 'package:flutter_qinglan/pages/home/home.dart';
-import 'package:flutter_qinglan/pages/set/set.dart';
+import 'package:flutter_qinglan/ui/pages/chart/chart.dart';
+import 'package:flutter_qinglan/ui/pages/home/home.dart';
+import 'package:flutter_qinglan/ui/pages/set/set.dart';
 import 'package:get/get_utils/get_utils.dart';
 
 class Tabs extends StatefulWidget {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_qinglan/pages/set/setData.dart';
+import 'package:flutter_qinglan/ui/pages/set/setData.dart';
 import 'package:get/get.dart';
 
 class Setting extends StatefulWidget {
