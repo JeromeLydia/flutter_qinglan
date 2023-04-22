@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_qinglan/res/colors.dart';
 import 'package:flutter_qinglan/ui/pages/set/setData.dart';
 import 'package:get/get.dart';
 
@@ -12,7 +13,7 @@ class Setting extends StatefulWidget {
 class _SettingState extends State<Setting> {
   Widget _initGridVideData(context, index) {
     return Container(
-      color: Colors.grey,
+      color: AppColors.app_main,
       height: 200.0,
       child: InkWell(
         onTap: () {

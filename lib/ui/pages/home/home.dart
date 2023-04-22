@@ -3,8 +3,10 @@ import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:flutter_qinglan/ui/dialog/dialogs.dart';
 import 'package:flutter_qinglan/ui/pages/home/home_controller.dart';
 import 'package:get/get.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 
 import '../../../res/colors.dart';
+import '../../widgets/ring_progress_bar.dart';
 import '../blue/cmd.dart';
 
 class Home extends StatefulWidget {
@@ -114,7 +116,8 @@ class _HomeState extends State<Home> {
                     Expanded(
                       child: IconItem(
                         title: "电流",
-                        value: ("${homeController.messageData.value.current}A"),
+                        value:
+                            ("${homeController.messageData.value.currentDirection == 0 ? "-" : "+"}${homeController.messageData.value.current}A"),
                         assetName: "assets/images/ic_current.png",
                       ),
                     ),
@@ -170,11 +173,28 @@ class _HomeState extends State<Home> {
                       flex: 2,
                       child: Column(
                         children: [
-                          const Text(
-                            "充满需用时:",
-                            style: TextStyle(
-                              color: Colors.white,
+                          CircularPercentIndicator(
+                            radius: 80.0,
+                            lineWidth: 20.0,
+                            animation: true,
+                            percent: homeController.messageData.value
+                                    .remainingCapacityPercentage /
+                                100,
+                            center: Text(
+                              "${homeController.messageData.value.remainingCapacityPercentage}%",
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20.0,
+                                  color: Colors.white),
                             ),
+                            footer: const Text(
+                              "充满需用时:",
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                            circularStrokeCap: CircularStrokeCap.round,
+                            progressColor: Colors.blue,
                           ),
                           Container(
                             margin: const EdgeInsets.all(10),
@@ -244,6 +264,13 @@ class _HomeState extends State<Home> {
                               onPressed: () {},
                             ),
                           ),
+                          Container(
+                            margin: const EdgeInsets.only(top: 10),
+                            child: Text(
+                              ("${homeController.deviceData.value.totalCapacity}AH"),
+                              style: const TextStyle(color: Colors.white),
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -252,17 +279,18 @@ class _HomeState extends State<Home> {
                 const SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: const [
+                  children: [
                     Expanded(
                       child: IconItem(
                         title: "累计容量",
-                        value: "12.23V",
+                        value:
+                            ("${homeController.messageData.value.accumulatedCapacity}AH"),
                       ),
                     ),
                     Expanded(
                       child: IconItem(
                         title: "运行时间",
-                        value: "2.92A",
+                        value: ("${homeController.messageData.value.runTime}"),
                       ),
                     ),
                   ],

@@ -21,6 +21,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: AppColors.app_main,
         primarySwatch: Colors.blue,
+        bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+          unselectedItemColor: Colors.white,
+        ),
       ),
       home: const Tabs(),
     );

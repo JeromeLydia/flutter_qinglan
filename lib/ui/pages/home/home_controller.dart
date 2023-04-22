@@ -131,6 +131,9 @@ class HomeController extends GetxController {
     Timer.periodic(const Duration(milliseconds: 5000), (timer) {
       sendData(READ);
     });
+    Future.delayed(const Duration(milliseconds: 6000), () {
+      readDeviceData();
+    });
   }
 
   //读取设备信息参数
