@@ -7,11 +7,13 @@ import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:flutter_qinglan/common/global.dart';
 
 class ScanResultTile extends StatelessWidget {
-  const ScanResultTile({Key? key, required this.result, this.onTap})
+  const ScanResultTile(
+      {Key? key, required this.result, this.connect, this.disconnect})
       : super(key: key);
 
   final ScanResult result;
-  final VoidCallback? onTap;
+  final VoidCallback? connect;
+  final VoidCallback? disconnect;
 
   Widget _buildTitle(BuildContext context) {
     if (result.device.name.isNotEmpty) {
@@ -99,18 +101,13 @@ class ScanResultTile extends StatelessWidget {
           String text;
           switch (snapshot.data) {
             case BluetoothDeviceState.connected:
-              onPressed = () => {
-                    result.device.disconnect(),
-                    Global.currentDevice = null,
-                    Global.streamController
-                        .add(BluetoothDeviceState.disconnected),
-                  };
+              onPressed = disconnect;
               text = '断开';
               Global.currentDevice = result.device;
               Global.streamController.add(BluetoothDeviceState.connected);
               break;
             case BluetoothDeviceState.disconnected:
-              onPressed = () => onTap;
+              onPressed = connect;
               text = '连接';
               break;
             default:

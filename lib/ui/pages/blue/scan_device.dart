@@ -2,19 +2,19 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+import 'package:flutter_qinglan/common/global.dart';
 import 'package:flutter_qinglan/ui/pages/blue/scan_callback.dart';
 
 class ScanDevice {
   static const int SCAN_TIMEOUT = 10000;
   final String NAME_PREFIX = "QinLan";
   final FlutterBluePlus _flutterBlue = FlutterBluePlus.instance; //蓝牙API
-  final ScanCallback _callback; //回调接口
+  ScanCallback _callback; //回调接口
   var _isScanning = false;
   late Timer? _timer = null;
   ScanDevice(this._callback);
   //开始扫描
   void startScan({int timeout = SCAN_TIMEOUT}) {
-    log("1.开始扫描设备 >>>>>>");
     if (_isScanning) return;
     _isScanning = true;
     _flutterBlue.scanResults.listen((results) {
@@ -47,7 +47,7 @@ class ScanDevice {
 
   //停止扫描
   void stopScan() {
-    log("停止扫描设备 >>>>>>");
+    logger.d("ble--停止扫描设备 >>>>>>");
     cancelTimer();
     if (!_isScanning) return;
     _isScanning = false;
@@ -57,7 +57,7 @@ class ScanDevice {
   //处理扫描结果
   void _handlerScanResult(ScanResult result) {
     if (!result.device.name.contains(NAME_PREFIX)) return; //过滤掉非本公司的蓝牙设备
-    log('扫到设备, name: ${result.device.name}');
+    logger.d('扫描到设备1：, name: ${result.device.name}');
     _callback.onFind(result); //回调到外部
   }
 }

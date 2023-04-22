@@ -51,8 +51,10 @@ class CustomDialogs {
                                   .map(
                                     (r) => ScanResultTile(
                                       result: r,
-                                      onTap: () =>
+                                      connect: () =>
                                           homeController.connect(r.device),
+                                      disconnect: () =>
+                                          homeController.disconnect(r.device),
                                     ),
                                   )
                                   .toList(),

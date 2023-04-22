@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'dart:developer';
+import 'dart:ffi';
 import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+import 'package:flutter_qinglan/common/global.dart';
 import 'package:get/get.dart';
 import 'package:location/location.dart' hide PermissionStatus;
 import 'package:permission_handler/permission_handler.dart';
@@ -23,11 +25,16 @@ class HomeController extends GetxController {
   //当前连接的设备
   late BluetoothDevice currentDevice;
   //设备号
-  var deviceNo = 0.obs;
+  var deviceNo = 0x00.obs;
   //是否正在扫描
   var isScanning = false.obs;
   //连接管理类
   late ConnectManager connectManager;
+
+  var messageData = MessageData().obs;
+  var dataBefore = MessageData();
+
+  var deviceData = DeviceData(data: []).obs;
 
   @override
   void onInit() {
@@ -40,24 +47,45 @@ class HomeController extends GetxController {
     connectManager =
         ConnectManager(GattCallback(onDeviceFind: (ScanResult device) {
       //扫描到设备
+      logger.d("ble--扫描到设备：${device.device.name}");
       scanResult.add(device);
     }, onDeviceScanStop: () {
       //停止扫描
     }, onConnected: (BluetoothDevice device) {
       //连接成功回调
+      logger.d("ble--连接成功：${device.name}");
       currentDevice = device;
-      deviceNo.value = currentDevice.name
-          .replaceAll('QinLan', '')
-          .replaceAll('BLE', '') as int;
       //字符串局部替换
-      bluetoothDeviceState = BluetoothDeviceState.connected.obs;
-      update();
+      deviceNo.value = int.parse(
+          currentDevice.name.replaceAll('QinLan', '').replaceAll('BLE', ''),
+          radix: 16);
+      bluetoothDeviceState.value = BluetoothDeviceState.connected;
+      readRunData();
     }, onDisconnect: () {
       //连接关闭回调
-      bluetoothDeviceState = BluetoothDeviceState.disconnected.obs;
-    }, onRead: (MessageData data) {
-      //设备发过来的数据
-      log("收到数据：${data.toString()}");
+      bluetoothDeviceState.value = BluetoothDeviceState.disconnected;
+    }, onRead: (List<int> data) {
+      if (data[0] == 0xFB) {
+        //当前设备运行数据
+        dataBefore = MessageData();
+        dataBefore.data.addAll(data);
+        if (dataBefore.data.length == 29) {
+          dataBefore.init();
+          messageData.value = dataBefore;
+        }
+      } else if (data[0] == 0xFD) {
+        //当前设备电池容量和型号
+        deviceData.value = DeviceData(data: data);
+      } else if (data[0] == 0xFE) {
+        // 设置写入之后 响应数据
+      } else {
+        //由于设备运行数据是分包发送的，所以需要拼接
+        if (data.length == 9) {
+          dataBefore.data.addAll(data);
+          dataBefore.init();
+          messageData.value = dataBefore;
+        }
+      }
     }));
 
     //监听蓝牙状态
@@ -82,27 +110,39 @@ class HomeController extends GetxController {
 
   //连接
   void connect(BluetoothDevice device) {
+    logger.d("ble--开始连接设备：${device.name}");
     connectManager.connect(device);
+  }
+
+  //断开连接
+  void disconnect(BluetoothDevice device) {
+    logger.d("ble--断开连接设备：${device.name}");
+    connectManager.disconnect(device);
   }
 
   //发现服务
   discoverServices(BluetoothDevice device) async {
+    logger.d("ble--开始扫描服务：${device.name}");
     connectManager.discoverServices(device);
   }
 
-  //读取设备参数
-  readDeviceData() {
-    Timer.periodic(const Duration(milliseconds: 500), (timer) {
-      log('定时发送');
+  //读取当前运行参数
+  readRunData() {
+    Timer.periodic(const Duration(milliseconds: 5000), (timer) {
       sendData(READ);
     });
+  }
+
+  //读取设备信息参数
+  readDeviceData() {
+    sendData(READ_DEVICE);
   }
 
   sendData(int type) {
     switch (type) {
       case READ:
         //读取设备参数
-        connectManager.writeCommand([0xFA, deviceNo.value]);
+        connectManager.writeCommand([0xFB, deviceNo.value]);
         break;
       case READ_DEVICE:
         //读取设备电池容量和型号
@@ -110,7 +150,36 @@ class HomeController extends GetxController {
         break;
       case CHARGE:
         //充电
-        connectManager.writeCommand([0xFE, deviceNo.value, 0xD1]);
+        var data = List.of([0xFE, deviceNo.value, 0xD1]);
+        data.addAll([
+          messageData.value.data[5],
+          messageData.value.data[4],
+          messageData.value.data[3],
+          messageData.value.data[2] == 0 ? 1 : 0
+        ]);
+        connectManager.writeCommand(data);
+        break;
+      case DISCHARGE:
+        //放电
+        var data = List.of([0xFE, deviceNo.value, 0xD2]);
+        data.addAll([
+          messageData.value.data[5],
+          messageData.value.data[4],
+          messageData.value.data[3],
+          messageData.value.data[2] == 0 ? 1 : 0
+        ]);
+        connectManager.writeCommand(data);
+        break;
+      case CLEAR_CURRENT:
+        //电流清零
+        var data = List.of([0xFE, deviceNo.value, 0xD3]);
+        data.addAll([
+          messageData.value.data[5],
+          messageData.value.data[4],
+          messageData.value.data[3],
+          messageData.value.data[2]
+        ]);
+        connectManager.writeCommand(data);
         break;
     }
   }
