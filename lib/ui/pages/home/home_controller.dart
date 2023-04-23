@@ -173,12 +173,13 @@ class HomeController extends GetxController {
       case CLEAR_CURRENT:
         //电流清零
         var data = List.of([0xFE, deviceNo.value, 0xD3]);
-        data.addAll([
-          messageData.value.data[5],
-          messageData.value.data[4],
-          messageData.value.data[3],
-          messageData.value.data[2]
-        ]);
+        data.addAll([0, 0, 0, 1]);
+        connectManager.writeCommand(data);
+        break;
+      case TIME_CONTROL:
+        //定时控制开关
+        var data = List.of([0xFE, deviceNo.value, 0xD4]);
+        data.addAll([0, 0, 0, input.toInt()]);
         connectManager.writeCommand(data);
         break;
       case SET_SURPLUS:

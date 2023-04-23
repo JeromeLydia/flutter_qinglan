@@ -339,8 +339,11 @@ class _HomeState extends State<Home> {
                     Expanded(
                       child: SwitchItem(
                         title: "定时",
-                        isOpen: false,
-                        onChanged: (p0) => {},
+                        isOpen: homeController.messageData.value.timeSwitch,
+                        onChanged: (p0) => {
+                          homeController.sendData(TIME_CONTROL,
+                              input: p0 ? 1 : 0)
+                        },
                       ),
                     ),
                   ],

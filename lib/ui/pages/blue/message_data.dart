@@ -10,6 +10,7 @@ class MessageData {
   var runTime = 0; //运行时间 (秒)
   var charge = false; //充电继电器开关
   var discharge = false; //放电继电器开关
+  var timeSwitch = false; //定时开关
   List<int> data = []; //
   MessageData();
 
@@ -26,6 +27,7 @@ class MessageData {
       runTime = initRunTime();
       charge = initCharge();
       discharge = initDischarge();
+      timeSwitch = initTimeSwitch();
     }
   }
 
@@ -123,6 +125,14 @@ class MessageData {
       return false;
     }
     return data[17] == 0x01;
+  }
+
+  //定时功能运行状态= data23；(0;定时时间到 1:定时启动)
+  bool initTimeSwitch() {
+    if (data.length < 25) {
+      return false;
+    }
+    return data[24] == 0x01;
   }
 }
 
