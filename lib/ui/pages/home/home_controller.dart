@@ -35,6 +35,8 @@ class HomeController extends GetxController {
 
   var deviceData = DeviceData(data: []).obs;
 
+  Timer? _timer;
+
   @override
   void onInit() {
     super.onInit();
@@ -130,7 +132,7 @@ class HomeController extends GetxController {
 
   //读取当前运行参数
   readRunData() {
-    Timer.periodic(const Duration(milliseconds: 2000), (timer) {
+    _timer = Timer.periodic(const Duration(milliseconds: 2000), (timer) {
       sendData(READ);
     });
     Future.delayed(const Duration(milliseconds: 3000), () {
@@ -310,5 +312,13 @@ class HomeController extends GetxController {
           isBleConnectGranted == PermissionStatus.granted &&
           isBleAdvertiseGranted == PermissionStatus.granted;
     }
+  }
+
+  @override
+  void dispose() {
+    if (_timer != null && _timer!.isActive) {
+      _timer!.cancel();
+    }
+    super.dispose();
   }
 }
