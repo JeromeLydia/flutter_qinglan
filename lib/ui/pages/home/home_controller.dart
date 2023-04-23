@@ -68,6 +68,9 @@ class HomeController extends GetxController {
     }, onDisconnect: () {
       //连接关闭回调
       bluetoothDeviceState.value = BluetoothDeviceState.disconnected;
+      if (_timer != null && _timer!.isActive) {
+        _timer!.cancel();
+      }
     }, onRead: (List<int> data) {
       if (data[0] == 0xFB) {
         //当前设备运行数据
@@ -158,23 +161,13 @@ class HomeController extends GetxController {
       case CHARGE:
         //充电
         var data = List.of([0xFE, deviceNo.value, 0xD1]);
-        data.addAll([
-          messageData.value.data[5],
-          messageData.value.data[4],
-          messageData.value.data[3],
-          messageData.value.data[2] == 0 ? 1 : 0
-        ]);
+        data.addAll([0, 0, 0, input.toInt()]);
         connectManager.writeCommand(data);
         break;
       case DISCHARGE:
         //放电
         var data = List.of([0xFE, deviceNo.value, 0xD2]);
-        data.addAll([
-          messageData.value.data[5],
-          messageData.value.data[4],
-          messageData.value.data[3],
-          messageData.value.data[2] == 0 ? 1 : 0
-        ]);
+        data.addAll([0, 0, 0, input.toInt()]);
         connectManager.writeCommand(data);
         break;
       case CLEAR_CURRENT:

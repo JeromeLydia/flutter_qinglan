@@ -322,14 +322,18 @@ class _HomeState extends State<Home> {
                       child: SwitchItem(
                         title: "充电",
                         isOpen: homeController.messageData.value.charge,
-                        onChanged: (p0) => {homeController.sendData(CHARGE)},
+                        onChanged: (p0) => {
+                          homeController.sendData(CHARGE, input: p0 ? 1 : 0)
+                        },
                       ),
                     ),
                     Expanded(
                       child: SwitchItem(
                         title: "放电",
                         isOpen: homeController.messageData.value.discharge,
-                        onChanged: (p0) => {homeController.sendData(DISCHARGE)},
+                        onChanged: (p0) => {
+                          homeController.sendData(DISCHARGE, input: p0 ? 1 : 0)
+                        },
                       ),
                     ),
                     Expanded(
