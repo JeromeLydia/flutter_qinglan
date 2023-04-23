@@ -190,14 +190,46 @@ void onItemClick(HomeController homeController, int index) {
     case 13:
       break;
     case 14:
+      if (homeController.bluetoothDeviceState.value !=
+          BluetoothDeviceState.connected) {
+        Get.snackbar('提示'.tr, '请先连接蓝牙'.tr);
+        return;
+      }
+      inputDialog("请输入放电电流系数微调", "数值范围:0.50-1.50", "单位:倍", 0.50, 1.50,
+          (double input) {
+        homeController.sendData(SET_DEL, input: input);
+      });
       break;
     case 15:
+      if (homeController.bluetoothDeviceState.value !=
+          BluetoothDeviceState.connected) {
+        Get.snackbar('提示'.tr, '请先连接蓝牙'.tr);
+        return;
+      }
+      inputDialog("请输入放电电流系数微调", "数值范围:0.50-1.50", "单位:秒", 0.50, 1.50,
+          (double input) {
+        homeController.sendData(SET_DEL, input: input);
+      });
       break;
     case 16:
+      if (homeController.bluetoothDeviceState.value !=
+          BluetoothDeviceState.connected) {
+        Get.snackbar('提示'.tr, '请先连接蓝牙'.tr);
+        return;
+      }
+      inputDialog("请输入通讯地址码", "数值范围:0-40", "单位:秒", 0, 40, (double input) {
+        homeController.sendData(SET_ADC, input: input);
+      });
       break;
     case 17:
-      break;
-    case 18:
+      if (homeController.bluetoothDeviceState.value !=
+          BluetoothDeviceState.connected) {
+        Get.snackbar('提示'.tr, '请先连接蓝牙'.tr);
+        return;
+      }
+      inputDialog("请输入电流归零值", "数值范围:0.0-2.0", "单位:A", 0.0, 2.0, (double input) {
+        homeController.sendData(SET_PAI, input: input);
+      });
       break;
   }
 }

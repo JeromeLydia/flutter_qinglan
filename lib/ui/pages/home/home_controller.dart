@@ -203,6 +203,53 @@ class HomeController extends GetxController {
           readDeviceData();
         });
         break;
+      case SET_OVP: // 充电过压值
+        var data = List.of([0xFE, deviceNo.value, 0xE6]);
+        List<int> hexArray = intToByte((input * 10).round(), 4);
+        data.addAll(hexArray);
+        connectManager.writeCommand(data);
+        break;
+      case SET_LVP:
+        // 放电欠压值break;
+        break;
+      case SET_OCP: // 充电过流值
+        break;
+      case SET_NCP: // 放电过流值
+        break;
+      case SET_STV: // 充电启动值
+        break;
+      case SET_OTP: // 过温度保护值
+        break;
+      case SET_LTP: // 低温恢复值
+        break;
+      case SET_DEL: // 继电器延时
+        break;
+      case SET_TTL: // 上电默认输出
+        break;
+      case SET_PTM: // 温控模式
+        break;
+      case SET_LAG: // 语言
+        break;
+      case SET_STE: // 定时时间值
+        break;
+      case SET_ETM: // 定时模式
+        break;
+      case SET_OKI: // 充电电流系数微调
+        break;
+      case SET_NKI: // 放电电流系数微调
+        break;
+      case SAVE: // 保存设置
+        break;
+      case SET_DWM: // 继电器工作模式
+        break;
+      case SET_ADC: // 通讯地址码
+        break;
+      case SET_PAI: // 电流归0值设置
+        break;
+      case SAVE_HOME: // 首页保存设置
+        break;
+      case SET_RELAY: // 首页保存设置
+        break;
     }
   }
 
