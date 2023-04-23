@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_qinglan/res/colors.dart';
+import 'package:flutter_qinglan/ui/dialog/dialogs.dart';
 import 'package:flutter_qinglan/ui/pages/set/setData.dart';
 import 'package:get/get.dart';
 
@@ -107,7 +108,7 @@ void onItemClick(int index) {
     case 10:
       break;
     case 11:
-      showLanguageDialog();
+      languageDialog();
       break;
     case 12:
       break;
@@ -149,49 +150,6 @@ void showDialog01() {
     cancelTextColor: Colors.blue,
     buttonColor: Colors.blue,
     onConfirm: () {
-      Get.back();
-    },
-    onCancel: () {
-      Get.back();
-    },
-  );
-}
-
-void showLanguageDialog() {
-  RxInt select = RxInt(0);
-  Get.defaultDialog(
-    title: '选择语言',
-    content: Obx(() => Column(
-          children: [
-            RadioListTile(
-              value: 0,
-              groupValue: select.value,
-              onChanged: (value) {
-                select.value = 0;
-              },
-              title: const Text('中文'),
-            ),
-            RadioListTile(
-              value: 1,
-              groupValue: select.value,
-              onChanged: (value) {
-                select.value = 1;
-              },
-              title: const Text('英文'),
-            ),
-          ],
-        )),
-    textConfirm: '确定',
-    textCancel: '取消',
-    confirmTextColor: Colors.white,
-    cancelTextColor: Colors.blue,
-    buttonColor: Colors.blue,
-    onConfirm: () {
-      if (select.value == 0) {
-        Get.updateLocale(const Locale('zh', 'CN'));
-      } else {
-        Get.updateLocale(const Locale('en', 'US'));
-      }
       Get.back();
     },
     onCancel: () {

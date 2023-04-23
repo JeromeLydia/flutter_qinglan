@@ -51,7 +51,7 @@ class _HomeState extends State<Home> {
                                             !value
                                                 ? homeController
                                                     .requestBlePermissions()
-                                                : CustomDialogs().showDialog01(
+                                                : scanDialog(
                                                     context, homeController)
                                           });
                                 } else {
@@ -89,8 +89,7 @@ class _HomeState extends State<Home> {
                               alignment: Alignment.centerRight,
                               child: TextButton(
                                 onPressed: () {
-                                  CustomDialogs()
-                                      .showDialog01(context, homeController);
+                                  scanDialog(context, homeController);
                                 },
                                 child: const Text(
                                   "已连接",
@@ -204,9 +203,7 @@ class _HomeState extends State<Home> {
                               height: 50.0,
                               textColor: Colors.white,
                               child: const Text('保存设置'),
-                              onPressed: () {
-                                _customDialog(context);
-                              },
+                              onPressed: () {},
                             ),
                           ),
                         ],
@@ -250,7 +247,19 @@ class _HomeState extends State<Home> {
                               height: 50.0,
                               textColor: Colors.white,
                               child: const Text('余量设定'),
-                              onPressed: () {},
+                              onPressed: () {
+                                if (homeController.bluetoothDeviceState.value !=
+                                    BluetoothDeviceState.connected) {
+                                  Get.snackbar('提示'.tr, '请先连接蓝牙'.tr);
+                                  return;
+                                }
+                                inputDialog(
+                                    "请输入电池余量", "数值范围:0-100", "单位:%", 0, 100,
+                                    (double input) {
+                                  homeController.sendData(SET_SURPLUS,
+                                      input: input);
+                                });
+                              },
                             ),
                           ),
                           Container(
@@ -261,7 +270,18 @@ class _HomeState extends State<Home> {
                               height: 50.0,
                               textColor: Colors.white,
                               child: const Text('容量预设'),
-                              onPressed: () {},
+                              onPressed: () {
+                                if (homeController.bluetoothDeviceState.value !=
+                                    BluetoothDeviceState.connected) {
+                                  Get.snackbar('提示'.tr, '请先连接蓝牙'.tr);
+                                  return;
+                                }
+                                inputDialog("请输入电池容量", "数值范围:0.0-6500.0",
+                                    "单位:AH", 0, 6500, (double input) {
+                                  homeController.sendData(SET_CAPACITY,
+                                      input: input);
+                                });
+                              },
                             ),
                           ),
                           Container(
@@ -423,41 +443,4 @@ class _SwitchItemState extends State<SwitchItem> {
       ),
     );
   }
-}
-
-Dialog _customDialog(context) {
-  return Dialog(
-    backgroundColor: Colors.yellow.shade100, // 背景色
-    elevation: 4.0, // 阴影高度
-    insetAnimationDuration: const Duration(milliseconds: 300), // 动画时间
-    insetAnimationCurve: Curves.decelerate, // 动画效果
-    insetPadding: const EdgeInsets.all(30), // 弹框距离屏幕边缘距离
-    clipBehavior: Clip.none, // 剪切方式
-    child: Container(
-      width: 300,
-      height: 300,
-      color: Colors.white,
-      alignment: Alignment.center,
-      child: Column(
-        children: [
-          const Text(
-            "Custom Dialog",
-            style: TextStyle(color: Colors.blue, fontSize: 25),
-          ),
-          const Padding(padding: EdgeInsets.all(15)),
-          const Text("这是一个最简单的自定义 Custom Dialog"),
-          const Padding(
-            padding: EdgeInsets.all(15),
-          ),
-          TextButton(
-            onPressed: () {
-              // 隐藏弹框
-              Navigator.pop(context, 'SimpleDialog - Normal, 我知道了');
-            },
-            child: const Text("我知道了"),
-          ),
-        ],
-      ),
-    ),
-  );
 }

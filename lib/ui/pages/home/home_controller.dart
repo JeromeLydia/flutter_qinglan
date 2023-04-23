@@ -6,8 +6,10 @@ import 'dart:io';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:flutter_qinglan/common/global.dart';
+import 'package:flutter_qinglan/utils/tools.dart';
 import 'package:get/get.dart';
 import 'package:location/location.dart' hide PermissionStatus;
+import 'package:logger/logger.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../blue/cmd.dart';
@@ -128,10 +130,10 @@ class HomeController extends GetxController {
 
   //读取当前运行参数
   readRunData() {
-    Timer.periodic(const Duration(milliseconds: 5000), (timer) {
+    Timer.periodic(const Duration(milliseconds: 2000), (timer) {
       sendData(READ);
     });
-    Future.delayed(const Duration(milliseconds: 6000), () {
+    Future.delayed(const Duration(milliseconds: 3000), () {
       readDeviceData();
     });
   }
@@ -141,7 +143,7 @@ class HomeController extends GetxController {
     sendData(READ_DEVICE);
   }
 
-  sendData(int type) {
+  sendData(int type, {double input = 0.0}) {
     switch (type) {
       case READ:
         //读取设备参数
@@ -183,6 +185,23 @@ class HomeController extends GetxController {
           messageData.value.data[2]
         ]);
         connectManager.writeCommand(data);
+        break;
+      case SET_SURPLUS:
+        //设置电池余量
+        var data = List.of([0xFE, deviceNo.value, 0xE6]);
+        List<int> hexArray = intToByte((input * 10).round(), 4);
+        data.addAll(hexArray);
+        connectManager.writeCommand(data);
+        break;
+      case SET_CAPACITY:
+        //设置电池容量
+        var data = List.of([0xFE, deviceNo.value, 0xE7]);
+        List<int> hexArray = intToByte((input * 10).round(), 4);
+        data.addAll(hexArray);
+        connectManager.writeCommand(data);
+        Future.delayed(const Duration(milliseconds: 1000), () {
+          readDeviceData();
+        });
         break;
     }
   }
