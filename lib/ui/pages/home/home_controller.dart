@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
-import 'dart:ffi';
 import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
@@ -9,12 +7,11 @@ import 'package:flutter_qinglan/common/global.dart';
 import 'package:flutter_qinglan/utils/tools.dart';
 import 'package:get/get.dart';
 import 'package:location/location.dart' hide PermissionStatus;
-import 'package:logger/logger.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../blue/cmd.dart';
 import '../blue/connect_manager.dart';
-import '../blue/gatt_callback.dart';
+import '../blue/connect_callback.dart';
 import '../blue/message_data.dart';
 
 class HomeController extends GetxController {
@@ -50,6 +47,9 @@ class HomeController extends GetxController {
         ConnectManager(GattCallback(onDeviceFind: (ScanResult device) {
       //扫描到设备
       logger.d("ble--扫描到设备：${device.device.name}");
+      if (scanResult.contains(device)) {
+        return;
+      }
       scanResult.add(device);
     }, onDeviceScanStop: () {
       //停止扫描

@@ -5,7 +5,7 @@ import 'package:flutter_qinglan/common/global.dart';
 import 'package:flutter_qinglan/ui/pages/blue/scan_callback.dart';
 import 'package:flutter_qinglan/ui/pages/blue/scan_device.dart';
 
-import 'gatt_callback.dart';
+import 'connect_callback.dart';
 import 'message_data.dart';
 
 class ConnectManager {

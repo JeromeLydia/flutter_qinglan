@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:flutter_qinglan/common/global.dart';
@@ -57,7 +56,7 @@ class ScanDevice {
   //处理扫描结果
   void _handlerScanResult(ScanResult result) {
     if (!result.device.name.contains(NAME_PREFIX)) return; //过滤掉非本公司的蓝牙设备
-    logger.d('扫描到设备1：, name: ${result.device.name}');
+    logger.d('扫描到设备, name: ${result.device.name}');
     _callback.onFind(result); //回调到外部
   }
 }
