@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:flutter_qinglan/res/colors.dart';
 import 'package:flutter_qinglan/ui/dialog/dialogs.dart';
 import 'package:flutter_qinglan/ui/pages/set/setData.dart';
 import 'package:get/get.dart';
+
+import '../blue/cmd.dart';
+import '../home/home_controller.dart';
 
 class Setting extends StatefulWidget {
   const Setting({super.key});
@@ -12,13 +16,14 @@ class Setting extends StatefulWidget {
 }
 
 class _SettingState extends State<Setting> {
+  HomeController homeController = Get.put(HomeController());
   Widget _initGridVideData(context, index) {
     return Container(
       color: AppColors.app_main,
       height: 200.0,
       child: InkWell(
         onTap: () {
-          onItemClick(index);
+          onItemClick(homeController, index);
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -82,24 +87,94 @@ class _SettingState extends State<Setting> {
   }
 }
 
-void onItemClick(int index) {
+void onItemClick(HomeController homeController, int index) {
   switch (index) {
     case 0:
-      showDialog01();
+      if (homeController.bluetoothDeviceState.value !=
+          BluetoothDeviceState.connected) {
+        Get.snackbar('提示'.tr, '请先连接蓝牙'.tr);
+        return;
+      }
+      inputDialog("请输入充电过压值", "数值范围:0.0-500.0", "单位:V", 0.0, 500.0,
+          (double input) {
+        homeController.sendData(SET_OVP, input: input);
+      });
       break;
     case 1:
+      if (homeController.bluetoothDeviceState.value !=
+          BluetoothDeviceState.connected) {
+        Get.snackbar('提示'.tr, '请先连接蓝牙'.tr);
+        return;
+      }
+      inputDialog("请输入放电欠压值", "数值范围:0.0-500.0", "单位:V", 0.0, 500.0,
+          (double input) {
+        homeController.sendData(SET_LVP, input: input);
+      });
       break;
     case 2:
+      if (homeController.bluetoothDeviceState.value !=
+          BluetoothDeviceState.connected) {
+        Get.snackbar('提示'.tr, '请先连接蓝牙'.tr);
+        return;
+      }
+      inputDialog("请输入充电过流值", "数值范围:0.0-500.0", "单位:A", 0.0, 500.0,
+          (double input) {
+        homeController.sendData(SET_OCP, input: input);
+      });
       break;
     case 3:
+      if (homeController.bluetoothDeviceState.value !=
+          BluetoothDeviceState.connected) {
+        Get.snackbar('提示'.tr, '请先连接蓝牙'.tr);
+        return;
+      }
+      inputDialog("请输入放电过流值", "数值范围:0.0-500.0", "单位:A", 0.0, 500.0,
+          (double input) {
+        homeController.sendData(SET_NCP, input: input);
+      });
       break;
     case 4:
+      if (homeController.bluetoothDeviceState.value !=
+          BluetoothDeviceState.connected) {
+        Get.snackbar('提示'.tr, '请先连接蓝牙'.tr);
+        return;
+      }
+      inputDialog("请输入放电启动值", "数值范围:0.0-500.0", "单位:V", 0.0, 500.0,
+          (double input) {
+        homeController.sendData(SET_STV, input: input);
+      });
       break;
     case 5:
+      if (homeController.bluetoothDeviceState.value !=
+          BluetoothDeviceState.connected) {
+        Get.snackbar('提示'.tr, '请先连接蓝牙'.tr);
+        return;
+      }
+      inputDialog("请输入过温度保护值", "数值范围:0.0-150.0", "单位:°C", 0.0, 150.0,
+          (double input) {
+        homeController.sendData(SET_OTP, input: input);
+      });
       break;
     case 6:
+      if (homeController.bluetoothDeviceState.value !=
+          BluetoothDeviceState.connected) {
+        Get.snackbar('提示'.tr, '请先连接蓝牙'.tr);
+        return;
+      }
+      inputDialog("请输入低温恢复值", "数值范围:0.0-150.0", "单位:°C", 0.0, 150.0,
+          (double input) {
+        homeController.sendData(SET_LTP, input: input);
+      });
       break;
     case 7:
+      if (homeController.bluetoothDeviceState.value !=
+          BluetoothDeviceState.connected) {
+        Get.snackbar('提示'.tr, '请先连接蓝牙'.tr);
+        return;
+      }
+      inputDialog("请输入继电器延时", "数值范围:0-200", "单位:秒", 0, 200, (double input) {
+        homeController.sendData(SET_DEL, input: input);
+      });
       break;
     case 8:
       break;
