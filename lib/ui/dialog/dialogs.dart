@@ -209,7 +209,6 @@ void languageDialog() {
 //选择弹框
 void chooseDialog(String title, List<String> list, Function ok) {
   RxInt select = RxInt(0);
-
   List<Widget> getWidgets() {
     List<Widget> widgets = [];
     for (int i = 0; i < list.length; i++) {
@@ -292,26 +291,54 @@ void chooseDialog(String title, List<String> list, Function ok) {
 void remindDialog(String des, Function ok) {
   Get.defaultDialog(
     title: '提示'.tr,
-    content: Text(des),
-    textConfirm: '确定'.tr,
-    textCancel: '取消'.tr,
-    confirmTextColor: Colors.white,
-    cancelTextColor: Colors.blue,
-    buttonColor: Colors.blue,
-    onConfirm: () {
-      ok();
-      Get.back();
-    },
-    onCancel: () {
-      Get.back();
-    },
+    titleStyle: const TextStyle(color: Colors.white, fontSize: 18),
+    titlePadding: const EdgeInsets.only(top: 20, left: 10, right: 10),
+    backgroundColor: AppColors.gray_33,
+    content: Text(des, style: const TextStyle(color: Colors.white)),
+    contentPadding: const EdgeInsets.only(left: 20, right: 20, top: 20),
+    confirm: InkWell(
+      onTap: () {
+        ok();
+        Get.back();
+      },
+      child: Container(
+        width: 80,
+        height: 40,
+        margin: const EdgeInsets.only(left: 10, top: 10, bottom: 20),
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+            color: AppColors.contentColorBlue,
+            borderRadius: BorderRadius.circular(5)),
+        child: Text(
+          '确定'.tr,
+          style: const TextStyle(color: Colors.white, fontSize: 16),
+        ),
+      ),
+    ),
+    cancel: InkWell(
+      onTap: () {
+        Get.back();
+      },
+      child: Container(
+        width: 80,
+        height: 40,
+        margin: const EdgeInsets.only(right: 10, top: 10, bottom: 20),
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+            color: AppColors.contentColorPink,
+            borderRadius: BorderRadius.circular(5)),
+        child: Text(
+          '取消'.tr,
+          style: const TextStyle(color: Colors.white, fontSize: 16),
+        ),
+      ),
+    ),
   );
 }
 
 //底部弹框
 void bottomSheet(String title, List<String> list, Function ok) {
   RxInt select = RxInt(0);
-
   List<Widget> getWidgets() {
     List<Widget> widgets = [];
     for (int i = 0; i < list.length; i++) {
@@ -337,11 +364,14 @@ void bottomSheet(String title, List<String> list, Function ok) {
   );
 }
 
-//提醒弹框
+//二次选择弹框
 void selectDialog(BuildContext context, String title, Function ok) {
   RxString v = RxString("");
   Get.defaultDialog(
     title: title,
+    backgroundColor: AppColors.gray_33,
+    titleStyle: const TextStyle(color: Colors.white, fontSize: 18),
+    titlePadding: const EdgeInsets.only(top: 20, left: 10, right: 10),
     content: InkWell(
       onTap: () {
         showTimePicker(context, (DateTime d) {
@@ -351,7 +381,7 @@ void selectDialog(BuildContext context, String title, Function ok) {
       },
       child: Container(
         color: AppColors.gray_99,
-        height: 50,
+        height: 40,
         margin: const EdgeInsets.only(left: 10, right: 10),
         padding: const EdgeInsets.only(left: 10, right: 10),
         child: Row(
@@ -368,18 +398,43 @@ void selectDialog(BuildContext context, String title, Function ok) {
         ),
       ),
     ),
-    textConfirm: '确定'.tr,
-    textCancel: '取消'.tr,
-    confirmTextColor: Colors.white,
-    cancelTextColor: Colors.blue,
-    buttonColor: Colors.blue,
-    onConfirm: () {
-      ok();
-      Get.back();
-    },
-    onCancel: () {
-      Get.back();
-    },
+    confirm: InkWell(
+      onTap: () {
+        ok();
+        Get.back();
+      },
+      child: Container(
+        width: 80,
+        height: 40,
+        margin: const EdgeInsets.only(left: 10, bottom: 20),
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+            color: AppColors.contentColorBlue,
+            borderRadius: BorderRadius.circular(5)),
+        child: Text(
+          '确定'.tr,
+          style: const TextStyle(color: Colors.white, fontSize: 16),
+        ),
+      ),
+    ),
+    cancel: InkWell(
+      onTap: () {
+        Get.back();
+      },
+      child: Container(
+        width: 80,
+        height: 40,
+        margin: const EdgeInsets.only(right: 10, bottom: 20),
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+            color: AppColors.contentColorPink,
+            borderRadius: BorderRadius.circular(5)),
+        child: Text(
+          '取消'.tr,
+          style: const TextStyle(color: Colors.white, fontSize: 16),
+        ),
+      ),
+    ),
   );
 }
 
