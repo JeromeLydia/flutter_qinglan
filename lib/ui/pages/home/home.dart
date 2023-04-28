@@ -222,7 +222,9 @@ class _HomeState extends State<Home> {
                               textColor: Colors.white,
                               child: Text("电流清零".tr),
                               onPressed: () {
-                                homeController.sendData(CLEAR_CURRENT);
+                                remindDialog("确定电流清零吗？".tr, () {
+                                  homeController.sendData(CLEAR_CURRENT);
+                                });
                               },
                             ),
                           ),
@@ -235,7 +237,9 @@ class _HomeState extends State<Home> {
                               textColor: Colors.white,
                               child: Text('数据清零'.tr),
                               onPressed: () {
-                                homeController.sendData(CLEAR_DATE);
+                                remindDialog("确定数据清零吗？".tr, () {
+                                  homeController.sendData(CLEAR_DATE);
+                                });
                               },
                             ),
                           ),

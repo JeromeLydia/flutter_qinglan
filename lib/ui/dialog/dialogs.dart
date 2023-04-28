@@ -205,3 +205,23 @@ void languageDialog() {
     },
   );
 }
+
+//提醒弹框
+void remindDialog(String des, Function ok) {
+  Get.defaultDialog(
+    title: '提示'.tr,
+    content: Text(des),
+    textConfirm: '确定'.tr,
+    textCancel: '取消'.tr,
+    confirmTextColor: Colors.white,
+    cancelTextColor: Colors.blue,
+    buttonColor: Colors.blue,
+    onConfirm: () {
+      ok();
+      Get.back();
+    },
+    onCancel: () {
+      Get.back();
+    },
+  );
+}
