@@ -205,46 +205,117 @@ class HomeController extends GetxController {
         data.addAll(hexArray);
         connectManager.writeCommand(data);
         break;
-      case SET_LVP:
-        // 放电欠压值break;
+      case SET_LVP: // 放电欠压值
+        var data = List.of([0xFE, deviceNo.value, 0xD7]);
+        List<int> hexArray = intToByte((input * 10).round(), 4);
+        data.addAll(hexArray);
+        connectManager.writeCommand(data);
         break;
       case SET_OCP: // 充电过流值
+        var data = List.of([0xFE, deviceNo.value, 0xD9]);
+        List<int> hexArray = intToByte((input * 10).round(), 4);
+        data.addAll(hexArray);
+        connectManager.writeCommand(data);
         break;
       case SET_NCP: // 放电过流值
+        var data = List.of([0xFE, deviceNo.value, 0xD8]);
+        List<int> hexArray = intToByte((input * 10).round(), 4);
+        data.addAll(hexArray);
+        connectManager.writeCommand(data);
         break;
       case SET_STV: // 充电启动值
+        var data = List.of([0xFE, deviceNo.value, 0xDA]);
+        List<int> hexArray = intToByte((input * 10).round(), 4);
+        data.addAll(hexArray);
+        connectManager.writeCommand(data);
         break;
       case SET_OTP: // 过温度保护值
+        var data = List.of([0xFE, deviceNo.value, 0xDB]);
+        List<int> hexArray = intToByte((input).round(), 4);
+        data.addAll(hexArray);
+        connectManager.writeCommand(data);
         break;
       case SET_LTP: // 低温恢复值
+        var data = List.of([0xFE, deviceNo.value, 0xDC]);
+        List<int> hexArray = intToByte((input).round(), 4);
+        data.addAll(hexArray);
+        connectManager.writeCommand(data);
         break;
       case SET_DEL: // 继电器延时
+        var data = List.of([0xFE, deviceNo.value, 0xE1]);
+        List<int> hexArray = intToByte((input).round(), 4);
+        data.addAll(hexArray);
+        connectManager.writeCommand(data);
         break;
       case SET_TTL: // 上电默认输出
         break;
       case SET_PTM: // 温控模式
+        var data = List.of([0xFE, deviceNo.value, 0xE3]);
+        List<int> hexArray = intToByte((input).round(), 4);
+        data.addAll(hexArray);
+        connectManager.writeCommand(data);
         break;
       case SET_LAG: // 语言
         break;
       case SET_STE: // 定时时间值
+        var data = List.of([0xFE, deviceNo.value, 0xD5]);
+        List<int> hexArray = intToByte((input).round(), 4);
+        data.addAll(hexArray);
+        connectManager.writeCommand(data);
         break;
       case SET_ETM: // 定时模式
+        var data = List.of([0xFE, deviceNo.value, 0xE4]);
+        List<int> hexArray = intToByte((input).round(), 4);
+        data.addAll(hexArray);
+        connectManager.writeCommand(data);
         break;
       case SET_OKI: // 充电电流系数微调
+        var data = List.of([0xFE, deviceNo.value, 0xEB]);
+        List<int> hexArray = intToByte((input * 100).round(), 4);
+        data.addAll(hexArray);
+        connectManager.writeCommand(data);
         break;
       case SET_NKI: // 放电电流系数微调
+        var data = List.of([0xFE, deviceNo.value, 0xEC]);
+        List<int> hexArray = intToByte((input * 100).round(), 4);
+        data.addAll(hexArray);
+        connectManager.writeCommand(data);
         break;
-      case SAVE: // 保存设置
+      case SET_SAVE: // 保存设置
+        var data = List.of([0xFE, deviceNo.value, 0xEA]);
+        List<int> hexArray = intToByte((1).round(), 4);
+        data.addAll(hexArray);
+        connectManager.writeCommand(data);
         break;
       case SET_DWM: // 继电器工作模式
+        var data = List.of([0xFE, deviceNo.value, 0xE2]);
+        List<int> hexArray = intToByte((input).round(), 4);
+        data.addAll(hexArray);
+        connectManager.writeCommand(data);
         break;
       case SET_ADC: // 通讯地址码
+        var data = List.of([0xFE, deviceNo.value, 0xE9]);
+        List<int> hexArray = intToByte((input).round(), 4);
+        data.addAll(hexArray);
+        connectManager.writeCommand(data);
         break;
       case SET_PAI: // 电流归0值设置
+        var data = List.of([0xFE, deviceNo.value, 0xED]);
+        List<int> hexArray = intToByte((input * 10).round(), 4);
+        data.addAll(hexArray);
+        connectManager.writeCommand(data);
         break;
       case SAVE_HOME: // 首页保存设置
+        var data = List.of([0xFE, deviceNo.value, 0xEE]);
+        List<int> hexArray = intToByte(1, 4);
+        data.addAll(hexArray);
+        connectManager.writeCommand(data);
         break;
-      case SET_RELAY: // 首页保存设置
+      case SET_RELAY: // 折线页设置
+        var data = List.of([0xFE, deviceNo.value, 0xEF]);
+        List<int> hexArray = intToByte((input).round(), 4);
+        data.addAll(hexArray);
+        connectManager.writeCommand(data);
         break;
     }
   }

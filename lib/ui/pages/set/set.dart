@@ -85,7 +85,14 @@ class _SettingState extends State<Setting> {
                   height: 30.0,
                   textColor: Colors.white,
                   child: Text('保存设置'.tr),
-                  onPressed: () {},
+                  onPressed: () {
+                    if (homeController.bluetoothDeviceState.value !=
+                        BluetoothDeviceState.connected) {
+                      showSnackbar('提示'.tr, '请先连接蓝牙'.tr);
+                      return;
+                    }
+                    homeController.sendData(SET_SAVE);
+                  },
                 ),
               )),
         ],

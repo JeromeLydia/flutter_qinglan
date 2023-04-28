@@ -203,7 +203,9 @@ class _HomeState extends State<Home> {
                               height: 50.0,
                               textColor: Colors.white,
                               child: Text('保存设置'.tr),
-                              onPressed: () {},
+                              onPressed: () {
+                                homeController.sendData(SAVE_HOME);
+                              },
                             ),
                           ),
                         ],
