@@ -142,7 +142,7 @@ void inputDialog(String title, String des1, String des2, double min, double max,
     buttonColor: Colors.blue,
     onConfirm: () {
       if (input.isEmpty) {
-        Get.snackbar('提示'.tr, title + '不能为空'.tr);
+        showSnackbar('提示'.tr, title + '不能为空'.tr);
         return;
       }
       ok(double.parse(input));

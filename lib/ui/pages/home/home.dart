@@ -249,7 +249,7 @@ class _HomeState extends State<Home> {
                               onPressed: () {
                                 if (homeController.bluetoothDeviceState.value !=
                                     BluetoothDeviceState.connected) {
-                                  Get.snackbar('提示'.tr, '请先连接蓝牙'.tr);
+                                  showSnackbar('提示'.tr, '请先连接蓝牙'.tr);
                                   return;
                                 }
                                 inputDialog("请输入电池余量".tr, "${"数值范围".tr}:0-100",
@@ -271,7 +271,7 @@ class _HomeState extends State<Home> {
                               onPressed: () {
                                 if (homeController.bluetoothDeviceState.value !=
                                     BluetoothDeviceState.connected) {
-                                  Get.snackbar('提示'.tr, '请先连接蓝牙'.tr);
+                                  showSnackbar('提示'.tr, '请先连接蓝牙'.tr);
                                   return;
                                 }
                                 inputDialog(

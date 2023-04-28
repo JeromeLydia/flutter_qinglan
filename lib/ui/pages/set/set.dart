@@ -3,6 +3,7 @@ import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:flutter_qinglan/res/colors.dart';
 import 'package:flutter_qinglan/ui/dialog/dialogs.dart';
 import 'package:flutter_qinglan/ui/pages/set/setData.dart';
+import 'package:flutter_qinglan/utils/snackbar.dart';
 import 'package:get/get.dart';
 
 import '../blue/cmd.dart';
@@ -98,7 +99,7 @@ void onItemClick(HomeController homeController, int index) {
     case 0:
       if (homeController.bluetoothDeviceState.value !=
           BluetoothDeviceState.connected) {
-        Get.snackbar('提示'.tr, '请先连接蓝牙'.tr);
+        showSnackbar('提示'.tr, '请先连接蓝牙'.tr);
         return;
       }
       inputDialog(
@@ -110,7 +111,7 @@ void onItemClick(HomeController homeController, int index) {
     case 1:
       if (homeController.bluetoothDeviceState.value !=
           BluetoothDeviceState.connected) {
-        Get.snackbar('提示'.tr, '请先连接蓝牙'.tr);
+        showSnackbar('提示'.tr, '请先连接蓝牙'.tr);
         return;
       }
       inputDialog(
@@ -122,7 +123,7 @@ void onItemClick(HomeController homeController, int index) {
     case 2:
       if (homeController.bluetoothDeviceState.value !=
           BluetoothDeviceState.connected) {
-        Get.snackbar('提示'.tr, '请先连接蓝牙'.tr);
+        showSnackbar('提示'.tr, '请先连接蓝牙'.tr);
         return;
       }
       inputDialog(
@@ -134,7 +135,7 @@ void onItemClick(HomeController homeController, int index) {
     case 3:
       if (homeController.bluetoothDeviceState.value !=
           BluetoothDeviceState.connected) {
-        Get.snackbar('提示'.tr, '请先连接蓝牙'.tr);
+        showSnackbar('提示'.tr, '请先连接蓝牙'.tr);
         return;
       }
       inputDialog(
@@ -146,7 +147,7 @@ void onItemClick(HomeController homeController, int index) {
     case 4:
       if (homeController.bluetoothDeviceState.value !=
           BluetoothDeviceState.connected) {
-        Get.snackbar('提示'.tr, '请先连接蓝牙'.tr);
+        showSnackbar('提示'.tr, '请先连接蓝牙'.tr);
         return;
       }
       inputDialog(
@@ -158,7 +159,7 @@ void onItemClick(HomeController homeController, int index) {
     case 5:
       if (homeController.bluetoothDeviceState.value !=
           BluetoothDeviceState.connected) {
-        Get.snackbar('提示'.tr, '请先连接蓝牙'.tr);
+        showSnackbar('提示'.tr, '请先连接蓝牙'.tr);
         return;
       }
       inputDialog(
@@ -170,7 +171,7 @@ void onItemClick(HomeController homeController, int index) {
     case 6:
       if (homeController.bluetoothDeviceState.value !=
           BluetoothDeviceState.connected) {
-        Get.snackbar('提示'.tr, '请先连接蓝牙'.tr);
+        showSnackbar('提示'.tr, '请先连接蓝牙'.tr);
         return;
       }
       inputDialog(
@@ -182,7 +183,7 @@ void onItemClick(HomeController homeController, int index) {
     case 7:
       if (homeController.bluetoothDeviceState.value !=
           BluetoothDeviceState.connected) {
-        Get.snackbar('提示'.tr, '请先连接蓝牙'.tr);
+        showSnackbar('提示'.tr, '请先连接蓝牙'.tr);
         return;
       }
       inputDialog("请输入继电器延时".tr, "${"数值范围".tr}:0-200", "${"单位".tr}:秒", 0, 200,
@@ -206,7 +207,7 @@ void onItemClick(HomeController homeController, int index) {
     case 14:
       if (homeController.bluetoothDeviceState.value !=
           BluetoothDeviceState.connected) {
-        Get.snackbar('提示'.tr, '请先连接蓝牙'.tr);
+        showSnackbar('提示'.tr, '请先连接蓝牙'.tr);
         return;
       }
       inputDialog("请输入放电电流系数微调".tr, "${"数值范围".tr}:0.50-1.50", "${"单位".tr}:倍",
@@ -217,7 +218,7 @@ void onItemClick(HomeController homeController, int index) {
     case 15:
       if (homeController.bluetoothDeviceState.value !=
           BluetoothDeviceState.connected) {
-        Get.snackbar('提示'.tr, '请先连接蓝牙'.tr);
+        showSnackbar('提示'.tr, '请先连接蓝牙'.tr);
         return;
       }
       inputDialog("请输入放电电流系数微调".tr, "${"数值范围".tr}:0.50-1.50", "${"单位".tr}:秒",
@@ -228,7 +229,7 @@ void onItemClick(HomeController homeController, int index) {
     case 16:
       if (homeController.bluetoothDeviceState.value !=
           BluetoothDeviceState.connected) {
-        Get.snackbar('提示'.tr, '请先连接蓝牙'.tr);
+        showSnackbar('提示'.tr, '请先连接蓝牙'.tr);
         return;
       }
       inputDialog("请输入通讯地址码".tr, "${"数值范围".tr}:0-40", "${"单位".tr}:秒", 0, 40,
@@ -239,7 +240,7 @@ void onItemClick(HomeController homeController, int index) {
     case 17:
       if (homeController.bluetoothDeviceState.value !=
           BluetoothDeviceState.connected) {
-        Get.snackbar('提示'.tr, '请先连接蓝牙'.tr);
+        showSnackbar('提示'.tr, '请先连接蓝牙'.tr);
         return;
       }
       inputDialog(

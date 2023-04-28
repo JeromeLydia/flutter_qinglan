@@ -11,7 +11,7 @@ List<int> intToByte(int integer, int len) {
 
 String toHex(int num) {
   if (num <= 255) {
-    return ('0' + (num.toRadixString(16)))
+    return ('0${num.toRadixString(16)}')
         .substring(num.toRadixString(16).length - 2)
         .toUpperCase();
   } else {
@@ -20,7 +20,7 @@ String toHex(int num) {
         str.length == 5 ||
         str.length == 7 ||
         str.length == 9) {
-      return '0' + str;
+      return '0$str';
     } else {
       return str;
     }
