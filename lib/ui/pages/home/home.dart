@@ -54,9 +54,9 @@ class _HomeState extends State<Home> {
                                                     context, homeController)
                                           });
                                 } else {
-                                  Get.showSnackbar(const GetSnackBar(
-                                    message: "请打开蓝牙",
-                                    duration: Duration(seconds: 2),
+                                  Get.showSnackbar(GetSnackBar(
+                                    message: "请打开蓝牙".tr,
+                                    duration: const Duration(seconds: 2),
                                   ));
                                 }
                               },
@@ -79,7 +79,7 @@ class _HomeState extends State<Home> {
                                   homeController.readDeviceData();
                                 },
                                 child: Text(
-                                  "型号:${homeController.currentDevice.name}",
+                                  "${"型号".tr}:${homeController.currentDevice.name}",
                                   style: const TextStyle(color: Colors.white),
                                 ),
                               ),
@@ -90,9 +90,9 @@ class _HomeState extends State<Home> {
                                 onPressed: () {
                                   scanDialog(context, homeController);
                                 },
-                                child: const Text(
-                                  "已连接",
-                                  style: TextStyle(color: Colors.white),
+                                child: Text(
+                                  "已连接".tr,
+                                  style: const TextStyle(color: Colors.white),
                                 ),
                               ),
                             )
@@ -113,7 +113,7 @@ class _HomeState extends State<Home> {
                     const SizedBox(width: 10),
                     Expanded(
                       child: IconItem(
-                        title: "电流",
+                        title: "电流".tr,
                         value:
                             ("${homeController.messageData.value.currentDirection == 0 ? "-" : "+"}${homeController.messageData.value.current}A"),
                         assetName: "assets/images/ic_current.png",
@@ -127,7 +127,7 @@ class _HomeState extends State<Home> {
                   children: [
                     Expanded(
                       child: IconItem(
-                        title: "功率",
+                        title: "功率".tr,
                         value: ("${homeController.messageData.value.current}W"),
                         assetName: "assets/images/ic_power.png",
                       ),
@@ -135,7 +135,7 @@ class _HomeState extends State<Home> {
                     const SizedBox(width: 10),
                     Expanded(
                       child: IconItem(
-                        title: "温度",
+                        title: "温度".tr,
                         value:
                             ("${homeController.messageData.value.temperature}°C"),
                         assetName: "assets/images/ic_temperature.png",
@@ -149,14 +149,14 @@ class _HomeState extends State<Home> {
                   children: [
                     Expanded(
                       child: IconItem(
-                        title: "剩余能量",
+                        title: "剩余能量".tr,
                         value:
                             ("${homeController.messageData.value.energy}KWH"),
                       ),
                     ),
                     Expanded(
                       child: IconItem(
-                        title: "剩余容量",
+                        title: "剩余容量".tr,
                         value:
                             ("${homeController.messageData.value.actualCapacity}AH"),
                       ),
@@ -185,9 +185,9 @@ class _HomeState extends State<Home> {
                                   fontSize: 20.0,
                                   color: Colors.white),
                             ),
-                            footer: const Text(
-                              "充满需用时:",
-                              style: TextStyle(
+                            footer: Text(
+                              "充满需用时:".tr,
+                              style: const TextStyle(
                                 color: Colors.white,
                               ),
                             ),
@@ -201,7 +201,7 @@ class _HomeState extends State<Home> {
                               minWidth: double.infinity,
                               height: 50.0,
                               textColor: Colors.white,
-                              child: const Text('保存设置'),
+                              child: Text('保存设置'.tr),
                               onPressed: () {},
                             ),
                           ),
@@ -219,7 +219,7 @@ class _HomeState extends State<Home> {
                               minWidth: double.infinity,
                               height: 50.0,
                               textColor: Colors.white,
-                              child: const Text('电流清零'),
+                              child: Text('电流清零'.tr),
                               onPressed: () {
                                 homeController.sendData(CLEAR_CURRENT);
                               },
@@ -232,7 +232,7 @@ class _HomeState extends State<Home> {
                               minWidth: double.infinity,
                               height: 50.0,
                               textColor: Colors.white,
-                              child: const Text('数据清零'),
+                              child: Text('数据清零'.tr),
                               onPressed: () {
                                 homeController.sendData(CLEAR_DATE);
                               },
@@ -245,16 +245,15 @@ class _HomeState extends State<Home> {
                               minWidth: double.infinity,
                               height: 50.0,
                               textColor: Colors.white,
-                              child: const Text('余量设定'),
+                              child: Text('余量设定'.tr),
                               onPressed: () {
                                 if (homeController.bluetoothDeviceState.value !=
                                     BluetoothDeviceState.connected) {
                                   Get.snackbar('提示'.tr, '请先连接蓝牙'.tr);
                                   return;
                                 }
-                                inputDialog(
-                                    "请输入电池余量", "数值范围:0-100", "单位:%", 0, 100,
-                                    (double input) {
+                                inputDialog("请输入电池余量".tr, "${"数值范围".tr}:0-100",
+                                    "${"单位".tr}:%", 0, 100, (double input) {
                                   homeController.sendData(SET_SURPLUS,
                                       input: input);
                                 });
@@ -268,15 +267,19 @@ class _HomeState extends State<Home> {
                               minWidth: double.infinity,
                               height: 50.0,
                               textColor: Colors.white,
-                              child: const Text('容量预设'),
+                              child: Text('容量预设'.tr),
                               onPressed: () {
                                 if (homeController.bluetoothDeviceState.value !=
                                     BluetoothDeviceState.connected) {
                                   Get.snackbar('提示'.tr, '请先连接蓝牙'.tr);
                                   return;
                                 }
-                                inputDialog("请输入电池容量", "数值范围:0.0-6500.0",
-                                    "单位:AH", 0, 6500, (double input) {
+                                inputDialog(
+                                    "请输入电池容量".tr,
+                                    "${"数值范围".tr}:0.0-6500.0",
+                                    "${"单位".tr}:AH",
+                                    0,
+                                    6500, (double input) {
                                   homeController.sendData(SET_CAPACITY,
                                       input: input);
                                 });
@@ -301,14 +304,14 @@ class _HomeState extends State<Home> {
                   children: [
                     Expanded(
                       child: IconItem(
-                        title: "累计容量",
+                        title: "累计容量".tr,
                         value:
                             ("${homeController.messageData.value.accumulatedCapacity}AH"),
                       ),
                     ),
                     Expanded(
                       child: IconItem(
-                        title: "运行时间",
+                        title: "运行时间".tr,
                         value: ("${homeController.messageData.value.runTime}"),
                       ),
                     ),
@@ -320,7 +323,7 @@ class _HomeState extends State<Home> {
                   children: [
                     Expanded(
                       child: SwitchItem(
-                        title: "充电",
+                        title: "充电".tr,
                         isOpen: homeController.messageData.value.charge,
                         onChanged: (p0) => {
                           homeController.sendData(CHARGE, input: p0 ? 1 : 0)
@@ -329,7 +332,7 @@ class _HomeState extends State<Home> {
                     ),
                     Expanded(
                       child: SwitchItem(
-                        title: "放电",
+                        title: "放电".tr,
                         isOpen: homeController.messageData.value.discharge,
                         onChanged: (p0) => {
                           homeController.sendData(DISCHARGE, input: p0 ? 1 : 0)
@@ -338,7 +341,7 @@ class _HomeState extends State<Home> {
                     ),
                     Expanded(
                       child: SwitchItem(
-                        title: "定时",
+                        title: "定时".tr,
                         isOpen: homeController.messageData.value.timeSwitch,
                         onChanged: (p0) => {
                           homeController.sendData(TIME_CONTROL,

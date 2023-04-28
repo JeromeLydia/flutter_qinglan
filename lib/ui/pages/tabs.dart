@@ -13,7 +13,13 @@ class Tabs extends StatefulWidget {
 
 class _TabsState extends State<Tabs> {
   int _currentIndex = 0;
-  static const pages = [Home(), Chart(), Setting()];
+  static const pages = [
+    Home(),
+    Chart(
+      isShowingMainData: true,
+    ),
+    Setting()
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(

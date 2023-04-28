@@ -1,9 +1,10 @@
-import 'package:fl_chart_app/presentation/resources/app_resources.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
+import '../../../res/colors.dart';
+
 class Chart extends StatelessWidget {
-  const _LineChart({required this.isShowingMainData});
+  const Chart({super.key, required this.isShowingMainData});
 
   final bool isShowingMainData;
 
@@ -331,7 +332,7 @@ class LineChartSample1State extends State<LineChartSample1> {
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.only(right: 16, left: 6),
-                  child: _LineChart(isShowingMainData: isShowingMainData),
+                  child: Chart(isShowingMainData: isShowingMainData),
                 ),
               ),
               const SizedBox(

@@ -1,4 +1,4 @@
-List<int> intToByte(int integer, {int len = 1}) {
+List<int> intToByte(int integer, int len) {
   List<int> arr = str2Bytes(toHex(integer));
   int arrLen = arr.length;
   if (arrLen < len) {
