@@ -213,56 +213,78 @@ void chooseDialog(String title, List<String> list, Function ok) {
   List<Widget> getWidgets() {
     List<Widget> widgets = [];
     for (int i = 0; i < list.length; i++) {
-      widgets.add(ListTileTheme(
-        dense: true, // 设置为 true 可以让 ListTile 更加紧凑，使其高度更小
-        child: RadioListTile(
-          value: i,
-          groupValue: select.value,
-          onChanged: (value) {
-            select.value = value!;
-          },
-          title: Text(list[i]),
+      widgets.add(
+        ListTileTheme(
+          dense: true, // 设置为 true 可以让 ListTile 更加紧凑，使其高度更小
+          child: Theme(
+            data: ThemeData(
+              unselectedWidgetColor: Colors.white,
+            ),
+            child: RadioListTile(
+              value: i,
+              groupValue: select.value,
+              onChanged: (value) {
+                select.value = value!;
+              },
+              // 选中时的颜色
+              activeColor: AppColors.contentColorBlue,
+              //未选中时的颜色
+              selectedTileColor: Colors.red,
+              title: Text(list[i],
+                  style: const TextStyle(color: Colors.white, fontSize: 16)),
+            ),
+          ),
         ),
-      ));
+      );
     }
     return widgets;
   }
 
   Get.defaultDialog(
+    backgroundColor: AppColors.gray_33,
     title: title,
+    titleStyle: const TextStyle(color: Colors.white, fontSize: 18),
+    titlePadding: const EdgeInsets.only(top: 20, left: 10, right: 10),
     content: Obx(() => Column(
           children: getWidgets(),
         )),
-    confirm: Container(
-      width: 80,
-      height: 40,
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-          color: Colors.blue, borderRadius: BorderRadius.circular(5)),
-      child: Text(
-        '确定'.tr,
-        style: const TextStyle(color: Colors.white, fontSize: 16),
+    confirm: InkWell(
+      onTap: () {
+        ok(select.value);
+        Get.back();
+      },
+      child: Container(
+        width: 80,
+        height: 40,
+        margin: const EdgeInsets.only(left: 10, bottom: 20),
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+            color: AppColors.contentColorBlue,
+            borderRadius: BorderRadius.circular(5)),
+        child: Text(
+          '确定'.tr,
+          style: const TextStyle(color: Colors.white, fontSize: 16),
+        ),
       ),
     ),
-    cancel: Container(
-      width: 80,
-      height: 40,
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-          color: AppColors.contentColorRed,
-          borderRadius: BorderRadius.circular(5)),
-      child: Text(
-        '取消'.tr,
-        style: const TextStyle(color: Colors.white, fontSize: 16),
+    cancel: InkWell(
+      onTap: () {
+        Get.back();
+      },
+      child: Container(
+        width: 80,
+        height: 40,
+        margin: const EdgeInsets.only(right: 10, bottom: 20),
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+            color: AppColors.contentColorPink,
+            borderRadius: BorderRadius.circular(5)),
+        child: Text(
+          '取消'.tr,
+          style: const TextStyle(color: Colors.white, fontSize: 16),
+        ),
       ),
     ),
-    onConfirm: () {
-      ok(select.value);
-      Get.back();
-    },
-    onCancel: () {
-      Get.back();
-    },
   );
 }
 
