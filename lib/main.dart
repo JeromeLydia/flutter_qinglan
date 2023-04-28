@@ -3,8 +3,12 @@ import 'package:flutter_qinglan/res/colors.dart';
 import 'package:flutter_qinglan/res/strings.dart';
 import 'package:flutter_qinglan/ui/pages/tabs.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
-void main() {
+import 'common/global.dart';
+
+void main() async {
+  await GetStorage.init();
   runApp(const MyApp());
 }
 
@@ -13,10 +17,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var language = storage.read("language");
+    logger.d("language: $language");
+    var locale = language == null
+        ? Get.deviceLocale
+        : Locale(language.toString().split("_")[0],
+            language.toString().split("_")[1]);
+    logger.d("locale: $locale");
     return GetMaterialApp(
-      locale: Get.deviceLocale, //跟随手机系统语言
+      debugShowCheckedModeBanner: false, // 移除右上角调试横幅
       translations: Messages(), //所有的国际化文案
-      fallbackLocale: const Locale("en", "US"), //默认语言
+      locale: locale, //默认语言
       title: 'Flutter Demo',
       theme: ThemeData(
         primaryColor: AppColors.app_main,

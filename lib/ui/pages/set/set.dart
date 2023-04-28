@@ -52,6 +52,12 @@ class _SettingState extends State<Setting> {
 
   @override
   Widget build(BuildContext context) {
+    var count = 3;
+    if (Get.locale == const Locale('zh', 'CN')) {
+      count = 3;
+    } else {
+      count = 2;
+    }
     return Container(
       color: Colors.black,
       child: Column(
@@ -60,8 +66,8 @@ class _SettingState extends State<Setting> {
             flex: 8,
             child: GridView.builder(
                 itemCount: setListData.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: count,
                     crossAxisSpacing: 10.0,
                     mainAxisSpacing: 10.0,
                     childAspectRatio: 2),

@@ -5,6 +5,8 @@ import 'package:flutter_qinglan/ui/pages/blue/demo/widgets.dart';
 import 'package:flutter_qinglan/ui/pages/home/home_controller.dart';
 import 'package:get/get.dart';
 
+import '../../common/global.dart';
+
 //蓝牙扫描弹框
 void scanDialog(BuildContext context, HomeController homeController) {
   Get.defaultDialog(
@@ -155,8 +157,13 @@ void inputDialog(String title, String des1, String des2, double min, double max,
 //语言选择弹框
 void languageDialog() {
   RxInt select = RxInt(0);
+  if (Get.locale == const Locale('zh', 'CN')) {
+    select.value = 0;
+  } else {
+    select.value = 1;
+  }
   Get.defaultDialog(
-    title: '选择语言',
+    title: '选择语言'.tr,
     content: Obx(() => Column(
           children: [
             RadioListTile(
@@ -177,15 +184,17 @@ void languageDialog() {
             ),
           ],
         )),
-    textConfirm: '确定',
-    textCancel: '取消',
+    textConfirm: '确定'.tr,
+    textCancel: '取消'.tr,
     confirmTextColor: Colors.white,
     cancelTextColor: Colors.blue,
     buttonColor: Colors.blue,
     onConfirm: () {
       if (select.value == 0) {
+        storage.write('language', "zh_CN");
         Get.updateLocale(const Locale('zh', 'CN'));
       } else {
+        storage.write('language', "en_US");
         Get.updateLocale(const Locale('en', 'US'));
       }
       Get.back();
