@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 import '../../../res/colors.dart';
+import '../../../utils/snackbar.dart';
 import '../blue/cmd.dart';
 
 class Home extends StatefulWidget {

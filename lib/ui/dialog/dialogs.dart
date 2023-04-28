@@ -6,6 +6,7 @@ import 'package:flutter_qinglan/ui/pages/home/home_controller.dart';
 import 'package:get/get.dart';
 
 import '../../common/global.dart';
+import '../../utils/snackbar.dart';
 
 //蓝牙扫描弹框
 void scanDialog(BuildContext context, HomeController homeController) {
