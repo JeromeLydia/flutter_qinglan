@@ -7,6 +7,10 @@ void showSnackbar(String title, String message) {
       colorText: Colors.white, backgroundColor: Colors.red);
 }
 
+void cancelSnackbar(String message) {
+  Get.back();
+}
+
 void showToast(String message) {
   Fluttertoast.showToast(
       msg: message,
@@ -15,4 +19,8 @@ void showToast(String message) {
       backgroundColor: Colors.red,
       textColor: Colors.white,
       fontSize: 16.0);
+}
+
+void cancelToast(String message) {
+  Fluttertoast.cancel();
 }
