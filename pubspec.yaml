@@ -20,6 +20,7 @@ dependencies:
   percent_indicator: ^4.2.3
   fl_chart: ^0.62.0
   get_storage: ^2.1.1
+  fluttertoast: ^8.2.1
 
 dev_dependencies:
   flutter_test:
