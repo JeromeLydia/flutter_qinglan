@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_qinglan/res/colors.dart';
 import 'package:flutter_qinglan/ui/pages/blue/demo/widgets.dart';
 import 'package:flutter_qinglan/ui/pages/home/home_controller.dart';
@@ -283,4 +284,51 @@ void remindDialog(String des, Function ok) {
       Get.back();
     },
   );
+}
+
+//底部弹框
+void bottomSheet(String title, List<String> list, Function ok) {
+  RxInt select = RxInt(0);
+
+  List<Widget> getWidgets() {
+    List<Widget> widgets = [];
+    for (int i = 0; i < list.length; i++) {
+      widgets.add(ListTileTheme(
+        dense: true, // 设置为 true 可以让 ListTile 更加紧凑，使其高度更小
+        child: RadioListTile(
+          value: i,
+          groupValue: select.value,
+          onChanged: (value) {
+            select.value = value!;
+          },
+          title: Text(list[i]),
+        ),
+      ));
+    }
+    return widgets;
+  }
+
+  Get.bottomSheet(
+    Column(
+      children: getWidgets(),
+    ),
+  );
+}
+
+void showDatePicker(BuildContext context) {
+  DatePicker.showDatePicker(context,
+      showTitleActions: true,
+      minTime: DateTime(2018, 3, 5),
+      maxTime: DateTime(2019, 6, 7),
+      theme: const DatePickerTheme(
+          headerColor: Colors.grey,
+          backgroundColor: Colors.green,
+          itemStyle: TextStyle(
+              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
+          doneStyle: TextStyle(color: Colors.white, fontSize: 16)),
+      onChanged: (date) {
+    logger.d('change $date in time zone ${date.timeZoneOffset.inHours}');
+  }, onConfirm: (date) {
+    logger.d('confirm $date');
+  }, currentTime: DateTime.now(), locale: LocaleType.en);
 }
