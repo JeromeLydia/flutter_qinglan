@@ -24,7 +24,7 @@ class _SettingState extends State<Setting> {
       height: 200.0,
       child: InkWell(
         onTap: () {
-          onItemClick(homeController, index);
+          onItemClick(context, homeController, index);
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -101,7 +101,8 @@ class _SettingState extends State<Setting> {
   }
 }
 
-void onItemClick(HomeController homeController, int index) {
+void onItemClick(
+    BuildContext context, HomeController homeController, int index) {
   if (index == 11) {
     languageDialog();
   } else {
@@ -176,14 +177,11 @@ void onItemClick(HomeController homeController, int index) {
       case 10:
         chooseDialog("请选择继电器模式".tr, ["常开".tr, "常闭".tr], (int index) {});
         break;
-      case 11:
-        chooseDialog("请选择继电器模式".tr, ["常开".tr, "常闭".tr], (int index) {});
-        break;
       case 12:
-        chooseDialog("请选择继电器模式".tr, ["常开".tr, "常闭".tr], (int index) {});
+        selectDialog(context, "请选择定时时间".tr, (int index) {});
         break;
       case 13:
-        chooseDialog("请选择继电器模式".tr, ["常开".tr, "常闭".tr], (int index) {});
+        chooseDialog("请选择定时模式".tr, ["常开".tr, "常闭".tr], (int index) {});
         break;
       case 14:
         inputDialog("请输入放电电流系数微调".tr, "${"数值范围".tr}:0.50-1.50", "${"单位".tr}:倍",

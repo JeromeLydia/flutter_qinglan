@@ -315,20 +315,56 @@ void bottomSheet(String title, List<String> list, Function ok) {
   );
 }
 
-void showDatePicker(BuildContext context) {
-  DatePicker.showDatePicker(context,
-      showTitleActions: true,
-      minTime: DateTime(2018, 3, 5),
-      maxTime: DateTime(2019, 6, 7),
-      theme: const DatePickerTheme(
-          headerColor: Colors.grey,
-          backgroundColor: Colors.green,
-          itemStyle: TextStyle(
-              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
-          doneStyle: TextStyle(color: Colors.white, fontSize: 16)),
-      onChanged: (date) {
+//提醒弹框
+void selectDialog(BuildContext context, String title, Function ok) {
+  RxString v = RxString("");
+  Get.defaultDialog(
+    title: title,
+    content: InkWell(
+      onTap: () {
+        showTimePicker(context, (DateTime d) {
+          v.value = "${d.hour}:${d.minute}:${d.second}";
+          logger.d(v.value);
+        });
+      },
+      child: Container(
+        color: AppColors.gray_99,
+        height: 50,
+        margin: const EdgeInsets.only(left: 10, right: 10),
+        padding: const EdgeInsets.only(left: 10, right: 10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Obx(() => "" == v.value
+                ? Text('选择日期'.tr)
+                : Text(
+                    v.value,
+                    style: const TextStyle(color: Colors.black),
+                  )),
+            const Icon(Icons.arrow_right),
+          ],
+        ),
+      ),
+    ),
+    textConfirm: '确定'.tr,
+    textCancel: '取消'.tr,
+    confirmTextColor: Colors.white,
+    cancelTextColor: Colors.blue,
+    buttonColor: Colors.blue,
+    onConfirm: () {
+      ok();
+      Get.back();
+    },
+    onCancel: () {
+      Get.back();
+    },
+  );
+}
+
+void showTimePicker(BuildContext context, Function confirm) {
+  DatePicker.showTimePicker(context, showTitleActions: true, onChanged: (date) {
     logger.d('change $date in time zone ${date.timeZoneOffset.inHours}');
   }, onConfirm: (date) {
-    logger.d('confirm $date');
-  }, currentTime: DateTime.now(), locale: LocaleType.en);
+    confirm(date);
+  }, currentTime: DateTime.now());
 }
