@@ -102,159 +102,114 @@ class _SettingState extends State<Setting> {
 }
 
 void onItemClick(HomeController homeController, int index) {
-  switch (index) {
-    case 0:
-      if (homeController.bluetoothDeviceState.value !=
-          BluetoothDeviceState.connected) {
-        showSnackbar('提示'.tr, '请先连接蓝牙'.tr);
-        return;
-      }
-      inputDialog(
-          "请输入充电过压值".tr, "${"数值范围".tr}:0.0-500.0", "${"单位".tr}:V", 0.0, 500.0,
-          (double input) {
-        homeController.sendData(SET_OVP, input: input);
-      });
-      break;
-    case 1:
-      if (homeController.bluetoothDeviceState.value !=
-          BluetoothDeviceState.connected) {
-        showSnackbar('提示'.tr, '请先连接蓝牙'.tr);
-        return;
-      }
-      inputDialog(
-          "请输入放电欠压值".tr, "${"数值范围".tr}:0.0-500.0", "${"单位".tr}:V", 0.0, 500.0,
-          (double input) {
-        homeController.sendData(SET_LVP, input: input);
-      });
-      break;
-    case 2:
-      if (homeController.bluetoothDeviceState.value !=
-          BluetoothDeviceState.connected) {
-        showSnackbar('提示'.tr, '请先连接蓝牙'.tr);
-        return;
-      }
-      inputDialog(
-          "请输入充电过流值".tr, "${"数值范围".tr}:0.0-500.0", "${"单位".tr}:A", 0.0, 500.0,
-          (double input) {
-        homeController.sendData(SET_OCP, input: input);
-      });
-      break;
-    case 3:
-      if (homeController.bluetoothDeviceState.value !=
-          BluetoothDeviceState.connected) {
-        showSnackbar('提示'.tr, '请先连接蓝牙'.tr);
-        return;
-      }
-      inputDialog(
-          "请输入放电过流值".tr, "${"数值范围".tr}:0.0-500.0", "${"单位".tr}:A", 0.0, 500.0,
-          (double input) {
-        homeController.sendData(SET_NCP, input: input);
-      });
-      break;
-    case 4:
-      if (homeController.bluetoothDeviceState.value !=
-          BluetoothDeviceState.connected) {
-        showSnackbar('提示'.tr, '请先连接蓝牙'.tr);
-        return;
-      }
-      inputDialog(
-          "请输入放电启动值".tr, "${"数值范围".tr}:0.0-500.0", "${"单位".tr}:V", 0.0, 500.0,
-          (double input) {
-        homeController.sendData(SET_STV, input: input);
-      });
-      break;
-    case 5:
-      if (homeController.bluetoothDeviceState.value !=
-          BluetoothDeviceState.connected) {
-        showSnackbar('提示'.tr, '请先连接蓝牙'.tr);
-        return;
-      }
-      inputDialog(
-          "请输入过温度保护值".tr, "${"数值范围".tr}:0.0-150.0", "${"单位".tr}:°C", 0.0, 150.0,
-          (double input) {
-        homeController.sendData(SET_OTP, input: input);
-      });
-      break;
-    case 6:
-      if (homeController.bluetoothDeviceState.value !=
-          BluetoothDeviceState.connected) {
-        showSnackbar('提示'.tr, '请先连接蓝牙'.tr);
-        return;
-      }
-      inputDialog(
-          "请输入低温恢复值".tr, "${"数值范围".tr}:0.0-150.0", "${"单位".tr}:°C", 0.0, 150.0,
-          (double input) {
-        homeController.sendData(SET_LTP, input: input);
-      });
-      break;
-    case 7:
-      if (homeController.bluetoothDeviceState.value !=
-          BluetoothDeviceState.connected) {
-        showSnackbar('提示'.tr, '请先连接蓝牙'.tr);
-        return;
-      }
-      inputDialog("请输入继电器延时".tr, "${"数值范围".tr}:0-200", "${"单位".tr}:秒", 0, 200,
-          (double input) {
-        homeController.sendData(SET_DEL, input: input);
-      });
-      break;
-    case 8:
-      break;
-    case 9:
-      break;
-    case 10:
-      break;
-    case 11:
-      languageDialog();
-      break;
-    case 12:
-      break;
-    case 13:
-      break;
-    case 14:
-      if (homeController.bluetoothDeviceState.value !=
-          BluetoothDeviceState.connected) {
-        showSnackbar('提示'.tr, '请先连接蓝牙'.tr);
-        return;
-      }
-      inputDialog("请输入放电电流系数微调".tr, "${"数值范围".tr}:0.50-1.50", "${"单位".tr}:倍",
-          0.50, 1.50, (double input) {
-        homeController.sendData(SET_DEL, input: input);
-      });
-      break;
-    case 15:
-      if (homeController.bluetoothDeviceState.value !=
-          BluetoothDeviceState.connected) {
-        showSnackbar('提示'.tr, '请先连接蓝牙'.tr);
-        return;
-      }
-      inputDialog("请输入放电电流系数微调".tr, "${"数值范围".tr}:0.50-1.50", "${"单位".tr}:秒",
-          0.50, 1.50, (double input) {
-        homeController.sendData(SET_DEL, input: input);
-      });
-      break;
-    case 16:
-      if (homeController.bluetoothDeviceState.value !=
-          BluetoothDeviceState.connected) {
-        showSnackbar('提示'.tr, '请先连接蓝牙'.tr);
-        return;
-      }
-      inputDialog("请输入通讯地址码".tr, "${"数值范围".tr}:0-40", "${"单位".tr}:秒", 0, 40,
-          (double input) {
-        homeController.sendData(SET_ADC, input: input);
-      });
-      break;
-    case 17:
-      if (homeController.bluetoothDeviceState.value !=
-          BluetoothDeviceState.connected) {
-        showSnackbar('提示'.tr, '请先连接蓝牙'.tr);
-        return;
-      }
-      inputDialog(
-          "请输入电流归零值".tr, "${"数值范围".tr}:0.0-2.0", "${"单位".tr}:A", 0.0, 2.0,
-          (double input) {
-        homeController.sendData(SET_PAI, input: input);
-      });
-      break;
+  if (index == 11) {
+    languageDialog();
+  } else {
+    // if (homeController.bluetoothDeviceState.value !=
+    //     BluetoothDeviceState.connected) {
+    //   showSnackbar('提示'.tr, '请先连接蓝牙'.tr);
+    //   return;
+    // }
+    switch (index) {
+      case 0:
+        inputDialog(
+            "请输入充电过压值".tr, "${"数值范围".tr}:0.0-500.0", "${"单位".tr}:V", 0.0, 500.0,
+            (double input) {
+          homeController.sendData(SET_OVP, input: input);
+        });
+        break;
+      case 1:
+        inputDialog(
+            "请输入放电欠压值".tr, "${"数值范围".tr}:0.0-500.0", "${"单位".tr}:V", 0.0, 500.0,
+            (double input) {
+          homeController.sendData(SET_LVP, input: input);
+        });
+        break;
+      case 2:
+        inputDialog(
+            "请输入充电过流值".tr, "${"数值范围".tr}:0.0-500.0", "${"单位".tr}:A", 0.0, 500.0,
+            (double input) {
+          homeController.sendData(SET_OCP, input: input);
+        });
+        break;
+      case 3:
+        inputDialog(
+            "请输入放电过流值".tr, "${"数值范围".tr}:0.0-500.0", "${"单位".tr}:A", 0.0, 500.0,
+            (double input) {
+          homeController.sendData(SET_NCP, input: input);
+        });
+        break;
+      case 4:
+        inputDialog(
+            "请输入放电启动值".tr, "${"数值范围".tr}:0.0-500.0", "${"单位".tr}:V", 0.0, 500.0,
+            (double input) {
+          homeController.sendData(SET_STV, input: input);
+        });
+        break;
+      case 5:
+        inputDialog("请输入过温度保护值".tr, "${"数值范围".tr}:0.0-150.0", "${"单位".tr}:°C",
+            0.0, 150.0, (double input) {
+          homeController.sendData(SET_OTP, input: input);
+        });
+        break;
+      case 6:
+        inputDialog("请输入低温恢复值".tr, "${"数值范围".tr}:0.0-150.0", "${"单位".tr}:°C",
+            0.0, 150.0, (double input) {
+          homeController.sendData(SET_LTP, input: input);
+        });
+        break;
+      case 7:
+        inputDialog("请输入继电器延时".tr, "${"数值范围".tr}:0-200", "${"单位".tr}:秒", 0, 200,
+            (double input) {
+          homeController.sendData(SET_DEL, input: input);
+        });
+        break;
+      case 8:
+        chooseDialog(
+            "请选择继电器模式".tr,
+            ["工作模式一".tr, "工作模式二".tr, "工作模式三".tr, "工作模式四".tr, "工作模式五".tr],
+            (int index) {});
+        break;
+      case 9:
+        chooseDialog("请选择继电器模式".tr, ["常开".tr, "常闭".tr], (int index) {});
+        break;
+      case 10:
+        chooseDialog("请选择继电器模式".tr, ["常开".tr, "常闭".tr], (int index) {});
+        break;
+      case 11:
+        chooseDialog("请选择继电器模式".tr, ["常开".tr, "常闭".tr], (int index) {});
+        break;
+      case 12:
+        chooseDialog("请选择继电器模式".tr, ["常开".tr, "常闭".tr], (int index) {});
+        break;
+      case 13:
+        chooseDialog("请选择继电器模式".tr, ["常开".tr, "常闭".tr], (int index) {});
+        break;
+      case 14:
+        inputDialog("请输入放电电流系数微调".tr, "${"数值范围".tr}:0.50-1.50", "${"单位".tr}:倍",
+            0.50, 1.50, (double input) {
+          homeController.sendData(SET_DEL, input: input);
+        });
+        break;
+      case 15:
+        inputDialog("请输入放电电流系数微调".tr, "${"数值范围".tr}:0.50-1.50", "${"单位".tr}:秒",
+            0.50, 1.50, (double input) {
+          homeController.sendData(SET_DEL, input: input);
+        });
+        break;
+      case 16:
+        inputDialog("请输入通讯地址码".tr, "${"数值范围".tr}:0-40", "${"单位".tr}:秒", 0, 40,
+            (double input) {
+          homeController.sendData(SET_ADC, input: input);
+        });
+        break;
+      case 17:
+        inputDialog(
+            "请输入电流归零值".tr, "${"数值范围".tr}:0.0-2.0", "${"单位".tr}:A", 0.0, 2.0,
+            (double input) {
+          homeController.sendData(SET_PAI, input: input);
+        });
+        break;
+    }
   }
 }

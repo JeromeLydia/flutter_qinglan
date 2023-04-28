@@ -4,7 +4,6 @@ import 'package:flutter_qinglan/res/colors.dart';
 import 'package:flutter_qinglan/ui/pages/blue/demo/widgets.dart';
 import 'package:flutter_qinglan/ui/pages/home/home_controller.dart';
 import 'package:get/get.dart';
-
 import '../../common/global.dart';
 import '../../utils/snackbar.dart';
 
@@ -198,6 +197,66 @@ void languageDialog() {
         storage.write('language', "en_US");
         Get.updateLocale(const Locale('en', 'US'));
       }
+      Get.back();
+    },
+    onCancel: () {
+      Get.back();
+    },
+  );
+}
+
+//选择弹框
+void chooseDialog(String title, List<String> list, Function ok) {
+  RxInt select = RxInt(0);
+
+  List<Widget> getWidgets() {
+    List<Widget> widgets = [];
+    for (int i = 0; i < list.length; i++) {
+      widgets.add(ListTileTheme(
+        dense: true, // 设置为 true 可以让 ListTile 更加紧凑，使其高度更小
+        child: RadioListTile(
+          value: i,
+          groupValue: select.value,
+          onChanged: (value) {
+            select.value = value!;
+          },
+          title: Text(list[i]),
+        ),
+      ));
+    }
+    return widgets;
+  }
+
+  Get.defaultDialog(
+    title: title,
+    content: Obx(() => Column(
+          children: getWidgets(),
+        )),
+    confirm: Container(
+      width: 80,
+      height: 40,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+          color: Colors.blue, borderRadius: BorderRadius.circular(5)),
+      child: Text(
+        '确定'.tr,
+        style: const TextStyle(color: Colors.white, fontSize: 16),
+      ),
+    ),
+    cancel: Container(
+      width: 80,
+      height: 40,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+          color: AppColors.contentColorRed,
+          borderRadius: BorderRadius.circular(5)),
+      child: Text(
+        '取消'.tr,
+        style: const TextStyle(color: Colors.white, fontSize: 16),
+      ),
+    ),
+    onConfirm: () {
+      ok(select.value);
       Get.back();
     },
     onCancel: () {
