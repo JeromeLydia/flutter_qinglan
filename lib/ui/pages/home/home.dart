@@ -219,7 +219,7 @@ class _HomeState extends State<Home> {
                               minWidth: double.infinity,
                               height: 50.0,
                               textColor: Colors.white,
-                              child: Text('电流清零'.tr),
+                              child: Text("电流清零".tr),
                               onPressed: () {
                                 homeController.sendData(CLEAR_CURRENT);
                               },
