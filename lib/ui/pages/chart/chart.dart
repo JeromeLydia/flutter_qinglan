@@ -1,18 +1,230 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../../res/colors.dart';
+import '../home/home_controller.dart';
 
-class Chart extends StatelessWidget {
-  const Chart({super.key, required this.isShowingMainData});
-
-  final bool isShowingMainData;
+class Chart extends StatefulWidget {
+  const Chart({super.key});
 
   @override
+  State<Chart> createState() => _ChartState();
+}
+
+class _ChartState extends State<Chart> {
+  HomeController homeController = Get.put(HomeController());
+  @override
   Widget build(BuildContext context) {
-    return LineChart(
-      isShowingMainData ? sampleData1 : sampleData2,
-      swapAnimationDuration: const Duration(milliseconds: 250),
+    return Obx(
+      () => Container(
+        color: Colors.black,
+        child: ListView(
+          children: [
+            const Padding(padding: EdgeInsets.only(top: 20)),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset('assets/images/ic-fly-left.png'),
+                const Padding(padding: EdgeInsets.only(left: 5)),
+                Text("电压/温度/电流 实时曲线图".tr,
+                    style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold)),
+                const Padding(padding: EdgeInsets.only(left: 5)),
+                Image.asset('assets/images/ic-fly-right.png'),
+              ],
+            ),
+            Container(
+              height: 200,
+              margin: const EdgeInsets.only(top: 20),
+              width: double.infinity,
+              color: Colors.white,
+              child: LineChart(
+                sampleData1,
+                swapAnimationDuration: const Duration(milliseconds: 250),
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.all(10),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Row(
+                          children: [
+                            Image.asset('assets/images/ic-divider.png'),
+                            const Padding(padding: EdgeInsets.only(left: 10)),
+                            Text("${homeController.messageData.value.voltage}V",
+                                style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold)),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: Row(
+                          children: [
+                            Image.asset('assets/images/ic-divider.png'),
+                            const Padding(padding: EdgeInsets.only(left: 10)),
+                            Text(
+                                ("${homeController.messageData.value.currentDirection == 0 ? "-" : "+"}${homeController.messageData.value.current}A"),
+                                style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold)),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  const Padding(padding: EdgeInsets.only(top: 10)),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Row(
+                          children: [
+                            Image.asset('assets/images/ic-divider.png'),
+                            const Padding(padding: EdgeInsets.only(left: 10)),
+                            Text(
+                                ("${homeController.messageData.value.energy}KWH"),
+                                style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold)),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: Row(
+                          children: [
+                            Image.asset('assets/images/ic-divider.png'),
+                            const Padding(padding: EdgeInsets.only(left: 10)),
+                            Text(
+                                ("${homeController.messageData.value.actualCapacity}AH"),
+                                style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold)),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  const Padding(padding: EdgeInsets.only(top: 10)),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Row(
+                          children: [
+                            Image.asset('assets/images/ic-divider.png'),
+                            const Padding(padding: EdgeInsets.only(left: 10)),
+                            Text(
+                                ("${homeController.messageData.value.temperature}°C"),
+                                style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold)),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: Row(
+                          children: [
+                            Image.asset('assets/images/ic-divider.png'),
+                            const Padding(padding: EdgeInsets.only(left: 10)),
+                            Text(
+                                homeController.formatSeconds(
+                                    homeController.messageData.value.runTime),
+                                style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold)),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.all(10),
+              child: Row(
+                children: [
+                  InkWell(
+                    onTap: () {},
+                    child: Image.asset(
+                      'assets/images/ic-start.png',
+                      width: 40,
+                      height: 40,
+                    ),
+                  ),
+                  const Padding(padding: EdgeInsets.only(left: 10)),
+                  ElevatedButton(
+                    onPressed: () {},
+                    child: Text("启动数据".tr),
+                  ),
+                  const Padding(padding: EdgeInsets.only(left: 10)),
+                  ElevatedButton(
+                    onPressed: () {},
+                    child: Text("停止数据".tr),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Stack(
+              children: [
+                Align(
+                  alignment: Alignment.center,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset('assets/images/ic-fly-left.png'),
+                      const Padding(padding: EdgeInsets.only(left: 5)),
+                      Text("查看历史数据".tr,
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold)),
+                      const Padding(padding: EdgeInsets.only(left: 5)),
+                      Image.asset('assets/images/ic-fly-right.png'),
+                    ],
+                  ),
+                ),
+                Positioned(
+                  right: 10,
+                  top: 2,
+                  child: InkWell(
+                    onTap: () {},
+                    child: Image.asset(
+                      'assets/images/ic-drop-down.png',
+                      width: 16,
+                      height: 16,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Container(
+              height: 200,
+              margin: const EdgeInsets.only(top: 20),
+              width: double.infinity,
+              color: Colors.white,
+              child: LineChart(
+                sampleData1,
+                swapAnimationDuration: const Duration(milliseconds: 250),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -312,11 +524,11 @@ class LineChartSample1State extends State<LineChartSample1> {
         children: <Widget>[
           Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              const SizedBox(
+            children: const <Widget>[
+              SizedBox(
                 height: 37,
               ),
-              const Text(
+              Text(
                 'Monthly Sales',
                 style: TextStyle(
                   color: AppColors.primary,
@@ -326,16 +538,16 @@ class LineChartSample1State extends State<LineChartSample1> {
                 ),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(
+              SizedBox(
                 height: 37,
               ),
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.only(right: 16, left: 6),
-                  child: Chart(isShowingMainData: isShowingMainData),
+                  padding: EdgeInsets.only(right: 16, left: 6),
+                  child: Chart(),
                 ),
               ),
-              const SizedBox(
+              SizedBox(
                 height: 10,
               ),
             ],

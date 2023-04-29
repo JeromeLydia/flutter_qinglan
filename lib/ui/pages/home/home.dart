@@ -119,8 +119,7 @@ class _HomeState extends State<Home> {
                     Expanded(
                       child: IconItem(
                         title: "电压".tr,
-                        value: ("${homeController.messageData.value.voltage}V")
-                            .toString(),
+                        value: "${homeController.messageData.value.voltage}V",
                         assetName: "assets/images/ic_voltage.png",
                       ),
                     ),

@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_qinglan/ui/pages/chart/chart.dart';
 import 'package:flutter_qinglan/ui/pages/home/home.dart';
@@ -13,13 +15,7 @@ class Tabs extends StatefulWidget {
 
 class _TabsState extends State<Tabs> {
   int _currentIndex = 0;
-  static const pages = [
-    Home(),
-    Chart(
-      isShowingMainData: true,
-    ),
-    Setting()
-  ];
+  static const pages = [Home(), Chart(), Setting()];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
