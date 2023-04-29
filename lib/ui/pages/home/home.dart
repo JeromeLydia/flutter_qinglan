@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 import '../../../res/colors.dart';
-import '../../../utils/date_util.dart';
 import '../../../utils/snackbar.dart';
 import '../blue/cmd.dart';
 
@@ -92,9 +91,21 @@ class _HomeState extends State<Home> {
                                 onPressed: () {
                                   scanDialog(context, homeController);
                                 },
-                                child: Text(
-                                  "已连接".tr,
-                                  style: const TextStyle(color: Colors.white),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      "${"设备地址".tr}:${homeController.deviceNo.value}",
+                                      style:
+                                          const TextStyle(color: Colors.white),
+                                    ),
+                                    const SizedBox(width: 5),
+                                    Text(
+                                      "已连接".tr,
+                                      style:
+                                          const TextStyle(color: Colors.white),
+                                    ),
+                                  ],
                                 ),
                               ),
                             )

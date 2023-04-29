@@ -83,75 +83,107 @@ void inputDialog(String title, String des1, String des2, double min, double max,
     title: title,
     radius: 15.0,
     titleStyle: const TextStyle(color: Colors.white, fontSize: 18),
+    titlePadding: const EdgeInsets.only(top: 20, left: 10, right: 10),
     backgroundColor: AppColors.gray_33,
     content: Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(
-          height: 45,
-          child: TextField(
-            textAlign: TextAlign.start,
-            keyboardType: const TextInputType.numberWithOptions(decimal: true),
-            inputFormatters: [
-              FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,1}')),
-              TextInputFormatter.withFunction((oldValue, newValue) {
-                if (newValue.text.isEmpty) return newValue;
-                try {
-                  final double value = double.parse(newValue.text);
-                  if (value >= min && value <= max) return newValue;
-                  if (value > max) {
-                    return TextEditingValue(
-                      text: max.toString(),
-                      selection: const TextSelection.collapsed(offset: 6),
-                    );
-                  }
-                  // ignore: empty_catches
-                } catch (e) {}
+        const Padding(padding: EdgeInsets.only(top: 10)),
+        TextField(
+          textAlign: TextAlign.start,
+          keyboardType: const TextInputType.numberWithOptions(decimal: true),
+          inputFormatters: [
+            FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,1}')),
+            TextInputFormatter.withFunction((oldValue, newValue) {
+              if (newValue.text.isEmpty) return newValue;
+              try {
+                final double value = double.parse(newValue.text);
+                if (value >= min && value <= max) return newValue;
+                if (value > max) {
+                  return TextEditingValue(
+                    text: max.toString(),
+                    selection: const TextSelection.collapsed(offset: 6),
+                  );
+                }
+                // ignore: empty_catches
+              } catch (e) {}
 
-                return oldValue;
-              }),
-            ],
-            maxLines: 1,
-            style: const TextStyle(color: Colors.white, fontSize: 16),
-            decoration: InputDecoration(
-                hintText: title,
-                hintStyle: const TextStyle(color: Colors.grey, fontSize: 16),
-                filled: true,
-                fillColor: AppColors.gray_66,
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(style: BorderStyle.none))),
-            onChanged: (value) => input = value,
+              return oldValue;
+            }),
+          ],
+          maxLines: 1,
+          style: const TextStyle(color: Colors.white, fontSize: 16),
+          decoration: InputDecoration(
+              hintText: title,
+              contentPadding:
+                  const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+              hintStyle: const TextStyle(color: Colors.grey, fontSize: 16),
+              filled: true,
+              fillColor: AppColors.gray_66,
+              border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: const BorderSide(style: BorderStyle.none))),
+          onChanged: (value) => input = value,
+        ),
+        const Padding(padding: EdgeInsets.only(top: 5)),
+        Container(
+          margin: const EdgeInsets.only(left: 6),
+          child: Text(
+            des1,
+            style: const TextStyle(color: Colors.red, fontSize: 12),
           ),
         ),
-        const Padding(padding: EdgeInsets.only(top: 10)),
-        Text(
-          des1,
-          style: const TextStyle(color: Colors.red, fontSize: 14),
+        Container(
+          margin: const EdgeInsets.only(left: 6, bottom: 10),
+          child: Text(
+            des2,
+            style: const TextStyle(color: Colors.red, fontSize: 12),
+          ),
         ),
-        Text(
-          des2,
-          style: const TextStyle(color: Colors.red, fontSize: 14),
-        )
       ],
     ),
-    textConfirm: '确定',
-    textCancel: '取消',
-    confirmTextColor: Colors.white,
-    cancelTextColor: Colors.blue,
-    buttonColor: Colors.blue,
-    onConfirm: () {
-      if (input.isEmpty) {
-        showSnackbar('提示'.tr, title + '不能为空'.tr);
-        return;
-      }
-      ok(double.parse(input));
-      Get.back();
-    },
-    onCancel: () {
-      Get.back();
-    },
+    confirm: InkWell(
+      onTap: () {
+        if (input.isEmpty) {
+          showSnackbar('提示'.tr, title + '不能为空'.tr);
+          return;
+        }
+        ok(double.parse(input));
+        Get.back();
+      },
+      child: Container(
+        width: 80,
+        height: 40,
+        margin: const EdgeInsets.only(left: 10, bottom: 20),
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+            color: AppColors.contentColorBlue,
+            borderRadius: BorderRadius.circular(5)),
+        child: Text(
+          '确定'.tr,
+          style: const TextStyle(color: Colors.white, fontSize: 16),
+        ),
+      ),
+    ),
+    cancel: InkWell(
+      onTap: () {
+        Get.back();
+      },
+      child: Container(
+        width: 80,
+        height: 40,
+        margin: const EdgeInsets.only(right: 10, bottom: 20),
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+            color: AppColors.contentColorPink,
+            borderRadius: BorderRadius.circular(5)),
+        child: Text(
+          '取消'.tr,
+          style: const TextStyle(color: Colors.white, fontSize: 16),
+        ),
+      ),
+    ),
   );
 }
 
@@ -165,44 +197,91 @@ void languageDialog() {
   }
   Get.defaultDialog(
     title: '选择语言'.tr,
+    radius: 15.0,
+    titleStyle: const TextStyle(color: Colors.white, fontSize: 18),
+    backgroundColor: AppColors.gray_33,
+    titlePadding: const EdgeInsets.only(top: 20, left: 10, right: 10),
     content: Obx(() => Column(
           children: [
-            RadioListTile(
-              value: 0,
-              groupValue: select.value,
-              onChanged: (value) {
-                select.value = 0;
-              },
-              title: const Text('中文'),
+            ListTileTheme(
+              dense: true, // 设置为 true 可以让 ListTile 更加紧凑，使其高度更小
+              child: Theme(
+                data: ThemeData(
+                  unselectedWidgetColor: Colors.white,
+                ),
+                child: RadioListTile(
+                  value: 0,
+                  groupValue: select.value,
+                  onChanged: (value) {
+                    select.value = 0;
+                  },
+                  title:
+                      const Text('中文', style: TextStyle(color: Colors.white)),
+                ),
+              ),
             ),
-            RadioListTile(
-              value: 1,
-              groupValue: select.value,
-              onChanged: (value) {
-                select.value = 1;
-              },
-              title: const Text('英文'),
+            ListTileTheme(
+              dense: true, // 设置为 true 可以让 ListTile 更加紧凑，使其高度更小
+              child: Theme(
+                data: ThemeData(
+                  unselectedWidgetColor: Colors.white,
+                ),
+                child: RadioListTile(
+                  value: 1,
+                  groupValue: select.value,
+                  onChanged: (value) {
+                    select.value = 1;
+                  },
+                  title:
+                      const Text('英文', style: TextStyle(color: Colors.white)),
+                ),
+              ),
             ),
           ],
         )),
-    textConfirm: '确定'.tr,
-    textCancel: '取消'.tr,
-    confirmTextColor: Colors.white,
-    cancelTextColor: Colors.blue,
-    buttonColor: Colors.blue,
-    onConfirm: () {
-      if (select.value == 0) {
-        storage.write('language', "zh_CN");
-        Get.updateLocale(const Locale('zh', 'CN'));
-      } else {
-        storage.write('language', "en_US");
-        Get.updateLocale(const Locale('en', 'US'));
-      }
-      Get.back();
-    },
-    onCancel: () {
-      Get.back();
-    },
+    confirm: InkWell(
+      onTap: () {
+        if (select.value == 0) {
+          storage.write('language', "zh_CN");
+          Get.updateLocale(const Locale('zh', 'CN'));
+        } else {
+          storage.write('language', "en_US");
+          Get.updateLocale(const Locale('en', 'US'));
+        }
+        Get.back();
+      },
+      child: Container(
+        width: 80,
+        height: 40,
+        margin: const EdgeInsets.only(left: 10, bottom: 20),
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+            color: AppColors.contentColorBlue,
+            borderRadius: BorderRadius.circular(5)),
+        child: Text(
+          '确定'.tr,
+          style: const TextStyle(color: Colors.white, fontSize: 16),
+        ),
+      ),
+    ),
+    cancel: InkWell(
+      onTap: () {
+        Get.back();
+      },
+      child: Container(
+        width: 80,
+        height: 40,
+        margin: const EdgeInsets.only(right: 10, bottom: 20),
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+            color: AppColors.contentColorPink,
+            borderRadius: BorderRadius.circular(5)),
+        child: Text(
+          '取消'.tr,
+          style: const TextStyle(color: Colors.white, fontSize: 16),
+        ),
+      ),
+    ),
   );
 }
 
