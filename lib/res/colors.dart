@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class AppColors {
   static const Color app_main = Color(0xff333333);
+  static const Color app_btn = Color(0xff007FE9);
   static const Color transparent_80 = Color(0x80000000); //<!--204-->
   static const Color text_dark = Color(0xFF333333);
   static const Color text_normal = Color(0xFF666666);
@@ -42,36 +43,6 @@ class AppColors {
   static const Color contentColorRed = Color(0xFFE80054);
   static const Color contentColorCyan = Color(0xFF50E4FF);
 }
-
-Map<String, Color> circleAvatarMap = {
-  'A': Colors.blueAccent,
-  'B': Colors.blue,
-  'C': Colors.cyan,
-  'D': Colors.deepPurple,
-  'E': Colors.deepPurpleAccent,
-  'F': Colors.blue,
-  'G': Colors.green,
-  'H': Colors.lightBlue,
-  'I': Colors.indigo,
-  'J': Colors.blue,
-  'K': Colors.blue,
-  'L': Colors.lightGreen,
-  'M': Colors.blue,
-  'N': Colors.brown,
-  'O': Colors.orange,
-  'P': Colors.purple,
-  'Q': Colors.black,
-  'R': Colors.red,
-  'S': Colors.blue,
-  'T': Colors.teal,
-  'U': Colors.purpleAccent,
-  'V': Colors.black,
-  'W': Colors.brown,
-  'X': Colors.blue,
-  'Y': Colors.yellow,
-  'Z': Colors.grey,
-  '#': Colors.blue,
-};
 
 Map<String, Color> themeColorMap = {
   'gray': AppColors.gray_33,

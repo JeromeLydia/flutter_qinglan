@@ -56,6 +56,7 @@ class HomeController extends GetxController {
       scanResult.add(device);
     }, onDeviceScanStop: () {
       //停止扫描
+      isScanning.value = false;
     }, onConnected: (BluetoothDevice device) {
       //连接成功回调
       logger.d("ble--连接成功：${device.name}");
@@ -109,12 +110,16 @@ class HomeController extends GetxController {
   //扫描
   Future<void> startScan() async {
     if (!connectManager.isConnecting) {
+      isScanning.value = true;
       connectManager.startScan();
     }
   }
 
   //停止扫描
-  Future<void> stopScan() async {}
+  Future<void> stopScan() async {
+    connectManager.stopScan();
+    isScanning.value = false;
+  }
 
   //连接
   void connect(BluetoothDevice device) {

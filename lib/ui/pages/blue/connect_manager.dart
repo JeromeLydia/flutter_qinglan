@@ -42,6 +42,10 @@ class ConnectManager {
     isConnecting = false;
   }
 
+  Future<void> stopScan() async {
+    _scanDevice?.stopScan();
+  }
+
   //2.连接
   Future<void> connect(BluetoothDevice device) async {
     isConnecting = true;

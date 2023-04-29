@@ -11,34 +11,13 @@ import '../../utils/snackbar.dart';
 //蓝牙扫描弹框
 void scanDialog(BuildContext context, HomeController homeController) {
   Get.defaultDialog(
-    title: "连接蓝牙",
+    title: "连接蓝牙".tr,
+    radius: 15.0,
+    titleStyle: const TextStyle(color: Colors.white, fontSize: 18),
+    titlePadding: const EdgeInsets.only(top: 20, left: 10, right: 10),
+    backgroundColor: AppColors.gray_33,
     content: Column(
       children: [
-        Stack(
-          children: [
-            const Align(
-              alignment: Alignment.centerLeft,
-              child: Text("连接蓝牙"),
-            ),
-            Align(
-              alignment: Alignment.centerRight,
-              child: GetBuilder<HomeController>(
-                builder: (homeController) {
-                  if (homeController.isScanning.value) {
-                    return IconButton(
-                      icon: const Icon(Icons.stop),
-                      onPressed: () => homeController.stopScan(),
-                    );
-                  } else {
-                    return IconButton(
-                        icon: const Icon(Icons.search),
-                        onPressed: () => homeController.startScan());
-                  }
-                },
-              ),
-            ),
-          ],
-        ),
         SizedBox(
           height: 200.0,
           child: RefreshIndicator(
@@ -48,8 +27,10 @@ void scanDialog(BuildContext context, HomeController homeController) {
                 children: <Widget>[
                   Obx(
                     () => homeController.scanResult.isEmpty
-                        ? const Center(
-                            child: Text('No devices found'),
+                        ? Container(
+                            margin: const EdgeInsets.only(top: 90),
+                            child: const Text('No devices found',
+                                style: TextStyle(color: Colors.white)),
                           )
                         : Column(
                             children: homeController.scanResult
@@ -70,6 +51,14 @@ void scanDialog(BuildContext context, HomeController homeController) {
             ),
           ),
         ),
+        Obx(() => homeController.isScanning.value
+            ? ElevatedButton(
+                child: Text("停止搜索".tr),
+                onPressed: () => homeController.stopScan(),
+              )
+            : ElevatedButton(
+                child: Text("搜索".tr),
+                onPressed: () => homeController.startScan()))
       ],
     ),
   );
@@ -176,7 +165,11 @@ void inputDialog(String title, String des1, String des2, double min, double max,
         margin: const EdgeInsets.only(right: 10, bottom: 20),
         alignment: Alignment.center,
         decoration: BoxDecoration(
-            color: AppColors.contentColorPink,
+            gradient: const LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [Color(0xFFFE7C7C), Color(0xFFFF4B4B)],
+            ),
             borderRadius: BorderRadius.circular(5)),
         child: Text(
           '取消'.tr,
@@ -274,7 +267,11 @@ void languageDialog() {
         margin: const EdgeInsets.only(right: 10, bottom: 20),
         alignment: Alignment.center,
         decoration: BoxDecoration(
-            color: AppColors.contentColorPink,
+            gradient: const LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [Color(0xFFFE7C7C), Color(0xFFFF4B4B)],
+            ),
             borderRadius: BorderRadius.circular(5)),
         child: Text(
           '取消'.tr,
@@ -355,7 +352,11 @@ void chooseDialog(String title, List<String> list, Function ok) {
         margin: const EdgeInsets.only(right: 10, bottom: 20),
         alignment: Alignment.center,
         decoration: BoxDecoration(
-            color: AppColors.contentColorPink,
+            gradient: const LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [Color(0xFFFE7C7C), Color(0xFFFF4B4B)],
+            ),
             borderRadius: BorderRadius.circular(5)),
         child: Text(
           '取消'.tr,
@@ -404,7 +405,11 @@ void remindDialog(String des, Function ok) {
         margin: const EdgeInsets.only(right: 10, top: 10, bottom: 20),
         alignment: Alignment.center,
         decoration: BoxDecoration(
-            color: AppColors.contentColorPink,
+            gradient: const LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [Color(0xFFFE7C7C), Color(0xFFFF4B4B)],
+            ),
             borderRadius: BorderRadius.circular(5)),
         child: Text(
           '取消'.tr,
@@ -446,6 +451,7 @@ void bottomSheet(String title, List<String> list, Function ok) {
 //二次选择弹框
 void selectDialog(BuildContext context, String title, Function ok) {
   RxString v = RxString("");
+  var count = 0;
   Get.defaultDialog(
     title: title,
     backgroundColor: AppColors.gray_33,
@@ -454,32 +460,42 @@ void selectDialog(BuildContext context, String title, Function ok) {
     content: InkWell(
       onTap: () {
         showTimePicker(context, (DateTime d) {
-          v.value = "${d.hour}:${d.minute}:${d.second}";
+          v.value =
+              "${d.hour}${"时".tr}${d.minute}${"分".tr}${d.second}${"秒".tr}";
+          count = d.hour * 3600 + d.minute * 60 + d.second;
           logger.d(v.value);
         });
       },
       child: Container(
-        color: AppColors.gray_99,
+        color: AppColors.gray_66,
         height: 40,
-        margin: const EdgeInsets.only(left: 10, right: 10),
+        margin: const EdgeInsets.only(
+          top: 20,
+          left: 10,
+          right: 10,
+          bottom: 10,
+        ),
         padding: const EdgeInsets.only(left: 10, right: 10),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Obx(() => "" == v.value
-                ? Text('选择日期'.tr)
+                ? Text(
+                    '选择日期'.tr,
+                    style: const TextStyle(color: Colors.white),
+                  )
                 : Text(
                     v.value,
-                    style: const TextStyle(color: Colors.black),
+                    style: const TextStyle(color: Colors.white),
                   )),
-            const Icon(Icons.arrow_right),
+            const Icon(Icons.arrow_right, color: Colors.white),
           ],
         ),
       ),
     ),
     confirm: InkWell(
       onTap: () {
-        ok(v.value);
+        ok(count);
         Get.back();
       },
       child: Container(
@@ -506,7 +522,11 @@ void selectDialog(BuildContext context, String title, Function ok) {
         margin: const EdgeInsets.only(right: 10, bottom: 20),
         alignment: Alignment.center,
         decoration: BoxDecoration(
-            color: AppColors.contentColorPink,
+            gradient: const LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [Color(0xFFFE7C7C), Color(0xFFFF4B4B)],
+            ),
             borderRadius: BorderRadius.circular(5)),
         child: Text(
           '取消'.tr,

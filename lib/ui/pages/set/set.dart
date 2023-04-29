@@ -21,7 +21,6 @@ class _SettingState extends State<Setting> {
   Widget _initGridVideData(context, index) {
     return Container(
       color: AppColors.app_main,
-      height: 200.0,
       child: InkWell(
         onTap: () {
           onItemClick(context, homeController, index);
@@ -30,21 +29,26 @@ class _SettingState extends State<Setting> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            const SizedBox(height: 10),
             Text(
               "${setListData[index]["title"]}",
               style: const TextStyle(
                 color: Colors.white,
-                fontSize: 12,
+                fontSize: 16,
               ),
             ),
-            const Padding(padding: EdgeInsets.only(top: 5)),
-            Text(
-              setListData[index]["desc"].toString().tr,
-              style: const TextStyle(
-                color: Colors.blue,
-                fontSize: 12,
+            const SizedBox(height: 5),
+            Flexible(
+              child: Text(
+                setListData[index]["desc"].toString().tr,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  color: Colors.blue,
+                  fontSize: 13,
+                ),
               ),
             ),
+            const SizedBox(height: 10),
           ],
         ),
       ),
@@ -64,37 +68,39 @@ class _SettingState extends State<Setting> {
       child: Column(
         children: [
           Expanded(
-            flex: 8,
+            flex: 5,
             child: GridView.builder(
                 itemCount: setListData.length,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: count,
                     crossAxisSpacing: 10.0,
                     mainAxisSpacing: 10.0,
-                    childAspectRatio: 2),
+                    childAspectRatio: 1.5),
                 padding: const EdgeInsets.all(10),
                 itemBuilder: _initGridVideData),
           ),
-          Expanded(
-              flex: 1,
-              child: Container(
-                margin: const EdgeInsets.all(20),
-                child: MaterialButton(
-                  color: Colors.blue,
-                  minWidth: double.infinity,
-                  height: 30.0,
-                  textColor: Colors.white,
-                  child: Text('保存设置'.tr),
-                  onPressed: () {
-                    if (homeController.bluetoothDeviceState.value !=
-                        BluetoothDeviceState.connected) {
-                      showSnackbar('提示'.tr, '请先连接蓝牙'.tr);
-                      return;
-                    }
-                    homeController.sendData(SET_SAVE);
-                  },
-                ),
-              )),
+          Container(
+            margin:
+                const EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 50),
+            child: MaterialButton(
+              color: AppColors.app_btn,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+              minWidth: double.infinity,
+              height: 50.0,
+              textColor: Colors.white,
+              child: Text('保存设置'.tr),
+              onPressed: () {
+                if (homeController.bluetoothDeviceState.value !=
+                    BluetoothDeviceState.connected) {
+                  showSnackbar('提示'.tr, '请先连接蓝牙'.tr);
+                  return;
+                }
+                homeController.sendData(SET_SAVE);
+              },
+            ),
+          ),
         ],
       ),
     );
@@ -108,7 +114,7 @@ void onItemClick(
   } else {
     if (homeController.bluetoothDeviceState.value !=
         BluetoothDeviceState.connected) {
-      showSnackbar('提示'.tr, '请先连接蓝牙'.tr);
+      showToast('请先连接蓝牙'.tr);
       return;
     }
     switch (index) {
@@ -187,8 +193,8 @@ void onItemClick(
         });
         break;
       case 12:
-        selectDialog(context, "请选择定时时间".tr, (int value) {
-          homeController.sendData(SET_STE, input: index.toDouble());
+        selectDialog(context, "请选择定时时间".tr, (int count) {
+          homeController.sendData(SET_STE, input: count.toDouble());
         });
         break;
       case 13:

@@ -63,7 +63,8 @@ class _HomeState extends State<Home> {
                               },
                               child: Text(
                                 "未连接".tr,
-                                style: const TextStyle(color: Colors.white),
+                                style:
+                                    const TextStyle(color: Color(0xFFFFF500)),
                               ),
                             ),
                           ),
@@ -102,8 +103,8 @@ class _HomeState extends State<Home> {
                                     const SizedBox(width: 5),
                                     Text(
                                       "已连接".tr,
-                                      style:
-                                          const TextStyle(color: Colors.white),
+                                      style: const TextStyle(
+                                          color: Color(0xFFFFF500)),
                                     ),
                                   ],
                                 ),
@@ -214,10 +215,13 @@ class _HomeState extends State<Home> {
                             margin: const EdgeInsets.only(
                                 top: 10, left: 20, right: 20),
                             child: MaterialButton(
-                              color: Colors.blue,
+                              color: AppColors.app_btn,
                               minWidth: double.infinity,
-                              height: 50.0,
+                              height: 45.0,
                               textColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
                               child: Text('保存设置'.tr),
                               onPressed: () {
                                 homeController.sendData(SAVE_HOME);
@@ -234,11 +238,17 @@ class _HomeState extends State<Home> {
                           Container(
                             margin: const EdgeInsets.only(top: 10),
                             child: MaterialButton(
-                              color: Colors.blue,
+                              color: AppColors.app_btn,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
                               minWidth: double.infinity,
-                              height: 50.0,
+                              height: 45.0,
                               textColor: Colors.white,
-                              child: Text("电流清零".tr),
+                              child: Text(
+                                "电流清零".tr,
+                                textAlign: TextAlign.center,
+                              ),
                               onPressed: () {
                                 if (homeController.bluetoothDeviceState.value !=
                                     BluetoothDeviceState.connected) {
@@ -254,11 +264,17 @@ class _HomeState extends State<Home> {
                           Container(
                             margin: const EdgeInsets.only(top: 10),
                             child: MaterialButton(
-                              color: Colors.blue,
+                              color: AppColors.app_btn,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
                               minWidth: double.infinity,
-                              height: 50.0,
+                              height: 45.0,
                               textColor: Colors.white,
-                              child: Text('数据清零'.tr),
+                              child: Text(
+                                '数据清零'.tr,
+                                textAlign: TextAlign.center,
+                              ),
                               onPressed: () {
                                 if (homeController.bluetoothDeviceState.value !=
                                     BluetoothDeviceState.connected) {
@@ -274,11 +290,17 @@ class _HomeState extends State<Home> {
                           Container(
                             margin: const EdgeInsets.only(top: 10),
                             child: MaterialButton(
-                              color: Colors.blue,
+                              color: AppColors.app_btn,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
                               minWidth: double.infinity,
-                              height: 50.0,
+                              height: 45.0,
                               textColor: Colors.white,
-                              child: Text('余量设定'.tr),
+                              child: Text(
+                                '余量设定'.tr,
+                                textAlign: TextAlign.center,
+                              ),
                               onPressed: () {
                                 if (homeController.bluetoothDeviceState.value !=
                                     BluetoothDeviceState.connected) {
@@ -296,11 +318,17 @@ class _HomeState extends State<Home> {
                           Container(
                             margin: const EdgeInsets.only(top: 10),
                             child: MaterialButton(
-                              color: Colors.blue,
+                              color: AppColors.app_btn,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
                               minWidth: double.infinity,
-                              height: 50.0,
+                              height: 45.0,
                               textColor: Colors.white,
-                              child: Text('容量预设'.tr),
+                              child: Text(
+                                '容量预设'.tr,
+                                textAlign: TextAlign.center,
+                              ),
                               onPressed: () {
                                 if (homeController.bluetoothDeviceState.value !=
                                     BluetoothDeviceState.connected) {
@@ -323,7 +351,10 @@ class _HomeState extends State<Home> {
                             margin: const EdgeInsets.only(top: 10),
                             child: Text(
                               ("${homeController.deviceData.value.totalCapacity}AH"),
-                              style: const TextStyle(color: Colors.white),
+                              textAlign: TextAlign.center,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                  color: Colors.blue, fontSize: 16.0),
                             ),
                           ),
                         ],

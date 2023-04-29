@@ -23,16 +23,20 @@ class ScanResultTile extends StatelessWidget {
         children: <Widget>[
           Text(
             result.device.name,
+            style: const TextStyle(color: Colors.white, fontSize: 16),
             overflow: TextOverflow.ellipsis,
           ),
           Text(
             result.device.id.toString(),
-            style: Theme.of(context).textTheme.caption,
+            style: const TextStyle(color: Colors.white, fontSize: 12),
           )
         ],
       );
     } else {
-      return Text(result.device.id.toString());
+      return Text(
+        result.device.id.toString(),
+        style: const TextStyle(color: Colors.white, fontSize: 16),
+      );
     }
   }
 
@@ -126,22 +130,22 @@ class ScanResultTile extends StatelessWidget {
               ));
         },
       ),
-      children: <Widget>[
-        _buildAdvRow(
-            context, 'Complete Local Name', result.advertisementData.localName),
-        _buildAdvRow(context, 'Tx Power Level',
-            '${result.advertisementData.txPowerLevel ?? 'N/A'}'),
-        _buildAdvRow(context, 'Manufacturer Data',
-            getNiceManufacturerData(result.advertisementData.manufacturerData)),
-        _buildAdvRow(
-            context,
-            'Service UUIDs',
-            (result.advertisementData.serviceUuids.isNotEmpty)
-                ? result.advertisementData.serviceUuids.join(', ').toUpperCase()
-                : 'N/A'),
-        _buildAdvRow(context, 'Service Data',
-            getNiceServiceData(result.advertisementData.serviceData)),
-      ],
+      //   children: <Widget>[
+      //     _buildAdvRow(
+      //         context, 'Complete Local Name', result.advertisementData.localName),
+      //     _buildAdvRow(context, 'Tx Power Level',
+      //         '${result.advertisementData.txPowerLevel ?? 'N/A'}'),
+      //     _buildAdvRow(context, 'Manufacturer Data',
+      //         getNiceManufacturerData(result.advertisementData.manufacturerData)),
+      //     _buildAdvRow(
+      //         context,
+      //         'Service UUIDs',
+      //         (result.advertisementData.serviceUuids.isNotEmpty)
+      //             ? result.advertisementData.serviceUuids.join(', ').toUpperCase()
+      //             : 'N/A'),
+      //     _buildAdvRow(context, 'Service Data',
+      //         getNiceServiceData(result.advertisementData.serviceData)),
+      //   ],
     );
   }
 }
