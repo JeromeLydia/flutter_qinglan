@@ -421,30 +421,52 @@ void remindDialog(String des, Function ok) {
 }
 
 //底部弹框
-void bottomSheet(String title, List<String> list, Function ok) {
+void bottomSheet(List<String> list, Function ok) {
   RxInt select = RxInt(0);
   List<Widget> getWidgets() {
     List<Widget> widgets = [];
     for (int i = 0; i < list.length; i++) {
-      widgets.add(ListTileTheme(
-        dense: true, // 设置为 true 可以让 ListTile 更加紧凑，使其高度更小
-        child: RadioListTile(
-          value: i,
-          groupValue: select.value,
-          onChanged: (value) {
-            select.value = value!;
-          },
-          title: Text(list[i]),
-        ),
-      ));
+      widgets.add(
+        InkWell(
+            onTap: () {
+              ok(i);
+              Get.back();
+            },
+            child: Column(
+              children: [
+                Container(
+                  height: 50,
+                  alignment: Alignment.center,
+                  child: Text(
+                    list[i],
+                    style: const TextStyle(color: Colors.black),
+                  ),
+                ),
+                if (i != list.length - 1)
+                  Container(
+                    height: 0.5,
+                    color: Colors.grey,
+                  ),
+              ],
+            )),
+      );
     }
     return widgets;
   }
 
   Get.bottomSheet(
-    Column(
-      children: getWidgets(),
+    Container(
+      //圆角
+      decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+      height: 360,
+      child: Column(
+        children: getWidgets(),
+      ),
     ),
+    isDismissible: true,
   );
 }
 

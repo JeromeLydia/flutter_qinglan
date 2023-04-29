@@ -1,8 +1,10 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_qinglan/common/global.dart';
 import 'package:get/get.dart';
 
 import '../../../res/colors.dart';
+import '../../dialog/dialogs.dart';
 import '../home/home_controller.dart';
 
 class Chart extends StatefulWidget {
@@ -14,6 +16,7 @@ class Chart extends StatefulWidget {
 
 class _ChartState extends State<Chart> {
   HomeController homeController = Get.put(HomeController());
+  RxInt _currentIndex = 0.obs;
   @override
   Widget build(BuildContext context) {
     return Obx(
@@ -202,11 +205,49 @@ class _ChartState extends State<Chart> {
                   right: 10,
                   top: 2,
                   child: InkWell(
-                    onTap: () {},
-                    child: Image.asset(
-                      'assets/images/ic-drop-down.png',
-                      width: 16,
-                      height: 16,
+                    onTap: () {
+                      bottomSheet(
+                        [
+                          "半小时",
+                          "1小时",
+                          "2小时",
+                          "3小时",
+                          "5小时",
+                          "10小时",
+                          "取消",
+                        ],
+                        (int index) {
+                          _currentIndex.value = index;
+                        },
+                      );
+                    },
+                    child: Row(
+                      children: [
+                        Text(
+                            _currentIndex.value == 0
+                                ? "半小时"
+                                : _currentIndex.value == 1
+                                    ? "1小时"
+                                    : _currentIndex.value == 2
+                                        ? "2小时"
+                                        : _currentIndex.value == 3
+                                            ? "3小时"
+                                            : _currentIndex.value == 4
+                                                ? "5小时"
+                                                : _currentIndex.value == 5
+                                                    ? "10小时"
+                                                    : "",
+                            style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold)),
+                        const Padding(padding: EdgeInsets.only(left: 5)),
+                        Image.asset(
+                          'assets/images/ic-drop-down.png',
+                          width: 16,
+                          height: 16,
+                        ),
+                      ],
                     ),
                   ),
                 ),
