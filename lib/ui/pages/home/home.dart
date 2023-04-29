@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 import '../../../res/colors.dart';
+import '../../../utils/date_util.dart';
 import '../../../utils/snackbar.dart';
 import '../blue/cmd.dart';
 
@@ -186,17 +187,21 @@ class _HomeState extends State<Home> {
                                   fontSize: 20.0,
                                   color: Colors.white),
                             ),
-                            footer: Text(
-                              "充满需用时:".tr,
-                              style: const TextStyle(
-                                color: Colors.white,
+                            footer: Container(
+                              margin: const EdgeInsets.only(top: 10),
+                              child: Text(
+                                "充满需用时:".tr + homeController.formatSeconds(0),
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
                             circularStrokeCap: CircularStrokeCap.round,
                             progressColor: Colors.blue,
                           ),
                           Container(
-                            margin: const EdgeInsets.all(10),
+                            margin: const EdgeInsets.only(
+                                top: 10, left: 20, right: 20),
                             child: MaterialButton(
                               color: Colors.blue,
                               minWidth: double.infinity,
@@ -224,6 +229,11 @@ class _HomeState extends State<Home> {
                               textColor: Colors.white,
                               child: Text("电流清零".tr),
                               onPressed: () {
+                                if (homeController.bluetoothDeviceState.value !=
+                                    BluetoothDeviceState.connected) {
+                                  showToast('请先连接蓝牙'.tr);
+                                  return;
+                                }
                                 remindDialog("确定电流清零吗？".tr, () {
                                   homeController.sendData(CLEAR_CURRENT);
                                 });
@@ -239,6 +249,11 @@ class _HomeState extends State<Home> {
                               textColor: Colors.white,
                               child: Text('数据清零'.tr),
                               onPressed: () {
+                                if (homeController.bluetoothDeviceState.value !=
+                                    BluetoothDeviceState.connected) {
+                                  showToast('请先连接蓝牙'.tr);
+                                  return;
+                                }
                                 remindDialog("确定数据清零吗？".tr, () {
                                   homeController.sendData(CLEAR_DATE);
                                 });
@@ -256,7 +271,7 @@ class _HomeState extends State<Home> {
                               onPressed: () {
                                 if (homeController.bluetoothDeviceState.value !=
                                     BluetoothDeviceState.connected) {
-                                  showSnackbar('提示'.tr, '请先连接蓝牙'.tr);
+                                  showToast('请先连接蓝牙'.tr);
                                   return;
                                 }
                                 inputDialog("请输入电池余量".tr, "${"数值范围".tr}:0-100",
@@ -278,7 +293,7 @@ class _HomeState extends State<Home> {
                               onPressed: () {
                                 if (homeController.bluetoothDeviceState.value !=
                                     BluetoothDeviceState.connected) {
-                                  showSnackbar('提示'.tr, '请先连接蓝牙'.tr);
+                                  showToast('请先连接蓝牙'.tr);
                                   return;
                                 }
                                 inputDialog(
@@ -321,7 +336,8 @@ class _HomeState extends State<Home> {
                         title: homeController.messageData.value.timeSwitch
                             ? "定时时间".tr
                             : "运行时间".tr,
-                        value: ("${homeController.messageData.value.runTime}"),
+                        value: (homeController.formatSeconds(
+                            homeController.messageData.value.runTime)),
                       ),
                     ),
                   ],

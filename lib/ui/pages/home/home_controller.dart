@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:location/location.dart' hide PermissionStatus;
 import 'package:permission_handler/permission_handler.dart';
 
+import '../../../utils/snackbar.dart';
 import '../blue/cmd.dart';
 import '../blue/connect_manager.dart';
 import '../blue/connect_callback.dart';
@@ -149,6 +150,10 @@ class HomeController extends GetxController {
   }
 
   sendData(int type, {double input = 0.0}) {
+    if (bluetoothDeviceState.value != BluetoothDeviceState.connected) {
+      showToast('请先连接蓝牙'.tr);
+      return;
+    }
     switch (type) {
       case READ:
         //读取设备参数
@@ -391,5 +396,16 @@ class HomeController extends GetxController {
       _timer!.cancel();
     }
     super.dispose();
+  }
+
+  //将秒转换为时分秒
+  String formatSeconds(int seconds) {
+    int hours = (seconds / 3600).floor();
+    int minutes = ((seconds % 3600) / 60).floor();
+    int secs = (seconds % 60).floor();
+    String hoursStr = (hours < 10) ? "0$hours" : "$hours";
+    String minutesStr = (minutes < 10) ? "0$minutes" : "$minutes";
+    String secsStr = (secs < 10) ? "0$secs" : "$secs";
+    return "$hoursStr${"时".tr}$minutesStr${"分".tr}$secsStr${"秒".tr}";
   }
 }

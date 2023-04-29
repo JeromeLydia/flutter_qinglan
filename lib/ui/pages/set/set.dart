@@ -106,11 +106,11 @@ void onItemClick(
   if (index == 11) {
     languageDialog();
   } else {
-    // if (homeController.bluetoothDeviceState.value !=
-    //     BluetoothDeviceState.connected) {
-    //   showSnackbar('提示'.tr, '请先连接蓝牙'.tr);
-    //   return;
-    // }
+    if (homeController.bluetoothDeviceState.value !=
+        BluetoothDeviceState.connected) {
+      showSnackbar('提示'.tr, '请先连接蓝牙'.tr);
+      return;
+    }
     switch (index) {
       case 0:
         inputDialog(
