@@ -7,7 +7,7 @@ class MessageData {
   var actualCapacity = 0.0; //剩余容量值
   var remainingCapacityPercentage = 0; //剩余容量百分比
   var accumulatedCapacity = 0.0; //累计容量值
-  var runTime = 0; //运行时间 (秒)
+  var runTime = 0; //运行时间/定时时间(秒)
   var charge = false; //充电继电器开关
   var discharge = false; //放电继电器开关
   var timeSwitch = false; //定时开关

@@ -109,7 +109,7 @@ class ConnectManager {
     await cItem.setNotifyValue(true); //为指定特征的值设置通知
     cItem.value.listen((value) {
       if (value.isEmpty) return;
-      logger.d("ble--接收数据 >>>>>>name: ${device.name}  value: $value");
+      // logger.d("ble--接收数据 >>>>>>name: ${device.name}  value: $value");
       //...省略解析设备数据的逻辑
       _gattCallback.onRead(value); //回调外部，返回设备发送的数据
     });
@@ -126,7 +126,7 @@ class ConnectManager {
 
   //发送指令到设备
   Future<void> writeCommand(List<int> data) async {
-    logger.d("ble--发送指令 >>>>>> data: $data");
+    // logger.d("ble--发送指令 >>>>>> data: $data");
     await _writeCharacteristic?.write(data);
   }
 

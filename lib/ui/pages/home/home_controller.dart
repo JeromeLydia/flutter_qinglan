@@ -176,6 +176,12 @@ class HomeController extends GetxController {
         data.addAll([0, 0, 0, 1]);
         connectManager.writeCommand(data);
         break;
+      case CLEAR_DATE:
+        //数据清零
+        var data = List.of([0xFE, deviceNo.value, 0xDD]);
+        data.addAll([0, 0, 0, 1]);
+        connectManager.writeCommand(data);
+        break;
       case TIME_CONTROL:
         //定时控制开关
         var data = List.of([0xFE, deviceNo.value, 0xD4]);
@@ -185,7 +191,7 @@ class HomeController extends GetxController {
       case SET_SURPLUS:
         //设置电池余量
         var data = List.of([0xFE, deviceNo.value, 0xE6]);
-        List<int> hexArray = intToByte((input * 10).round(), 4);
+        List<int> hexArray = intToByte((input).round(), 4);
         data.addAll(hexArray);
         connectManager.writeCommand(data);
         break;
@@ -291,6 +297,7 @@ class HomeController extends GetxController {
         var data = List.of([0xFE, deviceNo.value, 0xE2]);
         List<int> hexArray = intToByte((input).round(), 4);
         data.addAll(hexArray);
+        logger.d("ble--发送指令 >>>>>> data: $data");
         connectManager.writeCommand(data);
         break;
       case SET_ADC: // 通讯地址码
@@ -307,8 +314,7 @@ class HomeController extends GetxController {
         break;
       case SAVE_HOME: // 首页保存设置
         var data = List.of([0xFE, deviceNo.value, 0xEE]);
-        List<int> hexArray = intToByte(1, 4);
-        data.addAll(hexArray);
+        data.addAll([0, 0, 0, 1]);
         connectManager.writeCommand(data);
         break;
       case SET_RELAY: // 折线页设置

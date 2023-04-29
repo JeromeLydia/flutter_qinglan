@@ -1,3 +1,5 @@
+import 'package:flutter_qinglan/common/global.dart';
+
 List<int> intToByte(int integer, int len) {
   List<int> arr = str2Bytes(toHex(integer));
   int arrLen = arr.length;
@@ -11,9 +13,8 @@ List<int> intToByte(int integer, int len) {
 
 String toHex(int num) {
   if (num <= 255) {
-    return ('0${num.toRadixString(16)}')
-        .substring(num.toRadixString(16).length - 2)
-        .toUpperCase();
+    String hex = num.toRadixString(16).padLeft(2, '0');
+    return hex.substring(hex.length - 2).toUpperCase();
   } else {
     String str = num.toRadixString(16);
     if (str.length == 3 ||

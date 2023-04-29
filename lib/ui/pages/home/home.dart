@@ -318,7 +318,9 @@ class _HomeState extends State<Home> {
                     ),
                     Expanded(
                       child: IconItem(
-                        title: "运行时间".tr,
+                        title: homeController.messageData.value.timeSwitch
+                            ? "定时时间".tr
+                            : "运行时间".tr,
                         value: ("${homeController.messageData.value.runTime}"),
                       ),
                     ),

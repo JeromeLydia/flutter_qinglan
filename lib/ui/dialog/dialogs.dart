@@ -400,7 +400,7 @@ void selectDialog(BuildContext context, String title, Function ok) {
     ),
     confirm: InkWell(
       onTap: () {
-        ok();
+        ok(v.value);
         Get.back();
       },
       child: Container(

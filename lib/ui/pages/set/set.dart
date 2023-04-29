@@ -166,22 +166,35 @@ void onItemClick(
         });
         break;
       case 8:
-        chooseDialog(
-            "请选择继电器模式".tr,
-            ["工作模式一".tr, "工作模式二".tr, "工作模式三".tr, "工作模式四".tr, "工作模式五".tr],
-            (int index) {});
+        chooseDialog("请选择继电器模式".tr, [
+          "工作模式一".tr,
+          "工作模式二".tr,
+          "工作模式三".tr,
+          "工作模式四".tr,
+          "工作模式五".tr
+        ], (int index) {
+          homeController.sendData(SET_DWM, input: index.toDouble());
+        });
         break;
       case 9:
-        chooseDialog("请选择继电器模式".tr, ["常开".tr, "常闭".tr], (int index) {});
+        chooseDialog("请选择上电默认输出".tr, ["0", "1"], (int index) {
+          homeController.sendData(SET_TTL, input: index.toDouble());
+        });
         break;
       case 10:
-        chooseDialog("请选择继电器模式".tr, ["常开".tr, "常闭".tr], (int index) {});
+        chooseDialog("请选择温控模式".tr, ["控制充电继电器".tr, "控制放电继电器".tr], (int index) {
+          homeController.sendData(SET_PTM, input: index.toDouble());
+        });
         break;
       case 12:
-        selectDialog(context, "请选择定时时间".tr, (int index) {});
+        selectDialog(context, "请选择定时时间".tr, (int value) {
+          homeController.sendData(SET_STE, input: index.toDouble());
+        });
         break;
       case 13:
-        chooseDialog("请选择定时模式".tr, ["常开".tr, "常闭".tr], (int index) {});
+        chooseDialog("请选择定时模式".tr, ["控制充电继电器".tr, "控制放电继电器".tr], (int index) {
+          homeController.sendData(SET_ETM, input: index.toDouble());
+        });
         break;
       case 14:
         inputDialog("请输入放电电流系数微调".tr, "${"数值范围".tr}:0.50-1.50", "${"单位".tr}:倍",
