@@ -34,6 +34,9 @@ class HomeController extends GetxController {
   var messageData = MessageData().obs;
   var dataBefore = MessageData();
 
+  var dataSize = RxInt(0).obs;
+  var mapList = <DateTime, MessageData>{};
+
   var deviceData = DeviceData(data: []).obs;
 
   Timer? _timer;
@@ -93,6 +96,8 @@ class HomeController extends GetxController {
           dataBefore.data.addAll(data);
           dataBefore.init();
           messageData.value = dataBefore;
+          dataSize.value = dataSize.value + 1;
+          mapList[DateTime.now()] = dataBefore;
         }
       }
     }));

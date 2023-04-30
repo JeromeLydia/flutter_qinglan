@@ -41,7 +41,7 @@ class _ChartState extends State<Chart> {
               height: 250,
               margin: const EdgeInsets.only(top: 20),
               width: double.infinity,
-              child: const ChartItem(),
+              child: ChartItem(),
             ),
             Container(
               padding: const EdgeInsets.all(10),
@@ -251,7 +251,7 @@ class _ChartState extends State<Chart> {
               height: 250,
               margin: const EdgeInsets.only(top: 20),
               width: double.infinity,
-              child: const ChartItem(),
+              child: ChartItem(),
             ),
           ],
         ),

@@ -1,39 +1,45 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_qinglan/ui/pages/home/home_controller.dart';
+import 'package:get/get.dart';
 
 import '../../../res/colors.dart';
+import '../../../utils/date_util.dart';
 
 class _CustomLineChart extends StatelessWidget {
-  const _CustomLineChart();
+  HomeController get controller => Get.find<HomeController>();
 
   @override
   Widget build(BuildContext context) {
-    return LineChart(
-      data,
-      swapAnimationDuration: const Duration(milliseconds: 250),
+    return GetBuilder<HomeController>(
+      initState: (_) => controller.dataSize,
+      builder: (_) => LineChart(
+        data,
+        swapAnimationDuration: const Duration(milliseconds: 250),
+      ),
     );
   }
 
   LineChartData get data => LineChartData(
-        lineTouchData: lineTouchData1,
+        lineTouchData: lineTouchData,
         gridData: gridData,
-        titlesData: titlesData1,
+        titlesData: titlesData,
         borderData: borderData,
-        lineBarsData: lineBarsData1,
+        lineBarsData: lineBarsData,
         minX: 0,
         maxX: 6,
         maxY: 7,
         minY: 0,
       );
 
-  LineTouchData get lineTouchData1 => LineTouchData(
+  LineTouchData get lineTouchData => LineTouchData(
         handleBuiltInTouches: true,
         touchTooltipData: LineTouchTooltipData(
           tooltipBgColor: Colors.blueGrey.withOpacity(0.8),
         ),
       );
 
-  FlTitlesData get titlesData1 => FlTitlesData(
+  FlTitlesData get titlesData => FlTitlesData(
         bottomTitles: AxisTitles(
           sideTitles: bottomTitles,
         ),
@@ -48,7 +54,7 @@ class _CustomLineChart extends StatelessWidget {
         ),
       );
 
-  List<LineChartBarData> get lineBarsData1 => [
+  List<LineChartBarData> get lineBarsData => [
         lineChartBarData1_1,
         lineChartBarData1_2,
         lineChartBarData1_3,
@@ -57,7 +63,7 @@ class _CustomLineChart extends StatelessWidget {
   Widget leftTitleWidgets(double value, TitleMeta meta) {
     const style = TextStyle(
       fontWeight: FontWeight.bold,
-      fontSize: 14,
+      fontSize: 10,
     );
     String text;
     switch (value.toInt()) {
@@ -99,41 +105,28 @@ class _CustomLineChart extends StatelessWidget {
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
     const style = TextStyle(
       fontWeight: FontWeight.bold,
-      fontSize: 16,
+      fontSize: 10,
     );
-    Widget text;
-    switch (value.toInt()) {
-      case 0:
-        text = const Text('01', style: style);
-        break;
-      case 1:
-        text = const Text('02', style: style);
-        break;
-      case 2:
-        text = const Text('03', style: style);
-        break;
-      case 3:
-        text = const Text('04', style: style);
-        break;
-      case 4:
-        text = const Text('05', style: style);
-        break;
-      case 5:
-        text = const Text('06', style: style);
-        break;
-      case 6:
-        text = const Text('07', style: style);
-        break;
-      default:
-        text = const Text('');
-        break;
-    }
 
-    return SideTitleWidget(
-      axisSide: meta.axisSide,
-      space: 10,
-      child: text,
-    );
+    if (controller.mapList.isNotEmpty) {
+      String text;
+      var keys = controller.mapList.keys.toList();
+      if (keys.length > value.toInt()) {
+        if (keys.length > 7) {
+          keys = keys.sublist(keys.length - 7, keys.length);
+        }
+        text = DateUtil.getFormatDataString(keys[value.toInt()], "HH:mm:ss");
+      } else {
+        return Container();
+      }
+      return SideTitleWidget(
+        axisSide: meta.axisSide,
+        space: 10,
+        child: Text(text, style: style),
+      );
+    } else {
+      return Container();
+    }
   }
 
   SideTitles get bottomTitles => SideTitles(
@@ -174,16 +167,22 @@ class _CustomLineChart extends StatelessWidget {
         isStrokeCapRound: true,
         dotData: FlDotData(show: false),
         belowBarData: BarAreaData(show: false),
-        spots: const [
-          FlSpot(0, 1),
-          FlSpot(1, 1.5),
-          FlSpot(2, 1.4),
-          FlSpot(3, 3.4),
-          FlSpot(4, 2),
-          FlSpot(5, 2.2),
-          FlSpot(6, 1.8),
-        ],
+        spots: getVArray(),
       );
+
+  getVArray() {
+    var data = <FlSpot>[];
+    if (controller.mapList.isNotEmpty) {
+      var list = controller.mapList.values.toList();
+      if (list.length > 7) {
+        list = list.sublist(list.length - 7, list.length);
+      }
+      for (var i = 0; i < list.length; i++) {
+        data.add(FlSpot(i.toDouble(), list[i].voltage));
+      }
+    }
+    return data;
+  }
 
   LineChartBarData get lineChartBarData1_2 => LineChartBarData(
         isCurved: true,
@@ -195,15 +194,22 @@ class _CustomLineChart extends StatelessWidget {
           show: false,
           color: AppColors.contentColorPink.withOpacity(0),
         ),
-        spots: const [
-          FlSpot(0, 1),
-          FlSpot(1, 2.8),
-          FlSpot(2, 1.2),
-          FlSpot(3, 2.8),
-          FlSpot(4, 2.6),
-          FlSpot(5, 3.9),
-        ],
+        spots: getAArray(),
       );
+
+  getAArray() {
+    var data = <FlSpot>[];
+    if (controller.mapList.isNotEmpty) {
+      var list = controller.mapList.values.toList();
+      if (list.length > 7) {
+        list = list.sublist(list.length - 7, list.length);
+      }
+      for (var i = 0; i < list.length; i++) {
+        data.add(FlSpot(i.toDouble(), list[i].current));
+      }
+    }
+    return data;
+  }
 
   LineChartBarData get lineChartBarData1_3 => LineChartBarData(
         isCurved: true,
@@ -212,14 +218,22 @@ class _CustomLineChart extends StatelessWidget {
         isStrokeCapRound: true,
         dotData: FlDotData(show: false),
         belowBarData: BarAreaData(show: false),
-        spots: const [
-          FlSpot(0, 2.8),
-          FlSpot(1, 1.9),
-          FlSpot(2, 3),
-          FlSpot(3, 1.3),
-          FlSpot(4, 2.5),
-        ],
+        spots: getTArray(),
       );
+
+  getTArray() {
+    var data = <FlSpot>[];
+    if (controller.mapList.isNotEmpty) {
+      var list = controller.mapList.values.toList();
+      if (list.length > 7) {
+        list = list.sublist(list.length - 7, list.length);
+      }
+      for (var i = 0; i < list.length; i++) {
+        data.add(FlSpot(i.toDouble(), list[i].temperature));
+      }
+    }
+    return data;
+  }
 }
 
 class ChartItem extends StatefulWidget {
@@ -277,7 +291,7 @@ class ChartItemState extends State<ChartItem> {
               const SizedBox(
                 height: 17,
               ),
-              const Expanded(
+              Expanded(
                 child: Padding(
                   padding: EdgeInsets.only(right: 16, left: 6),
                   child: _CustomLineChart(),
