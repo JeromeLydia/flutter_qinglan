@@ -36,6 +36,14 @@ class _CustomLineChart extends StatelessWidget {
         handleBuiltInTouches: true,
         touchTooltipData: LineTouchTooltipData(
           tooltipBgColor: Colors.blueGrey.withOpacity(0.8),
+          getTooltipItems: (touchedSpots) => touchedSpots
+              .map(
+                (LineBarSpot touchedSpot) => LineTooltipItem(
+                  "${touchedSpot.y * 50}${(touchedSpot.barIndex == 2 ? "℃" : touchedSpot.barIndex == 1 ? "A" : "V")}",
+                  const TextStyle(color: Colors.white),
+                ),
+              )
+              .toList(),
         ),
       );
 
@@ -178,7 +186,7 @@ class _CustomLineChart extends StatelessWidget {
         list = list.sublist(list.length - 7, list.length);
       }
       for (var i = 0; i < list.length; i++) {
-        data.add(FlSpot(i.toDouble(), list[i].voltage));
+        data.add(FlSpot(i.toDouble(), list[i].voltage / 50));
       }
     }
     return data;
@@ -205,7 +213,7 @@ class _CustomLineChart extends StatelessWidget {
         list = list.sublist(list.length - 7, list.length);
       }
       for (var i = 0; i < list.length; i++) {
-        data.add(FlSpot(i.toDouble(), list[i].current));
+        data.add(FlSpot(i.toDouble(), list[i].current / 50));
       }
     }
     return data;
@@ -229,7 +237,7 @@ class _CustomLineChart extends StatelessWidget {
         list = list.sublist(list.length - 7, list.length);
       }
       for (var i = 0; i < list.length; i++) {
-        data.add(FlSpot(i.toDouble(), list[i].temperature));
+        data.add(FlSpot(i.toDouble(), list[i].temperature / 50));
       }
     }
     return data;
