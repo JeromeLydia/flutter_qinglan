@@ -23,6 +23,7 @@ dependencies:
   fluttertoast: ^8.2.1
   flutter_datetime_picker: ^1.5.1
   intl: ^0.18.1
+  google_fonts: ^4.0.4
 
 dev_dependencies:
   flutter_test:

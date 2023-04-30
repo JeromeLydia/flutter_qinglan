@@ -4,6 +4,7 @@ import 'package:flutter_qinglan/res/strings.dart';
 import 'package:flutter_qinglan/ui/pages/tabs.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'common/global.dart';
 
@@ -30,11 +31,19 @@ class MyApp extends StatelessWidget {
       locale: locale, //默认语言
       title: 'Flutter Demo',
       theme: ThemeData(
-        primaryColor: AppColors.app_main,
+        primaryColor: AppColors.app_btn,
         primarySwatch: Colors.blue,
         bottomNavigationBarTheme: const BottomNavigationBarThemeData(
           unselectedItemColor: Colors.white,
         ),
+        brightness: Brightness.dark,
+        useMaterial3: true,
+        textTheme: GoogleFonts.assistantTextTheme(
+          Theme.of(context).textTheme.apply(
+                bodyColor: AppColors.mainTextColor3,
+              ),
+        ),
+        scaffoldBackgroundColor: AppColors.pageBackground,
       ),
       home: const Tabs(),
     );
