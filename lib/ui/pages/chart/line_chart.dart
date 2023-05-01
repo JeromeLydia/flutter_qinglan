@@ -278,21 +278,21 @@ class ChartItemState extends State<ChartItem> {
                     color: AppColors.contentColorGreen,
                     margin: const EdgeInsets.only(left: 10, right: 10),
                   ),
-                  const Text("电压"),
+                  Text("电压".tr),
                   Container(
                     width: 25.0,
                     height: 10,
                     color: AppColors.contentColorPink,
                     margin: const EdgeInsets.only(left: 10, right: 10),
                   ),
-                  const Text("电流"),
+                  Text("电流".tr),
                   Container(
                     width: 25.0,
                     height: 10,
                     color: AppColors.contentColorCyan,
                     margin: const EdgeInsets.only(left: 10, right: 10),
                   ),
-                  const Text("温度"),
+                  Text("温度".tr),
                   const SizedBox(width: 15),
                 ],
               ),
@@ -301,7 +301,7 @@ class ChartItemState extends State<ChartItem> {
               ),
               Expanded(
                 child: Padding(
-                  padding: EdgeInsets.only(right: 16, left: 6),
+                  padding: const EdgeInsets.only(right: 16, left: 6),
                   child: _CustomLineChart(),
                 ),
               ),

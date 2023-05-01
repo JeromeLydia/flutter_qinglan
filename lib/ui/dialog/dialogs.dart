@@ -185,8 +185,10 @@ void languageDialog() {
   RxInt select = RxInt(0);
   if (Get.locale == const Locale('zh', 'CN')) {
     select.value = 0;
-  } else {
+  } else if (Get.locale == const Locale('zh', 'TW')) {
     select.value = 1;
+  } else {
+    select.value = 2;
   }
   Get.defaultDialog(
     title: '选择语言'.tr,
@@ -209,7 +211,7 @@ void languageDialog() {
                     select.value = 0;
                   },
                   title:
-                      const Text('中文', style: TextStyle(color: Colors.white)),
+                      const Text('简体中文', style: TextStyle(color: Colors.white)),
                 ),
               ),
             ),
@@ -226,7 +228,24 @@ void languageDialog() {
                     select.value = 1;
                   },
                   title:
-                      const Text('英文', style: TextStyle(color: Colors.white)),
+                      const Text('繁体中文', style: TextStyle(color: Colors.white)),
+                ),
+              ),
+            ),
+            ListTileTheme(
+              dense: true, // 设置为 true 可以让 ListTile 更加紧凑，使其高度更小
+              child: Theme(
+                data: ThemeData(
+                  unselectedWidgetColor: Colors.white,
+                ),
+                child: RadioListTile(
+                  value: 2,
+                  groupValue: select.value,
+                  onChanged: (value) {
+                    select.value = 2;
+                  },
+                  title: const Text('English',
+                      style: TextStyle(color: Colors.white)),
                 ),
               ),
             ),
@@ -237,6 +256,9 @@ void languageDialog() {
         if (select.value == 0) {
           storage.write('language', "zh_CN");
           Get.updateLocale(const Locale('zh', 'CN'));
+        } else if (select.value == 0) {
+          storage.write('language', "zh_TW");
+          Get.updateLocale(const Locale('zh', 'TW'));
         } else {
           storage.write('language', "en_US");
           Get.updateLocale(const Locale('en', 'US'));

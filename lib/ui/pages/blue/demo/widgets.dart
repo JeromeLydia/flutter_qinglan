@@ -5,6 +5,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:flutter_qinglan/common/global.dart';
+import 'package:get/get.dart';
 
 class ScanResultTile extends StatelessWidget {
   const ScanResultTile(
@@ -106,13 +107,13 @@ class ScanResultTile extends StatelessWidget {
           switch (snapshot.data) {
             case BluetoothDeviceState.connected:
               onPressed = disconnect;
-              text = '断开';
+              text = '断开'.tr;
               Global.currentDevice = result.device;
               Global.streamController.add(BluetoothDeviceState.connected);
               break;
             case BluetoothDeviceState.disconnected:
               onPressed = connect;
-              text = '连接';
+              text = '连接'.tr;
               break;
             default:
               onPressed = null;

@@ -20,7 +20,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var language = storage.read("language");
-    logger.d("language: $language");
     var locale = language == null
         ? Get.deviceLocale
         : Locale(language.toString().split("_")[0],
