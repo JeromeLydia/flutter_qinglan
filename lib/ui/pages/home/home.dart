@@ -511,8 +511,8 @@ class _SwitchItemState extends State<SwitchItem> {
               color: Colors.blue,
             ),
           ),
-          const Divider(
-            height: 10,
+          const Padding(
+            padding: EdgeInsets.only(bottom: 10),
           )
         ],
       ),

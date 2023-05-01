@@ -163,12 +163,12 @@ class _ChartState extends State<Chart> {
                   const Padding(padding: EdgeInsets.only(left: 10)),
                   ElevatedButton(
                     onPressed: () {},
-                    child: Text("启动数据".tr),
+                    child: Text("启动记录".tr),
                   ),
                   const Padding(padding: EdgeInsets.only(left: 10)),
                   ElevatedButton(
                     onPressed: () {},
-                    child: Text("停止数据".tr),
+                    child: Text("导出数据".tr),
                   ),
                 ],
               ),
