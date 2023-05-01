@@ -29,8 +29,8 @@ void scanDialog(BuildContext context, HomeController homeController) {
                     () => homeController.scanResult.isEmpty
                         ? Container(
                             margin: const EdgeInsets.only(top: 90),
-                            child: const Text('No devices found',
-                                style: TextStyle(color: Colors.white)),
+                            child: Text('暂未找到设备'.tr,
+                                style: const TextStyle(color: Colors.white)),
                           )
                         : Column(
                             children: homeController.scanResult

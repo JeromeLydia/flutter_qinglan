@@ -28,6 +28,8 @@ class HomeController extends GetxController {
   var deviceNo = 0x00.obs;
   //是否正在扫描
   var isScanning = false.obs;
+  //是否正在记录中
+  var isRecording = false.obs;
   //连接管理类
   late ConnectManager connectManager;
 

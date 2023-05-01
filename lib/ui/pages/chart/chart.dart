@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_qinglan/ui/pages/chart/line_chart.dart';
+import 'package:flutter_qinglan/utils/snackbar.dart';
 import 'package:get/get.dart';
 
 import '../../dialog/dialogs.dart';
@@ -162,12 +163,28 @@ class _ChartState extends State<Chart> {
                   ),
                   const Padding(padding: EdgeInsets.only(left: 10)),
                   ElevatedButton(
-                    onPressed: () {},
-                    child: Text("启动记录".tr),
+                    onPressed: () {
+                      if (homeController.isRecording.value) {
+                        homeController.isRecording.value = false;
+                      } else {
+                        remindDialog("是否先删除历史数据?".tr, () {
+                          homeController.isRecording.value = true;
+                        });
+                      }
+                    },
+                    child: Text(
+                      homeController.isRecording.value ? "停止记录".tr : "启动记录".tr,
+                    ),
                   ),
                   const Padding(padding: EdgeInsets.only(left: 10)),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      if (homeController.isRecording.value) {
+                        showToast("正在记录数据，请停止记录之后再导出...".tr);
+                      } else {
+                        showToast("导出成功".tr);
+                      }
+                    },
                     child: Text("导出数据".tr),
                   ),
                 ],
