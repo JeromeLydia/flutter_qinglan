@@ -156,7 +156,9 @@ class _ChartState extends State<Chart> {
                   InkWell(
                     onTap: () {},
                     child: Image.asset(
-                      'assets/images/ic-start.png',
+                      homeController.isRecording.value
+                          ? 'assets/images/ic-stop.png'
+                          : 'assets/images/ic-start.png',
                       width: 40,
                       height: 40,
                     ),
