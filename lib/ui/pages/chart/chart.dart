@@ -221,13 +221,13 @@ class _ChartState extends State<Chart> {
                     onTap: () {
                       bottomSheet(
                         [
-                          "半小时",
-                          "1小时",
-                          "2小时",
-                          "3小时",
-                          "5小时",
-                          "10小时",
-                          "取消",
+                          "半小时".tr,
+                          "1小时".tr,
+                          "2小时".tr,
+                          "3小时".tr,
+                          "5小时".tr,
+                          "10小时".tr,
+                          "取消".tr,
                         ],
                         (int index) {
                           _currentIndex.value = index;

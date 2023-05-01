@@ -99,6 +99,13 @@ class Messages extends Translations {
           "正在记录数据，请停止记录之后再导出...": "正在记录数据，请停止记录之后再导出...",
           "暂未找到设备": "暂未找到设备",
           "导出成功": "导出成功",
+          "半小时": "半小时",
+          "1小时": "1小时",
+          "2小时": "2小时",
+          "3小时": "3小时",
+          "5小时": "5小时",
+          "10小时": "10小时",
+          "倍": "倍",
         },
         "zh_TW": {
           '首页': '首頁',
@@ -193,6 +200,13 @@ class Messages extends Translations {
           "正在记录数据，请停止记录之后再导出...": "正在記錄數據，請停止記錄之後再導出...",
           "暂未找到设备": "暫未找到設備",
           "导出成功": "導出成功",
+          "半小时": "半小時",
+          "1小时": "1小時",
+          "2小时": "2小時",
+          "3小时": "3小時",
+          "5小时": "5小時",
+          "10小时": "10小時",
+          "倍": "倍",
         },
         'en_US': {
           '首页': 'Home',
@@ -292,7 +306,14 @@ class Messages extends Translations {
           "正在记录数据，请停止记录之后再导出...":
               "Data is being recorded, please stop recording before exporting...",
           "暂未找到设备": "Device not found",
-          "导出成功": "Export successful"
+          "导出成功": "Export successful",
+          "半小时": "Half an hour",
+          "1小时": "1 hour",
+          "2小时": "2 hour",
+          "3小时": "3 hour",
+          "5小时": "5 hour",
+          "10小时": "10 hour",
+          "倍": "times",
         }
       };
 }

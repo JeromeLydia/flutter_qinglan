@@ -203,19 +203,20 @@ void onItemClick(
         });
         break;
       case 14:
-        inputDialog("请输入放电电流系数微调".tr, "${"数值范围".tr}:0.50-1.50", "${"单位".tr}:倍",
-            0.50, 1.50, (double input) {
+        inputDialog("请输入放电电流系数微调".tr, "${"数值范围".tr}:0.50-1.50",
+            "${"单位".tr}:${"倍".tr}", 0.50, 1.50, (double input) {
           homeController.sendData(SET_DEL, input: input);
         });
         break;
       case 15:
-        inputDialog("请输入放电电流系数微调".tr, "${"数值范围".tr}:0.50-1.50", "${"单位".tr}:秒",
-            0.50, 1.50, (double input) {
+        inputDialog("请输入放电电流系数微调".tr, "${"数值范围".tr}:0.50-1.50",
+            "${"单位".tr}:${"秒".tr}", 0.50, 1.50, (double input) {
           homeController.sendData(SET_DEL, input: input);
         });
         break;
       case 16:
-        inputDialog("请输入通讯地址码".tr, "${"数值范围".tr}:0-40", "${"单位".tr}:秒", 0, 40,
+        inputDialog(
+            "请输入通讯地址码".tr, "${"数值范围".tr}:0-40", "${"单位".tr}:${"倍".tr}", 0, 40,
             (double input) {
           homeController.sendData(SET_ADC, input: input);
         });
