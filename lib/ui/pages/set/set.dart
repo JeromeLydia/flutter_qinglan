@@ -166,13 +166,14 @@ void onItemClick(
         });
         break;
       case 7:
-        inputDialog("请输入继电器延时".tr, "${"数值范围".tr}:0-200", "${"单位".tr}:秒", 0, 200,
+        inputDialog(
+            "请输入继电器延时".tr, "${"数值范围".tr}:0-200", "${"单位".tr}:${"秒".tr}", 0, 200,
             (double input) {
           homeController.sendData(SET_DEL, input: input);
         });
         break;
       case 8:
-        chooseDialog("请选择继电器模式".tr, [
+        chooseDialog("请选择继电器工作模式".tr, [
           "工作模式一".tr,
           "工作模式二".tr,
           "工作模式三".tr,
@@ -193,7 +194,7 @@ void onItemClick(
         });
         break;
       case 12:
-        selectDialog(context, "请选择定时时间".tr, (int count) {
+        selectDialog(context, "请选择定时时间值".tr, (int count) {
           homeController.sendData(SET_STE, input: count.toDouble());
         });
         break;

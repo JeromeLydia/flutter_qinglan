@@ -451,6 +451,10 @@ void bottomSheet(List<String> list, Function ok) {
       widgets.add(
         InkWell(
             onTap: () {
+              if (i == list.length - 1) {
+                Get.back();
+                return;
+              }
               ok(i);
               Get.back();
             },

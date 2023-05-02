@@ -238,17 +238,17 @@ class _ChartState extends State<Chart> {
                       children: [
                         Text(
                             _currentIndex.value == 0
-                                ? "半小时"
+                                ? "半小时".tr
                                 : _currentIndex.value == 1
-                                    ? "1小时"
+                                    ? "1小时".tr
                                     : _currentIndex.value == 2
-                                        ? "2小时"
+                                        ? "2小时".tr
                                         : _currentIndex.value == 3
-                                            ? "3小时"
+                                            ? "3小时".tr
                                             : _currentIndex.value == 4
-                                                ? "5小时"
+                                                ? "5小时".tr
                                                 : _currentIndex.value == 5
-                                                    ? "10小时"
+                                                    ? "10小时".tr
                                                     : "",
                             style: const TextStyle(
                                 color: Colors.white,
