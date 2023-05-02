@@ -50,9 +50,29 @@ android {
         versionName flutterVersionName
     }
 
-    buildTypes {
+    signingConfigs {
+        debug {
+            keyAlias "key0"
+            keyPassword "qinglan2023"
+            storeFile file("qinglan.jks")
+            storePassword "qinglan2023"
+        }
         release {
+            keyAlias "key0"
+            keyPassword "qinglan2023"
+            storeFile file("qinglan.jks")
+            storePassword "qinglan2023"
+        }
+    }
+
+    buildTypes {
+        debug {
             signingConfig signingConfigs.debug
+        }
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 }
