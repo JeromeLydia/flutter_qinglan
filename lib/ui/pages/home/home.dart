@@ -138,7 +138,8 @@ class _HomeState extends State<Home> {
                     Expanded(
                       child: IconItem(
                         title: "功率".tr,
-                        value: ("${homeController.messageData.value.current}W"),
+                        value:
+                            ("${homeController.messageData.value.voltage * homeController.messageData.value.current}W"),
                         assetName: "assets/images/ic_power.png",
                       ),
                     ),
