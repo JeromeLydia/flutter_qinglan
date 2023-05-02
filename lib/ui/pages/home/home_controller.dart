@@ -107,6 +107,13 @@ class HomeController extends GetxController {
     //监听蓝牙状态
     FlutterBluePlus.instance.state.listen((event) {
       bluetoothState.value = event;
+      if (event == BluetoothState.off) {
+        //蓝牙关闭
+        bluetoothDeviceState.value = BluetoothDeviceState.disconnected;
+        if (_timer != null && _timer!.isActive) {
+          _timer!.cancel();
+        }
+      }
     });
     //监听扫描状态
     FlutterBluePlus.instance.isScanning.listen((event) {
