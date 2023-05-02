@@ -71,8 +71,8 @@ android {
         }
         release {
             signingConfig signingConfigs.release
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            shrinkResources false // 防止混淆时资源文件被删除
+            minifyEnabled false // 关闭混淆
         }
     }
 }

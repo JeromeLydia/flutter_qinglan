@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:flutter_qinglan/ui/pages/chart/line_chart.dart';
 import 'package:flutter_qinglan/utils/snackbar.dart';
 import 'package:get/get.dart';
@@ -166,6 +167,11 @@ class _ChartState extends State<Chart> {
                   const Padding(padding: EdgeInsets.only(left: 10)),
                   ElevatedButton(
                     onPressed: () {
+                      if (homeController.bluetoothDeviceState.value !=
+                          BluetoothDeviceState.connected) {
+                        showToast('请先连接蓝牙'.tr);
+                        return;
+                      }
                       if (homeController.isRecording.value) {
                         homeController.isRecording.value = false;
                       } else {
@@ -181,6 +187,11 @@ class _ChartState extends State<Chart> {
                   const Padding(padding: EdgeInsets.only(left: 10)),
                   ElevatedButton(
                     onPressed: () {
+                      if (homeController.bluetoothDeviceState.value !=
+                          BluetoothDeviceState.connected) {
+                        showToast('请先连接蓝牙'.tr);
+                        return;
+                      }
                       if (homeController.isRecording.value) {
                         showToast("正在记录数据，请停止记录之后再导出...".tr);
                       } else {
@@ -219,6 +230,11 @@ class _ChartState extends State<Chart> {
                   top: 2,
                   child: InkWell(
                     onTap: () {
+                      if (homeController.bluetoothDeviceState.value !=
+                          BluetoothDeviceState.connected) {
+                        showToast('请先连接蓝牙'.tr);
+                        return;
+                      }
                       bottomSheet(
                         [
                           "半小时".tr,

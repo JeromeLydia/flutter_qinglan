@@ -55,10 +55,7 @@ class _HomeState extends State<Home> {
                                                     context, homeController)
                                           });
                                 } else {
-                                  Get.showSnackbar(GetSnackBar(
-                                    message: "请打开蓝牙".tr,
-                                    duration: const Duration(seconds: 2),
-                                  ));
+                                  showToast("请打开蓝牙".tr);
                                 }
                               },
                               child: Text(

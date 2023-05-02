@@ -256,7 +256,7 @@ void languageDialog() {
         if (select.value == 0) {
           storage.write('language', "zh_CN");
           Get.updateLocale(const Locale('zh', 'CN'));
-        } else if (select.value == 0) {
+        } else if (select.value == 1) {
           storage.write('language', "zh_TW");
           Get.updateLocale(const Locale('zh', 'TW'));
         } else {
