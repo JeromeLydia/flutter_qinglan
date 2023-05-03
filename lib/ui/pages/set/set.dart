@@ -58,10 +58,10 @@ class _SettingState extends State<Setting> {
   @override
   Widget build(BuildContext context) {
     var count = 3;
-    if (Get.locale == const Locale('zh', 'CN')) {
-      count = 3;
-    } else {
+    if (Get.locale == const Locale('en', 'US')) {
       count = 2;
+    } else {
+      count = 3;
     }
     return Container(
       color: Colors.black,

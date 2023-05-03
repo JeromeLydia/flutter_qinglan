@@ -159,7 +159,7 @@ class HomeController extends GetxController {
 
   //读取当前运行参数
   readRunData() {
-    _timer = Timer.periodic(const Duration(milliseconds: 2000), (timer) {
+    _timer = Timer.periodic(const Duration(milliseconds: 1000), (timer) {
       sendData(READ);
     });
     Future.delayed(const Duration(milliseconds: 3000), () {

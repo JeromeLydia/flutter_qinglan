@@ -4,6 +4,7 @@ import 'package:flutter_qinglan/ui/pages/chart/line_chart.dart';
 import 'package:flutter_qinglan/utils/snackbar.dart';
 import 'package:get/get.dart';
 
+import '../../../utils/excel_util.dart';
 import '../../dialog/dialogs.dart';
 import '../home/home_controller.dart';
 
@@ -195,6 +196,7 @@ class _ChartState extends State<Chart> {
                       if (homeController.isRecording.value) {
                         showToast("正在记录数据，请停止记录之后再导出...".tr);
                       } else {
+                        excel_export(homeController.mapList);
                         showToast("导出成功".tr);
                       }
                     },
