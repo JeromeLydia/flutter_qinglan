@@ -390,7 +390,7 @@ void chooseDialog(String title, List<String> list, Function ok) {
 }
 
 //提醒弹框
-void remindDialog(String des, Function ok) {
+void remindDialog(String des, Function ok, {String okValue = '确定'}) {
   Get.defaultDialog(
     title: '提示'.tr,
     titleStyle: const TextStyle(color: Colors.white, fontSize: 18),
@@ -412,7 +412,7 @@ void remindDialog(String des, Function ok) {
             color: AppColors.contentColorBlue,
             borderRadius: BorderRadius.circular(5)),
         child: Text(
-          '确定'.tr,
+          okValue.tr,
           style: const TextStyle(color: Colors.white, fontSize: 16),
         ),
       ),

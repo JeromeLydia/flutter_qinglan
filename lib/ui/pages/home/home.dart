@@ -55,7 +55,9 @@ class _HomeState extends State<Home> {
                                                     context, homeController)
                                           });
                                 } else {
-                                  showToast("请打开蓝牙".tr);
+                                  remindDialog("连接设备之前需打开蓝牙，是否要打开？".tr, () {
+                                    homeController.openBluetooth();
+                                  }, okValue: "前往打开");
                                 }
                               },
                               child: Text(

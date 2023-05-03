@@ -49,6 +49,10 @@ class HomeController extends GetxController {
     _initData();
   }
 
+  void openBluetooth() {
+    Platform.isAndroid ? () => FlutterBluePlus.instance.turnOn() : null;
+  }
+
   void _initData() async {
     //实例化连接管理类，并监听连接状态
     connectManager =

@@ -110,6 +110,8 @@ class Messages extends Translations {
           "5小时": "5小时",
           "10小时": "10小时",
           "倍": "倍",
+          "连接设备之前需打开蓝牙，是否要打开？": "连接设备之前需打开蓝牙，是否要打开？",
+          "前往打开": "前往打开",
         },
         "zh_TW": {
           '库仑计': '庫倫計',
@@ -215,6 +217,8 @@ class Messages extends Translations {
           "5小时": "5小時",
           "10小时": "10小時",
           "倍": "倍",
+          "连接设备之前需打开蓝牙，是否要打开？": "連接設備之前需打開藍牙，是否要打開？",
+          "前往打开": "前往打開",
         },
         'en_US': {
           '库仑计': 'Coulombmeter',
@@ -326,6 +330,9 @@ class Messages extends Translations {
           "5小时": "5 hour",
           "10小时": "10 hour",
           "倍": "times",
+          "连接设备之前需打开蓝牙，是否要打开？":
+              "Bluetooth needs to be turned on before connecting, do you want to turn it on?",
+          "前往打开": "Go to open",
         }
       };
 }
