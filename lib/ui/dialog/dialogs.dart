@@ -21,7 +21,7 @@ void scanDialog(BuildContext context, HomeController homeController) {
         SizedBox(
           height: 200.0,
           child: RefreshIndicator(
-            onRefresh: () => homeController.startScan(),
+            onRefresh: () => homeController.startScan(false),
             child: SingleChildScrollView(
               child: Column(
                 children: <Widget>[
@@ -29,8 +29,15 @@ void scanDialog(BuildContext context, HomeController homeController) {
                     () => homeController.scanResult.isEmpty
                         ? Container(
                             margin: const EdgeInsets.only(top: 90),
-                            child: Text('暂未找到设备'.tr,
-                                style: const TextStyle(color: Colors.white)),
+                            child: Obx(
+                              () => homeController.isScanning.value
+                                  ? Text('正在扫描设备...'.tr,
+                                      style:
+                                          const TextStyle(color: Colors.white))
+                                  : Text('暂未找到设备'.tr,
+                                      style:
+                                          const TextStyle(color: Colors.white)),
+                            ),
                           )
                         : Column(
                             children: homeController.scanResult
@@ -51,14 +58,16 @@ void scanDialog(BuildContext context, HomeController homeController) {
             ),
           ),
         ),
-        Obx(() => homeController.isScanning.value
-            ? ElevatedButton(
-                child: Text("停止搜索".tr),
-                onPressed: () => homeController.stopScan(),
-              )
-            : ElevatedButton(
-                child: Text("搜索".tr),
-                onPressed: () => homeController.startScan()))
+        Obx(
+          () => homeController.isScanning.value
+              ? ElevatedButton(
+                  child: Text("停止搜索".tr),
+                  onPressed: () => homeController.stopScan(),
+                )
+              : ElevatedButton(
+                  child: Text("搜索".tr),
+                  onPressed: () => homeController.startScan(false)),
+        )
       ],
     ),
   );

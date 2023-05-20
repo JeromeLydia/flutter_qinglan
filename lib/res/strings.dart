@@ -112,6 +112,8 @@ class Messages extends Translations {
           "倍": "倍",
           "连接设备之前需打开蓝牙，是否要打开？": "连接设备之前需打开蓝牙，是否要打开？",
           "前往打开": "前往打开",
+          "自动连接中...": "自动连接中...",
+          "正在扫描设备...": "正在扫描设备...",
         },
         "zh_TW": {
           '库仑计': '庫倫計',
@@ -219,6 +221,8 @@ class Messages extends Translations {
           "倍": "倍",
           "连接设备之前需打开蓝牙，是否要打开？": "連接設備之前需打開藍牙，是否要打開？",
           "前往打开": "前往打開",
+          "自动连接中...": "自動連接中...",
+          "正在扫描设备...": "正在掃描設備...",
         },
         'en_US': {
           '库仑计': 'Coulombmeter',
@@ -333,6 +337,8 @@ class Messages extends Translations {
           "连接设备之前需打开蓝牙，是否要打开？":
               "Bluetooth needs to be turned on before connecting, do you want to turn it on?",
           "前往打开": "Go to open",
+          "自动连接中...": "Auto connecting...",
+          "正在扫描设备...": "Scanning device...",
         }
       };
 }

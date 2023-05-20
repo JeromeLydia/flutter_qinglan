@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_qinglan/res/colors.dart';
 import 'package:flutter_qinglan/res/strings.dart';
 import 'package:flutter_qinglan/ui/pages/tabs.dart';
@@ -95,6 +96,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
       home: const Tabs(),
+      builder: EasyLoading.init(),
     );
   }
 }

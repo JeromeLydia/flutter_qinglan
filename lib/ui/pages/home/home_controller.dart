@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_qinglan/common/global.dart';
 import 'package:flutter_qinglan/utils/tools.dart';
 import 'package:get/get.dart';
@@ -47,6 +48,11 @@ class HomeController extends GetxController {
   void onInit() {
     super.onInit();
     _initData();
+    //如果上次已连接过设备，则自动扫描 自动连接
+    if (storage.read("ble") != null) {
+      EasyLoading.show(status: '自动连接中...'.tr);
+      startScan(true);
+    }
   }
 
   void openBluetooth() {
@@ -63,12 +69,21 @@ class HomeController extends GetxController {
         return;
       }
       scanResult.add(device);
+      if (isAuto) {
+        //自动连接
+        if (device.device.name == storage.read("ble")) {
+          connect(device.device);
+        }
+      }
     }, onDeviceScanStop: () {
       //停止扫描
+      EasyLoading.dismiss();
       isScanning.value = false;
     }, onConnected: (BluetoothDevice device) {
+      EasyLoading.dismiss();
       //连接成功回调
       logger.d("ble--连接成功：${device.name}");
+      storage.write("ble", device.name);
       currentDevice = device;
       //字符串局部替换
       deviceNo.value = int.parse(
@@ -78,6 +93,7 @@ class HomeController extends GetxController {
       readRunData();
     }, onDisconnect: () {
       //连接关闭回调
+      EasyLoading.dismiss();
       bluetoothDeviceState.value = BluetoothDeviceState.disconnected;
       if (_timer != null && _timer!.isActive) {
         _timer!.cancel();
@@ -125,10 +141,13 @@ class HomeController extends GetxController {
     });
   }
 
+  var isAuto = false;
+
   //扫描
-  Future<void> startScan() async {
+  Future<void> startScan(bool isAuto) async {
     if (!connectManager.isConnecting) {
       isScanning.value = true;
+      this.isAuto = isAuto;
       connectManager.startScan();
     }
   }
