@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
 import 'package:flutter_qinglan/res/colors.dart';
 import 'package:flutter_qinglan/ui/pages/blue/demo/widgets.dart';
 import 'package:flutter_qinglan/ui/pages/home/home_controller.dart';
